@@ -654,9 +654,6 @@ import clients from '../../assets/Images/clients.svg';
 //     </>
 //   );
 // }
-
-
-
 const partners = [
   "https://www.pmits.co.uk/portals/0/images/partners/solar-communications-200.png",
   "https://www.pmits.co.uk/portals/0/images/partners/cbf-200.png",
@@ -680,11 +677,9 @@ export default function Perfect3DCubePartners() {
           display: flex;
           flex-direction: column;
           align-items: center;
-          background: rgba(255, 255, 255, 0.15);
-          backdrop-filter: saturate(180%) blur(20px);
-          -webkit-backdrop-filter: saturate(180%) blur(20px);
+          background: linear-gradient(135deg, rgba(8,83,89,0.95) 0%, rgba(8,83,89,0.9) 100%);
           font-family: 'Inter', sans-serif;
-          color: #094d5e;
+          color: #ffffff;
           padding: 80px 0 40px 0;
           min-height: 100vh;
           gap: 60px;
@@ -731,7 +726,7 @@ export default function Perfect3DCubePartners() {
           width: 140px;
           height: 140px;
           border-radius: 10px;
-          background: #0b525b;
+          background: rgba(255, 255, 255, 0.06);
           border: 2px solid #06b6d4;
           display: flex;
           justify-content: center;
@@ -759,13 +754,12 @@ export default function Perfect3DCubePartners() {
           box-shadow: 0 0 20px 3px #06b6d4;
         }
 
-  .face.front  { transform: translateZ(70px); }
-.face.back   { transform: rotateY(180deg) translateZ(70px); }
-.face.right  { transform: rotateY(90deg) translateZ(70px); }
-.face.left   { transform: rotateY(-90deg) translateZ(70px); }
-.face.top    { transform: rotateX(90deg) translateZ(70px); }
-.face.bottom { transform: rotateX(-90deg) translateZ(70px); }
-
+        .face.front  { transform: translateZ(70px); }
+        .face.back   { transform: rotateY(180deg) translateZ(70px); }
+        .face.right  { transform: rotateY(90deg) translateZ(70px); }
+        .face.left   { transform: rotateY(-90deg) translateZ(70px); }
+        .face.top    { transform: rotateX(90deg) translateZ(70px); }
+        .face.bottom { transform: rotateX(-90deg) translateZ(70px); }
 
         @keyframes rotateCube {
           0%   { transform: rotateX(0deg) rotateY(0deg); }
@@ -782,7 +776,7 @@ export default function Perfect3DCubePartners() {
           font-size: 2.8rem;
           margin-bottom: 0.6rem;
           font-weight: 700;
-          color: #045d70;
+          color: #e0f7fa;
         }
         .content strong {
           color: #06b6d4;
@@ -791,7 +785,7 @@ export default function Perfect3DCubePartners() {
           font-size: 1.25rem;
           line-height: 1.7;
           margin-bottom: 1.8rem;
-          color: #0b525b;
+          color: #d0e8ea;
         }
         .content button {
           padding: 0.85rem 2.2rem;
@@ -809,14 +803,13 @@ export default function Perfect3DCubePartners() {
           background: #038ea6;
         }
 
-        /* FLEX horizontal scroll container for partner cards */
         .cards-scroll-container {
           width: 100vw;
           padding: 15px 40px;
           display: flex;
           flex-direction: column;
           gap: 16px;
-          background: white;
+          background: rgba(255, 255, 255, 0.06);
           border-top: 2px solid #06b6d4;
           border-bottom: 2px solid #06b6d4;
           box-shadow: 0 10px 25px rgba(0,0,0,0.1);
@@ -845,11 +838,10 @@ export default function Perfect3DCubePartners() {
           100% { transform: translateX(0); }
         }
 
-        /* Show two rows by wrapping, limit each card width */
         .partner-card {
           flex: 0 0 120px;
           height: 90px;
-          background: #0b525b;
+          background: rgba(255, 255, 255, 0.05);
           border-radius: 12px;
           box-shadow: 0 6px 16px rgba(0, 0, 0, 0.2);
           display: flex;
@@ -858,7 +850,6 @@ export default function Perfect3DCubePartners() {
           cursor: pointer;
           transition: transform 0.3s ease, box-shadow 0.3s ease;
           border: 2px solid transparent;
-          will-change: transform;
         }
         .partner-card:hover {
           transform: scale(1.1);
@@ -879,7 +870,6 @@ export default function Perfect3DCubePartners() {
           filter: drop-shadow(0 0 18px rgba(0, 255, 255, 1));
         }
 
-        /* Responsive */
         @media (max-width: 900px) {
           .top-container {
             flex-direction: column;
@@ -911,8 +901,6 @@ export default function Perfect3DCubePartners() {
             height: 170px;
           }
         }
-
-        
       `}</style>
 
       <section
@@ -964,7 +952,6 @@ export default function Perfect3DCubePartners() {
           </div>
         </div>
 
-        {/* Two rows scrolling in opposite directions */}
         <div
           className="cards-scroll-container"
           aria-label="Scrolling partner logos in opposite directions"
@@ -1006,818 +993,4 @@ export default function Perfect3DCubePartners() {
     </>
   );
 }
-
-// import React{ useEffect } from 'react';
-
-// const partners = [
-//   "https://www.pmits.co.uk/portals/0/images/partners/solar-communications-200.png",
-//   "https://www.pmits.co.uk/portals/0/images/partners/cbf-200.png",
-//   "https://www.pmits.co.uk/portals/0/images/partners/gxs-200.png",
-//   "https://www.pmits.co.uk/portals/0/images/partners/jpr-200.png",
-//   "https://www.pmits.co.uk/portals/0/images/partners/talk-internet-200.png",
-//   "https://www.pmits.co.uk/Portals/0/img/opera3_logo.png",
-//   "https://www.pmits.co.uk/Portals/0/pegasus-logo.png",
-//   "https://www.pmits.co.uk/Portals/0/sage business partner.jpg",
-// ];
-
-// const cubeFaces = partners.slice(0, 6);
-
-// // Stunning Multiple Animation Layers Component
-// const StunningBackgroundAnimation = () => {
-//   const canvasRef = useRef(null);
-//   const animationRef = useRef(null);
-
-//   useEffect(() => {
-//     const canvas = canvasRef.current;
-//     if (!canvas) return;
-
-//     const ctx = canvas.getContext('2d');
-//     let time = 0;
-
-//     // Neural network nodes
-//     const nodes = [];
-//     const connections = [];
     
-//     // Floating geometric shapes
-//     const geometricShapes = [];
-    
-//     // Energy waves
-//     const energyWaves = [];
-    
-//     // Matrix rain effect
-//     const matrixColumns = [];
-
-//     const initializeElements = () => {
-//       // Initialize neural network nodes
-//       nodes.length = 0;
-//       for (let i = 0; i < 50; i++) {
-//         nodes.push({
-//           x: Math.random() * canvas.width,
-//           y: Math.random() * canvas.height,
-//           vx: (Math.random() - 0.5) * 0.5,
-//           vy: (Math.random() - 0.5) * 0.5,
-//           size: Math.random() * 4 + 2,
-//           pulse: Math.random() * 0.02 + 0.01,
-//           hue: Math.random() * 60 + 180,
-//           energy: Math.random()
-//         });
-//       }
-
-//       // Initialize geometric shapes
-//       geometricShapes.length = 0;
-//       for (let i = 0; i < 20; i++) {
-//         geometricShapes.push({
-//           x: Math.random() * canvas.width,
-//           y: Math.random() * canvas.height,
-//           size: Math.random() * 40 + 20,
-//           rotation: Math.random() * Math.PI * 2,
-//           rotationSpeed: (Math.random() - 0.5) * 0.02,
-//           vx: (Math.random() - 0.5) * 0.3,
-//           vy: (Math.random() - 0.5) * 0.3,
-//           type: Math.floor(Math.random() * 4), // 0: triangle, 1: square, 2: hexagon, 3: circle
-//           opacity: Math.random() * 0.3 + 0.1,
-//           hue: Math.random() * 60 + 180
-//         });
-//       }
-
-//       // Initialize energy waves
-//       energyWaves.length = 0;
-//       for (let i = 0; i < 6; i++) {
-//         energyWaves.push({
-//           centerX: Math.random() * canvas.width,
-//           centerY: Math.random() * canvas.height,
-//           radius: 0,
-//           maxRadius: Math.random() * 300 + 200,
-//           speed: Math.random() * 2 + 1,
-//           opacity: Math.random() * 0.8 + 0.2,
-//           hue: Math.random() * 60 + 180,
-//           frequency: Math.random() * 0.1 + 0.05
-//         });
-//       }
-
-//       // Initialize matrix rain
-//       const columnCount = Math.floor(canvas.width / 20);
-//       matrixColumns.length = 0;
-//       for (let i = 0; i < columnCount; i++) {
-//         matrixColumns.push({
-//           x: i * 20,
-//           y: Math.random() * canvas.height,
-//           speed: Math.random() * 2 + 1,
-//           opacity: Math.random() * 0.5 + 0.1
-//         });
-//       }
-//     };
-
-//     const drawNeuralNetwork = () => {
-//       // Update and draw nodes
-//       nodes.forEach(node => {
-//         node.x += node.vx;
-//         node.y += node.vy;
-//         node.energy += Math.sin(time * node.pulse) * 0.01;
-
-//         // Wrap around screen
-//         if (node.x < 0) node.x = canvas.width;
-//         if (node.x > canvas.width) node.x = 0;
-//         if (node.y < 0) node.y = canvas.height;
-//         if (node.y > canvas.height) node.y = 0;
-
-//         // Draw connections to nearby nodes
-//         nodes.forEach(otherNode => {
-//           if (node !== otherNode) {
-//             const dx = node.x - otherNode.x;
-//             const dy = node.y - otherNode.y;
-//             const distance = Math.sqrt(dx * dx + dy * dy);
-
-//             if (distance < 150) {
-//               const opacity = (1 - distance / 150) * 0.3;
-//               const gradient = ctx.createLinearGradient(node.x, node.y, otherNode.x, otherNode.y);
-//               gradient.addColorStop(0, `hsla(${node.hue}, 70%, 60%, ${opacity})`);
-//               gradient.addColorStop(1, `hsla(${otherNode.hue}, 70%, 60%, ${opacity})`);
-              
-//               ctx.strokeStyle = gradient;
-//               ctx.lineWidth = 1;
-//               ctx.beginPath();
-//               ctx.moveTo(node.x, node.y);
-//               ctx.lineTo(otherNode.x, otherNode.y);
-//               ctx.stroke();
-//             }
-//           }
-//         });
-
-//         // Draw node
-//         const glowSize = node.size + Math.sin(time * node.pulse) * 2;
-//         const alpha = 0.8 + Math.sin(time * node.pulse * 2) * 0.2;
-        
-//         ctx.shadowBlur = 20;
-//         ctx.shadowColor = `hsla(${node.hue}, 80%, 60%, ${alpha})`;
-//         ctx.fillStyle = `hsla(${node.hue}, 80%, 70%, ${alpha})`;
-//         ctx.beginPath();
-//         ctx.arc(node.x, node.y, glowSize, 0, Math.PI * 2);
-//         ctx.fill();
-//         ctx.shadowBlur = 0;
-//       });
-//     };
-
-//     const drawGeometricShapes = () => {
-//       geometricShapes.forEach(shape => {
-//         shape.x += shape.vx;
-//         shape.y += shape.vy;
-//         shape.rotation += shape.rotationSpeed;
-
-//         // Wrap around screen
-//         if (shape.x < -shape.size) shape.x = canvas.width + shape.size;
-//         if (shape.x > canvas.width + shape.size) shape.x = -shape.size;
-//         if (shape.y < -shape.size) shape.y = canvas.height + shape.size;
-//         if (shape.y > canvas.height + shape.size) shape.y = -shape.size;
-
-//         ctx.save();
-//         ctx.translate(shape.x, shape.y);
-//         ctx.rotate(shape.rotation);
-        
-//         const alpha = shape.opacity + Math.sin(time * 0.01) * 0.1;
-//         ctx.strokeStyle = `hsla(${shape.hue}, 70%, 60%, ${alpha})`;
-//         ctx.lineWidth = 2;
-//         ctx.shadowBlur = 10;
-//         ctx.shadowColor = `hsla(${shape.hue}, 70%, 60%, ${alpha * 0.5})`;
-
-//         ctx.beginPath();
-        
-//         switch (shape.type) {
-//           case 0: // Triangle
-//             ctx.moveTo(0, -shape.size);
-//             ctx.lineTo(-shape.size * 0.866, shape.size * 0.5);
-//             ctx.lineTo(shape.size * 0.866, shape.size * 0.5);
-//             ctx.closePath();
-//             break;
-//           case 1: // Square
-//             ctx.rect(-shape.size/2, -shape.size/2, shape.size, shape.size);
-//             break;
-//           case 2: // Hexagon
-//             for (let i = 0; i < 6; i++) {
-//               const angle = (i * Math.PI) / 3;
-//               const x = Math.cos(angle) * shape.size;
-//               const y = Math.sin(angle) * shape.size;
-//               if (i === 0) ctx.moveTo(x, y);
-//               else ctx.lineTo(x, y);
-//             }
-//             ctx.closePath();
-//             break;
-//           case 3: // Circle
-//             ctx.arc(0, 0, shape.size, 0, Math.PI * 2);
-//             break;
-//         }
-        
-//         ctx.stroke();
-//         ctx.shadowBlur = 0;
-//         ctx.restore();
-//       });
-//     };
-
-//     const drawEnergyWaves = () => {
-//       energyWaves.forEach(wave => {
-//         wave.radius += wave.speed;
-        
-//         if (wave.radius > wave.maxRadius) {
-//           wave.radius = 0;
-//           wave.centerX = Math.random() * canvas.width;
-//           wave.centerY = Math.random() * canvas.height;
-//         }
-
-//         const progress = wave.radius / wave.maxRadius;
-//         const alpha = wave.opacity * (1 - progress) * (0.5 + Math.sin(time * wave.frequency) * 0.3);
-        
-//         // Draw multiple concentric circles
-//         for (let i = 0; i < 3; i++) {
-//           const currentRadius = wave.radius - i * 20;
-//           if (currentRadius > 0) {
-//             ctx.strokeStyle = `hsla(${wave.hue + i * 10}, 80%, 60%, ${alpha / (i + 1)})`;
-//             ctx.lineWidth = 3 - i;
-//             ctx.shadowBlur = 15;
-//             ctx.shadowColor = `hsla(${wave.hue}, 80%, 60%, ${alpha * 0.5})`;
-//             ctx.beginPath();
-//             ctx.arc(wave.centerX, wave.centerY, currentRadius, 0, Math.PI * 2);
-//             ctx.stroke();
-//           }
-//         }
-//         ctx.shadowBlur = 0;
-//       });
-//     };
-
-//     const drawMatrixRain = () => {
-//       matrixColumns.forEach(column => {
-//         column.y += column.speed;
-        
-//         if (column.y > canvas.height + 50) {
-//           column.y = -50;
-//           column.opacity = Math.random() * 0.5 + 0.1;
-//         }
-
-//         // Draw binary digits falling
-//         const digits = ['0', '1', '0', '1', '1', '0'];
-//         ctx.font = '14px monospace';
-        
-//         for (let i = 0; i < 8; i++) {
-//           const y = column.y + i * 20;
-//           const alpha = column.opacity * (1 - i / 8);
-//           const digit = digits[Math.floor(Math.random() * digits.length)];
-          
-//           ctx.fillStyle = `rgba(6, 182, 212, ${alpha})`;
-//           ctx.shadowBlur = 5;
-//           ctx.shadowColor = `rgba(6, 182, 212, ${alpha})`;
-//           ctx.fillText(digit, column.x, y);
-//         }
-//         ctx.shadowBlur = 0;
-//       });
-//     };
-
-//     const drawFlowingLines = () => {
-//       // Flowing curved lines across the screen
-//       for (let i = 0; i < 5; i++) {
-//         const lineTime = time + i * 200;
-//         const startX = (Math.sin(lineTime * 0.003) * 0.3 + 0.5) * canvas.width;
-//         const startY = (Math.cos(lineTime * 0.004) * 0.2 + 0.3) * canvas.height;
-        
-//         ctx.strokeStyle = `hsla(${190 + i * 10}, 70%, 60%, 0.2)`;
-//         ctx.lineWidth = 2;
-//         ctx.shadowBlur = 10;
-//         ctx.shadowColor = `hsla(${190 + i * 10}, 70%, 60%, 0.1)`;
-        
-//         ctx.beginPath();
-//         ctx.moveTo(startX, startY);
-        
-//         for (let j = 1; j <= 30; j++) {
-//           const t = j / 30;
-//           const x = startX + Math.sin(lineTime * 0.005 + t * 8) * t * canvas.width * 0.3;
-//           const y = startY + Math.cos(lineTime * 0.006 + t * 6) * t * canvas.height * 0.2 + t * canvas.height * 0.4;
-//           ctx.lineTo(x, y);
-//         }
-//         ctx.stroke();
-//         ctx.shadowBlur = 0;
-//       }
-//     };
-
-//     const animate = () => {
-//       canvas.width = canvas.offsetWidth;
-//       canvas.height = canvas.offsetHeight;
-      
-//       // Create dynamic gradient background
-//       const gradient = ctx.createRadialGradient(
-//         canvas.width * (0.3 + Math.sin(time * 0.002) * 0.1), 
-//         canvas.height * (0.4 + Math.cos(time * 0.003) * 0.1), 
-//         0,
-//         canvas.width * (0.7 + Math.sin(time * 0.0025) * 0.1), 
-//         canvas.height * (0.8 + Math.cos(time * 0.0035) * 0.1), 
-//         canvas.width * 1.2
-//       );
-      
-//       gradient.addColorStop(0, 'rgba(6, 182, 212, 0.02)');
-//       gradient.addColorStop(0.3, 'rgba(11, 82, 91, 0.01)');
-//       gradient.addColorStop(0.7, 'rgba(0, 255, 255, 0.005)');
-//       gradient.addColorStop(1, 'rgba(0, 0, 0, 0.01)');
-      
-//       ctx.fillStyle = gradient;
-//       ctx.fillRect(0, 0, canvas.width, canvas.height);
-      
-//       // Initialize elements if needed
-//       if (nodes.length === 0) initializeElements();
-      
-//       // Draw all animation layers
-//       drawMatrixRain();
-//       drawFlowingLines();
-//       drawEnergyWaves();
-//       drawGeometricShapes();
-//       drawNeuralNetwork();
-      
-//       time += 1;
-//       animationRef.current = requestAnimationFrame(animate);
-//     };
-
-//     // Handle resize
-//     const handleResize = () => {
-//       initializeElements();
-//     };
-    
-//     window.addEventListener('resize', handleResize);
-//     animate();
-
-//     return () => {
-//       window.removeEventListener('resize', handleResize);
-//       if (animationRef.current) {
-//         cancelAnimationFrame(animationRef.current);
-//       }
-//     };
-//   }, []);
-
-//   return (
-//     <canvas
-//       ref={canvasRef}
-//       style={{
-//         position: 'absolute',
-//         top: 0,
-//         left: 0,
-//         width: '100%',
-//         height: '100%',
-//         zIndex: 1,
-//         opacity: 0.7,
-//         pointerEvents: 'none'
-//       }}
-//     />
-//   );
-// };
-
-// export default function Perfect3DCubePartners() {
-//   const [isHovered, setIsHovered] = useState(false);
-
-//   return (
-//     <>
-//       <style>{`
-//         .partners-section {
-//           position: relative;
-//           display: flex;
-//           flex-direction: column;
-//           align-items: center;
-//           background: linear-gradient(135deg, 
-//             rgba(0, 20, 40, 0.95) 0%, 
-//             rgba(11, 82, 91, 0.9) 25%,
-//             rgba(6, 182, 212, 0.1) 50%,
-//             rgba(0, 30, 60, 0.8) 75%,
-//             rgba(11, 82, 91, 0.95) 100%
-//           );
-//           backdrop-filter: saturate(180%) blur(30px);
-//           -webkit-backdrop-filter: saturate(180%) blur(30px);
-//           font-family: 'Inter', sans-serif;
-//           color: #094d5e;
-//           padding: 80px 0 40px 0;
-//           min-height: 100vh;
-//           gap: 60px;
-//           box-sizing: border-box;
-//           width: 100%;
-//           overflow: hidden;
-//           animation: backgroundPulse 20s ease-in-out infinite;
-//         }
-
-//         @keyframes backgroundPulse {
-//           0%, 100% { 
-//             background: linear-gradient(135deg, 
-//               rgba(0, 20, 40, 0.95) 0%, 
-//               rgba(11, 82, 91, 0.9) 25%,
-//               rgba(6, 182, 212, 0.1) 50%,
-//               rgba(0, 30, 60, 0.8) 75%,
-//               rgba(11, 82, 91, 0.95) 100%
-//             );
-//           }
-//           50% { 
-//             background: linear-gradient(135deg, 
-//               rgba(11, 82, 91, 0.95) 0%, 
-//               rgba(6, 182, 212, 0.2) 25%,
-//               rgba(0, 255, 255, 0.05) 50%,
-//               rgba(11, 82, 91, 0.9) 75%,
-//               rgba(0, 20, 40, 0.95) 100%
-//             );
-//           }
-//         }
-
-//         .background-overlay {
-//           position: absolute;
-//           top: 0;
-//           left: 0;
-//           width: 100%;
-//           height: 100%;
-//           background: 
-//             radial-gradient(circle at 20% 20%, rgba(6, 182, 212, 0.15) 0%, transparent 40%),
-//             radial-gradient(circle at 80% 80%, rgba(0, 255, 255, 0.1) 0%, transparent 40%),
-//             radial-gradient(circle at 50% 50%, rgba(11, 82, 91, 0.2) 0%, transparent 60%),
-//             linear-gradient(45deg, transparent 0%, rgba(6, 182, 212, 0.05) 50%, transparent 100%);
-//           z-index: 2;
-//           pointer-events: none;
-//           animation: overlayShift 25s ease-in-out infinite;
-//         }
-
-//         @keyframes overlayShift {
-//           0%, 100% { 
-//             background: 
-//               radial-gradient(circle at 20% 20%, rgba(6, 182, 212, 0.15) 0%, transparent 40%),
-//               radial-gradient(circle at 80% 80%, rgba(0, 255, 255, 0.1) 0%, transparent 40%),
-//               radial-gradient(circle at 50% 50%, rgba(11, 82, 91, 0.2) 0%, transparent 60%);
-//           }
-//           33% { 
-//             background: 
-//               radial-gradient(circle at 80% 30%, rgba(0, 255, 255, 0.2) 0%, transparent 50%),
-//               radial-gradient(circle at 20% 70%, rgba(6, 182, 212, 0.15) 0%, transparent 45%),
-//               radial-gradient(circle at 60% 20%, rgba(11, 82, 91, 0.25) 0%, transparent 55%);
-//           }
-//           66% { 
-//             background: 
-//               radial-gradient(circle at 70% 70%, rgba(6, 182, 212, 0.18) 0%, transparent 40%),
-//               radial-gradient(circle at 30% 20%, rgba(0, 255, 255, 0.12) 0%, transparent 50%),
-//               radial-gradient(circle at 80% 50%, rgba(11, 82, 91, 0.22) 0%, transparent 45%);
-//           }
-//         }
-
-//         .top-container {
-//           position: relative;
-//           z-index: 10;
-//           display: flex;
-//           gap: 80px;
-//           align-items: center;
-//           max-width: 1200px;
-//           width: 100%;
-//           flex-wrap: wrap;
-//           justify-content: center;
-//           padding: 0 40px;
-//           box-sizing: border-box;
-//         }
-
-//         .cube-container {
-//           flex-shrink: 0;
-//           width: 240px;
-//           height: 240px;
-//           perspective: 1400px;
-//         }
-
-//         .cube {
-//           width: 200px;
-//           height: 200px;
-//           position: relative;
-//           transform-style: preserve-3d;
-//           animation: rotateCube 20s linear infinite;
-//           transition: animation-play-state 0.3s ease;
-//           margin: auto;
-//           border-radius: 10px;
-//           box-shadow: none;
-//         }
-//         .cube.paused {
-//           animation-play-state: paused;
-//         }
-
-//         .face {
-//           position: absolute;
-//           width: 200px;
-//           height: 200px;
-//           border-radius: 10px;
-//           background: rgba(11, 82, 91, 0.9);
-//           border: 2px solid #06b6d4;
-//           backdrop-filter: blur(15px);
-//           display: flex;
-//           justify-content: center;
-//           align-items: center;
-//           box-shadow: 
-//             0 8px 20px rgba(0,0,0,0.3), 
-//             0 0 20px rgba(6, 182, 212, 0.3),
-//             inset 0 0 20px rgba(6, 182, 212, 0.1);
-//           backface-visibility: hidden;
-//           cursor: pointer;
-//           transition: all 0.3s ease;
-//           animation: faceGlow 6s ease-in-out infinite;
-//         }
-
-//         @keyframes faceGlow {
-//           0%, 100% { 
-//             box-shadow: 
-//               0 8px 20px rgba(0,0,0,0.3), 
-//               0 0 20px rgba(6, 182, 212, 0.3),
-//               inset 0 0 20px rgba(6, 182, 212, 0.1);
-//           }
-//           50% { 
-//             box-shadow: 
-//               0 8px 25px rgba(0,0,0,0.4), 
-//               0 0 30px rgba(6, 182, 212, 0.6),
-//               inset 0 0 30px rgba(6, 182, 212, 0.2);
-//           }
-//         }
-
-//         .face img {
-//           max-width: 70%;
-//           max-height: 70%;
-//           object-fit: contain;
-//           filter: drop-shadow(0 0 5px rgba(0, 255, 255, 0.8));
-//           transition: transform 0.3s ease;
-//           user-select: none;
-//           pointer-events: none;
-//         }
-//         .face:hover img {
-//           transform: scale(1.15);
-//           filter: drop-shadow(0 0 12px rgba(0, 255, 255, 1));
-//         }
-//         .face:hover {
-//           box-shadow: 0 0 30px 5px rgba(6, 182, 212, 0.8);
-//         }
-
-//         .face.front  { transform: translateZ(100px); }
-//         .face.back   { transform: rotateY(180deg) translateZ(100px); }
-//         .face.right  { transform: rotateY(90deg) translateZ(100px); }
-//         .face.left   { transform: rotateY(-90deg) translateZ(100px); }
-//         .face.top    { transform: rotateX(90deg) translateZ(100px); }
-//         .face.bottom { transform: rotateX(-90deg) translateZ(100px); }
-
-//         @keyframes rotateCube {
-//           0%   { transform: rotateX(0deg) rotateY(0deg); }
-//           100% { transform: rotateX(360deg) rotateY(360deg); }
-//         }
-
-//         .content {
-//           max-width: 620px;
-//           text-align: center;
-//           user-select: none;
-//           padding: 0 20px;
-//           background: rgba(255, 255, 255, 0.1);
-//           backdrop-filter: blur(10px);
-//           border-radius: 20px;
-//           padding: 40px;
-//           border: 1px solid rgba(6, 182, 212, 0.3);
-//         }
-//         .content h2 {
-//           font-size: 2.8rem;
-//           margin-bottom: 0.6rem;
-//           font-weight: 700;
-//           color: #ffffff;
-//           text-shadow: 0 0 20px rgba(6, 182, 212, 0.5);
-//         }
-//         .content strong {
-//           color: #06b6d4;
-//           text-shadow: 0 0 10px rgba(6, 182, 212, 0.8);
-//         }
-//         .content p {
-//           font-size: 1.25rem;
-//           line-height: 1.7;
-//           margin-bottom: 1.8rem;
-//           color: #ffffff;
-//           text-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
-//         }
-//         .content button {
-//           padding: 0.85rem 2.2rem;
-//           background: linear-gradient(135deg, #06b6d4 0%, #0891b2 100%);
-//           border: none;
-//           border-radius: 30px;
-//           color: white;
-//           font-weight: 600;
-//           font-size: 1.1rem;
-//           cursor: pointer;
-//           box-shadow: 0 6px 18px rgba(6,182,212,0.6), 0 0 20px rgba(6,182,212,0.3);
-//           transition: all 0.3s ease;
-//         }
-//         .content button:hover {
-//           background: linear-gradient(135deg, #0891b2 0%, #0e7490 100%);
-//           transform: translateY(-2px);
-//           box-shadow: 0 8px 25px rgba(6,182,212,0.8), 0 0 30px rgba(6,182,212,0.5);
-//         }
-
-//         /* FLEX horizontal scroll container for partner cards */
-//         .cards-scroll-container {
-//           position: relative;
-//           z-index: 10;
-//           width: 100vw;
-//           padding: 15px 40px;
-//           display: flex;
-//           flex-direction: column;
-//           gap: 16px;
-//           background: rgba(255, 255, 255, 0.1);
-//           backdrop-filter: blur(15px);
-//           border-top: 2px solid rgba(6, 182, 212, 0.5);
-//           border-bottom: 2px solid rgba(6, 182, 212, 0.5);
-//           box-shadow: 0 10px 25px rgba(0,0,0,0.2), 0 0 40px rgba(6, 182, 212, 0.1);
-//           user-select: none;
-//           overflow: hidden;
-//         }
-
-//         .scroll-row {
-//           display: flex;
-//           gap: 16px;
-//           animation: scrollLeft 15s linear infinite;
-//           white-space: nowrap;
-//         }
-
-//         .scroll-row:nth-child(2) {
-//           animation: scrollRight 15s linear infinite;
-//         }
-
-//         .scroll-row:nth-child(3) {
-//           animation: scrollLeft 18s linear infinite;
-//         }
-
-//         @keyframes scrollLeft {
-//           0% { transform: translateX(0); }
-//           100% { transform: translateX(-50%); }
-//         }
-
-//         @keyframes scrollRight {
-//           0% { transform: translateX(-50%); }
-//           100% { transform: translateX(0); }
-//         }-row:nth-child(2) {
-//           animation: scrollRight 15s linear infinite;
-//         }
-
-//         @keyframes scrollLeft {
-//           0% { transform: translateX(0); }
-//           100% { transform: translateX(-50%); }
-//         }
-
-//         @keyframes scrollRight {
-//           0% { transform: translateX(-50%); }
-//           100% { transform: translateX(0); }
-//         }
-
-//         /* Show two rows by wrapping, limit each card width */
-//         .partner-card {
-//           flex: 0 0 120px;
-//           height: 90px;
-//           background: rgba(11, 82, 91, 0.8);
-//           backdrop-filter: blur(10px);
-//           border-radius: 12px;
-//           box-shadow: 0 6px 16px rgba(0, 0, 0, 0.2), 0 0 10px rgba(6, 182, 212, 0.2);
-//           display: flex;
-//           justify-content: center;
-//           align-items: center;
-//           cursor: pointer;
-//           transition: transform 0.3s ease, box-shadow 0.3s ease;
-//           border: 2px solid rgba(6, 182, 212, 0.3);
-//           will-change: transform;
-//         }
-//         .partner-card:hover {
-//           transform: scale(1.1);
-//           box-shadow: 0 10px 28px rgba(6,182,212,0.75), 0 0 20px rgba(6,182,212,0.6);
-//           border-color: #06b6d4;
-//           z-index: 10;
-//           background: rgba(11, 82, 91, 0.95);
-//         }
-//         .partner-card img {
-//           max-width: 70%;
-//           max-height: 70%;
-//           object-fit: contain;
-//           filter: drop-shadow(0 0 8px rgba(0, 255, 255, 0.9));
-//           user-select: none;
-//           pointer-events: none;
-//           transition: filter 0.3s ease;
-//         }
-//         .partner-card:hover img {
-//           filter: drop-shadow(0 0 18px rgba(0, 255, 255, 1));
-//         }
-
-//         /* Responsive */
-//         @media (max-width: 900px) {
-//           .top-container {
-//             flex-direction: column;
-//             gap: 40px;
-//           }
-//           .content {
-//             max-width: 100%;
-//             padding: 30px 20px;
-//           }
-//           .cards-scroll-container {
-//             padding: 20px 20px;
-//             gap: 16px;
-//           }
-//           .partner-card {
-//             flex: 0 0 100px;
-//             height: 75px;
-//             border-radius: 10px;
-//           }
-//           .cube-container {
-//             width: 200px;
-//             height: 200px;
-//           }
-//           .cube {
-//             width: 170px;
-//             height: 170px;
-//           }
-//           .face {
-//             width: 170px;
-//             height: 170px;
-//           }
-//         }
-//       `}</style>
-
-//       <section
-//         className="partners-section"
-//         aria-label="Partners showcase with perfect 3D rotating cube and scrollable partner cards"
-//       >
-//         <StunningBackgroundAnimation />
-//         <div className="background-overlay"></div>
-        
-//         <div className="top-container">
-//           <div
-//             className="cube-container"
-//             onMouseEnter={() => setIsHovered(true)}
-//             onMouseLeave={() => setIsHovered(false)}
-//           >
-//             <div className={`cube ${isHovered ? "paused" : ""}`}>
-//               {cubeFaces.map((logo, idx) => {
-//                 const faceNames = [
-//                   "front",
-//                   "back",
-//                   "right",
-//                   "left",
-//                   "top",
-//                   "bottom",
-//                 ];
-//                 return (
-//                   <div key={idx} className={`face ${faceNames[idx]}`}>
-//                     <img
-//                       src={logo}
-//                       alt={`Partner logo ${idx + 1}`}
-//                       loading="lazy"
-//                       draggable={false}
-//                     />
-//                   </div>
-//                 );
-//               })}
-//             </div>
-//           </div>
-
-//           <div className="content">
-//             <h2>
-//               Our <strong>Trusted Partners</strong>
-//             </h2>
-//             <p>
-//               We collaborate with industry leaders and innovators to bring you the
-//               best solutions and services. Our partners are carefully selected to
-//               ensure quality, reliability, and cutting-edge technology.
-//             </p>
-//             <button onClick={() => alert("Explore partners soon!")}>
-//               Learn More
-//             </button>
-//           </div>
-//         </div>
-
-//         {/* Two rows scrolling in opposite directions */}
-//         <div
-//           className="cards-scroll-container"
-//           aria-label="Scrolling partner logos in opposite directions"
-//         >
-//           <div className="scroll-row">
-//             {[...partners, ...partners].map((logo, index) => (
-//               <div
-//                 key={`row1-${index}`}
-//                 className="partner-card"
-//                 title={`Partner ${(index % partners.length) + 1}`}
-//               >
-//                 <img
-//                   src={logo}
-//                   alt={`Partner logo ${(index % partners.length) + 1}`}
-//                   loading="lazy"
-//                   draggable={false}
-//                 />
-//               </div>
-//             ))}
-//           </div>
-//           <div className="scroll-row">
-//             {[...partners, ...partners].map((logo, index) => (
-//               <div
-//                 key={`row2-${index}`}
-//                 className="partner-card"
-//                 title={`Partner ${(index % partners.length) + 1}`}
-//               >
-//                 <img
-//                   src={logo}
-//                   alt={`Partner logo ${(index % partners.length) + 1}`}
-//                   loading="lazy"
-//                   draggable={false}
-//                 />
-//               </div>
-//             ))}
-//           </div>
-//         </div>
-//       </section>
-//     </>
-//   );
-// }

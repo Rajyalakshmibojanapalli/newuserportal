@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import login from '../assets/Images/loginReg.svg'
+// import login from '../assets/Images/loginReg.svg'
+import login from '../assets/Images/jaicoin.svg'
 const Logo = () => {
   const [particles, setParticles] = useState([]);
 
@@ -170,7 +171,7 @@ const Logo = () => {
   // Orbital dot indicators
   const OrbitDot = ({ delay, size = "small" }) => (
     <div 
-      className={`absolute rounded-full ${size === "small" ? "w-2 h-2" : "w-3 h-3"} opacity-60`}
+      className={`absolute rounded-full ${size === "small" ? "w-1 h-1" : "w-2 h-2"} opacity-60`}
       style={{
         background: 'linear-gradient(135deg, #bace27 0%, #074e53 100%)',
         animation: `pulse 2s ease-in-out infinite ${delay}s`
@@ -179,8 +180,7 @@ const Logo = () => {
   );
 
   return (
-    <div className="relative  overflow-hidden " style={{ 
-      // background: 'linear-gradient(135deg, #121212 0%, #074e53 50%, #121212 100%)', height:'75%'
+    <div className="relative h-95 w-95 overflow-hidden " style={{ 
     }}>
       
       {/* Animated Background Particles */}
@@ -401,7 +401,7 @@ const Logo = () => {
           {/* Central image */}
           <div className="absolute inset-0 flex items-center justify-center z-20">
             <div className="relative">
-              <img src={login} alt="" />
+              <img src={login} alt="" width={200} />
               <div className="absolute -inset-4 rounded-full blur-xl animate-pulse" ></div>
             </div>
           </div>

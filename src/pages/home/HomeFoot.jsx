@@ -275,7 +275,7 @@ export default function HomeFooter() {
                         </div>
 
                         {/* Right Column - Visual */}
-                        {/* <div className="relative flex items-center justify-center animate-fadeInRight">
+                        <div className="relative flex items-center justify-center animate-fadeInRight">
                             {loading ? (
                                 <div className="relative">
                                     <div className="w-80 h-80 rounded-full animate-spin" />
@@ -301,7 +301,7 @@ export default function HomeFooter() {
                                     <div className="absolute -inset-2 bg-gradient-to-r from-purple-600/30 to-cyan-600/30 rounded-3xl blur-xl opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
                                 </div>
                             )}
-                        </div> */}
+                        </div>
                     </div>
                 </div>
             </div>

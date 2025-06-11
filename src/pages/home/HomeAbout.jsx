@@ -692,7 +692,7 @@ const CoinDisplay = () => {
 // }
 
 import { FaChartLine, FaUsers, FaDollarSign } from "react-icons/fa";
-
+import threecoin  from "../../assets/Images/jaimaxthreecoin2.png"
 
 export default function CryptoStakingSection({
   contractAddress = "0x742d35Cc6648C25cbEC6900001Cfb3De3Fxxd4f",
@@ -766,7 +766,8 @@ export default function CryptoStakingSection({
 
         {/* Right Coin Display */}
         <div className="flex-1 w-full max-w-md">
-          <CoinDisplay />
+          {/* <CoinDisplay /> */}
+          <img src={threecoin} alt="" />
         </div>
       </div>
 

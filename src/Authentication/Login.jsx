@@ -1,7 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { Eye, EyeOff, Mail, Lock, ArrowRight, Shield } from 'lucide-react';
 import Logo from '../Authentication/Logo'
+import jaimaxicon from '../assets/Images/jaicoins.svg'
 import { Navigate, useNavigate } from 'react-router-dom';
+import Swal from 'sweetalert2';
 const LoginPage = () => {
   const [formData, setFormData] = useState({
     email: '',
@@ -13,11 +15,25 @@ const LoginPage = () => {
   const [loading, setLoading] = useState(false);
   const [isVisible, setIsVisible] = useState(false);
   const  navigate = useNavigate()
+  const showToast = (message, isSuccess = true) => {
+    Swal.fire({
+      toast: true,
+      position: 'top',
+      icon: isSuccess ? 'success' : 'error',
+      title: message,
+      showConfirmButton: false,
+      showCloseButton: true,
+      timer: 3000,
+      timerProgressBar: true,
+      background: isSuccess ? '#22c55e' : '#ef4444',
+      color: '#fff',
+    });
+  };
 
   useEffect(() => {
     setIsVisible(true);
     // Simulate loading saved email and rememberMe from localStorage
-    const savedEmail = 'user@example.com'; // In real app: localStorage.getItem('email');
+    const savedEmail = ''; // In real app: localStorage.getItem('email');
     const savedRememberMe = true; // In real app: localStorage.getItem('rememberMe') === 'true';
     
     if (savedEmail) {
@@ -55,59 +71,43 @@ const LoginPage = () => {
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
   };
+const handleSubmit = async (e) => {
+  e.preventDefault();
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
+  if (!validate()) return;
+
+  setLoading(true);
+
+  try {
+    // Simulate API call
+    await new Promise(resolve => setTimeout(resolve, 2000));
     
-    if (!validate()) return;
+    console.log('Login attempted with:', {
+      email: formData.email.trim(),
+      password: formData.password,
+      rememberMe
+    });
 
-    setLoading(true);
+    // Show success toast
+    showToast('Login successful!');
+    
+  } catch (error) {
+    console.error('Login error:', error);
+    // Show error toast
+    showToast('Login failed. Please try again.', false);
+  } finally {
+    setLoading(false);
+  }
+};
 
-    try {
-      // Simulate API call
-      await new Promise(resolve => setTimeout(resolve, 2000));
-      
-      console.log('Login attempted with:', {
-        email: formData.email.trim(),
-        password: formData.password,
-        rememberMe
-      });
-      
-      // Success feedback
-      alert('Login successful! (This is a demo)');
-      
-    } catch (error) {
-      console.error('Login error:', error);
-    } finally {
-      setLoading(false);
-    }
-  };
 
   return (
    <div className="h-screen bg-[#084e53] from-slate-900 via-slate-800 to-slate-900 flex items-center justify-center p-4 relative overflow-hidden">
-  {/* Animated background elements */}
-  {/* <div className="absolute inset-0 overflow-hidden">
-    <div
-      className="absolute -top-40 -right-40 w-80 h-80 rounded-full mix-blend-multiply filter blur-xl opacity-20 animate-pulse"
-      style={{ backgroundColor: '#094e54' }}
-    ></div>
-    <div
-      className="absolute -bottom-40 -left-40 w-80 h-80 rounded-full mix-blend-multiply filter blur-xl opacity-20 animate-pulse"
-      style={{ backgroundColor: '#094e54', animationDelay: '2s' }}
-    ></div>
-    <div
-      className="absolute top-40 left-40 w-60 h-60 rounded-full mix-blend-multiply filter blur-xl opacity-20 animate-pulse"
-      style={{ backgroundColor: '#0a5c64', animationDelay: '4s' }}
-    ></div>
-  </div> */}
-
-  {/* Container with flex and justify-between */}
   <div
     className={`w-full max-w-6xl mx-auto flex justify-between items-center gap-8 transform transition-all duration-1000 ${
       isVisible ? 'translate-y-0 opacity-100' : 'translate-y-8 opacity-0'
-    }`}
-  >
-    {/* Left Side - Branding */}
+    }`}>
+
    <div
   className="hidden lg:flex flex-col items-center justify-center text-center mt-20 p-8 flex-1"
 style={{ transform: 'translateX(-8rem) translateY(2rem)' }}
@@ -130,20 +130,13 @@ style={{ transform: 'translateX(-8rem) translateY(2rem)' }}
     ))}
   </div>
 </div>
-
-
-    {/* Right Side - Login Form */}
     <div className="w-full max-w-md flex-shrink-0">
-      <div className="bg-white/10 backdrop-blur-lg rounded-3xl p-8 shadow-2xl border border-white/20 hover:shadow-purple-500/20 transition-all duration-300">
-        {/* Header */}
+      <div className="bg-white/15 backdrop-blur-lg rounded-3xl p-10 shadow-2xl border border-white/20 hover:shadow-purple-500/20 transition-all duration-300">
         <div className="text-center mb-8">
           <h2 className="text-3xl font-bold text-white mb-2">Welcome Back</h2>
           <p className="text-gray-300">Sign in to your account to continue</p>
         </div>
-
-        {/* Login Form */}
         <div className="space-y-6">
-          {/* Email Field */}
           <div className="space-y-2">
             <label className="text-sm font-medium text-gray-200 flex items-center gap-2">
               <Mail className="w-4 h-4" />
@@ -172,8 +165,6 @@ style={{ transform: 'translateX(-8rem) translateY(2rem)' }}
               )}
             </div>
           </div>
-
-          {/* Password Field */}
           <div className="space-y-2">
             <label className="text-sm font-medium text-gray-200 flex items-center gap-2">
               <Lock className="w-4 h-4" />

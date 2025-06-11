@@ -18,6 +18,9 @@ import AboutSection from './HomeAbout';
 import FeaturesSection from './HomeFeatures';
 import BlogLayout from './Blog';
 import CryptoStakingSection from './HomeAbout';
+import { Globe } from '../../components/ui/globe';
+import HomeContact from './HomeContact';
+
 
 const Home = () => {
   const [currentBg, setCurrentBg] = useState('');
@@ -114,15 +117,13 @@ const Home = () => {
         </div>
       </div>
       <CryptoStakingSection />
-      {/* <JaimaxComponent /> */}
+      <HomeContact/>
       <PhaseCarousel />
       <ServicesComponent />
       <Partners />
-      {/* <FeaturesSection /> */}
       <Roadmap />
       <AnimatedTestimonials />
       <JaimaxFAQ />
-      {/* <BlogLayout /> */}
       <HomeFooter />
 
 
