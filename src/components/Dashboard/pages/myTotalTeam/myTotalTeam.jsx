@@ -119,7 +119,7 @@ const MyTotalTeam = () => {
     `}
   </style>
 
-  <div className="w-full min-h-screen space-y-6 px-4 py-6">
+  <div className="w-full  bg-[#1d8e85]  min-h-screen space-y-6 px-4 py-6">
     {/* Cards grid with manual control */}
     <div className="grid custom-grid grid-cols-1 xl:grid-cols-3 gap-6">
       {infoBoxes.map((box, idx) => (

@@ -109,7 +109,7 @@ const TeamCollaboration = () => {
   ];
 
   return (
-    <>
+ <>
       <style>{`
         /* Hide scrollbar but keep scroll */
         .hide-scrollbar {
@@ -121,36 +121,30 @@ const TeamCollaboration = () => {
         }
       `}</style>
       <div
-        className=" bg-white p-6 rounded-xl shadow-md md:col-span-2 mx-auto w-full max-w-7xl "
-        //         style={{
-        //           background: `linear-gradient(
-        //   to top right,
-        //   #1e7f3f 0%,
-        //   #3aa98c 40%,
-        //   #89c954 100%
-        // )`,
-        //         }}
+        className="p-6 rounded-xl shadow-md md:col-span-2 mx-auto w-full max-w-7xl
+          bg-white/30 backdrop-blur-md border border-white/40"
       >
         <div className="flex justify-between items-center mb-6 flex-wrap gap-2 ">
-          <div className="font-semibold text-xl text-[#084e54] ">
+          <div className="font-semibold text-xl text-white">
             Team Members
           </div>
-          <button className="px-4 py-2 text-sm text-[#fff] rounded-full  whitespace-nowrap bg-[#26a69a]">
+          <button className="px-4 py-2 text-sm text-white rounded-full whitespace-nowrap bg-[#26a69a]">
             + Add Member
           </button>
         </div>
         <div className="relative max-h-[40rem] overflow-y-auto hide-scrollbar">
           {/* Sticky soft top line */}
-          <div className="sticky top-0 left-0 right-0 h-[2px] bg-gradient-to-r from-[#fff]/30 via-[#f2f2f2]/80 to-[#fff]/30 z-10" />
+          <div className="sticky top-0 left-0 right-0 h-[2px] bg-gradient-to-r from-white/30 via-white/80 to-white/30 z-10" />
 
           <ul className="space-y-5 relative z-0 pt-2">
             {members.map((member, idx) => (
               <li
                 key={idx}
-                className="flex items-center justify-between sm:gap-4 flex-wrap w-full overflow-hidden">
-                <div className="flex-1 items-center">
+                className="flex items-center justify-between sm:gap-4 flex-wrap w-full overflow-hidden"
+              >
+                <div className="flex-1 items-center flex gap-4">
                   <div
-                    className={`w-12 h-12 rounded-full ${member.bg} flex flex-col items-center justify-center`}
+                    className={`w-12 h-12 rounded-full ${member.bg} flex items-center justify-center`}
                   >
                     <img
                       src={member.avatar}
@@ -159,12 +153,12 @@ const TeamCollaboration = () => {
                     />
                   </div>
                   <div>
-                    <div className="text-base font-medium text-[#084e54]">
+                    <div className="text-base font-medium text-white">
                       {member.name}
                     </div>
-                    <div className="text-sm text-[#084e54]">
+                    <div className="text-sm text-white">
                       Working on{" "}
-                      <span className="text-[#084e54]">{member.task}</span>
+                      <span className="text-white font-semibold">{member.task}</span>
                     </div>
                   </div>
                 </div>

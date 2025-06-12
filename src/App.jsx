@@ -595,15 +595,15 @@ const DashboardLayout = () => {
       />
       
       <div
-        className={`transition-all duration-300 ease-in-out flex-1 flex flex-col mr-3 ${
-          sidebarOpen ? "lg:ml-64" : "lg:ml-5"
+        className={`transition-all duration-300 ease-in-out flex-1 flex flex-col ml-1 mr-1 ${
+          sidebarOpen ? "lg:ml-64" : "lg:ml-2"
         } h-screen overflow-hidden`}
       >
         <div className="mt-6 mb-3">
           <Header />
         </div>
         
-        <div className="flex-1 overflow-y-auto p-4 bg-[#f2f2f2] rounded-xl scrollbar-hide mb-3 mt-1">
+        <div className="flex-1 overflow-y-auto bg-[#f2f2f2] rounded-xl scrollbar-hide mb-3 mt-1">
           <Outlet />
         </div>
       </div>

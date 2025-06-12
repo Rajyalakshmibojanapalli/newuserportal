@@ -79,10 +79,7 @@ const Support = ({ list }) => {
   return (
     <div
       className={styles.container}
-      style={{
-        background:
-          "radial-gradient(circle at 50% 30%, #20934a 0%,rgb(65, 187, 174) 70%)",
-      }}
+     
     >
 <div className={styles.header}>
   <h2 className={styles.title}>Support Tickets</h2>

@@ -16,11 +16,11 @@ const routeTitles = {
 
 function Header() {
   const location = useLocation();
-  const title = routeTitles[location.pathname] || "Page";
+  const title = routeTitles[location.pathname] || "Dashboard";
 
   return (
-    <header className=" sm:px-6 lg:px-8 bg-[#f2f2f2] p-3 rounded-xl">
-      <h1 className="text-2xl  text-center pl-1 sm:text-3xl md:text-4xl font-extrabold text-[#20934a]">
+    <header className=" sm:px-6 lg:px-8  text-white bg-[#1d8e85] p-3 rounded-xl">
+      <h1 className="text-2xl  text-center pl-1 sm:text-3xl md:text-4xl font-extrabold ">
         {title}
       </h1>
     </header>
