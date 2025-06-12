@@ -1,7 +1,9 @@
 import React from "react";
 import { LogOut } from "lucide-react";
+import { useNavigate } from "react-router-dom";
 
 const LogoutModal = ({ onCancel, onConfirm }) => {
+  const navigate = useNavigate()
   return (
     <div className="fixed inset-0 z-50 bg-black bg-opacity-50 flex items-center justify-center">
       <div className="bg-white w-full max-w-sm rounded-xl shadow-xl px-6 py-8 text-center">
@@ -24,7 +26,7 @@ const LogoutModal = ({ onCancel, onConfirm }) => {
               Cancel
             </button>
             <button
-              onClick={onConfirm}
+              onClick={() => navigate("/")}
               className="px-4 py-2 text-sm rounded-md bg-red-600 text-white hover:bg-red-700"
             >
               Logout

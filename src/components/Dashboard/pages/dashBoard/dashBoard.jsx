@@ -4,9 +4,11 @@ import TeamCollaboration from "./teamWorkPanel/teamWorkPanel";
 import SlabTabs from "./timeTracker/timeTracker";
 import TimeTracker from "./timeTracker/timeTracker";
 
+  // background-color: "1d8e85" ;
+
 const Dashboard = () => {
   return (
-<div className="min-h-screen w-full p-2 sm:p-3 md:p-4 text-sm sm:text-base md:text-lg overflow-x-hidden">
+<div className="min-h-screen -2 sm:p-3 md:p-4 text-sm sm:text-base md:text-lg overflow-x-hidden">
   {/* Action Buttons */}
   <div className="w-full mb-4">
     <ActionButtons />
@@ -18,14 +20,18 @@ const Dashboard = () => {
   </div>
 
   {/* TimeTracker and TeamCollaboration side-by-side on 1080px+ */}
-  <div className="flex flex-col custom-1080:flex-row w-full custom-1080:gap-4 gap-2 overflow-hidden">
-    <div className="w-full custom-1080:w-1/2">
-      <SlabTabs />
-    </div>
-    <div className="w-full custom-1080:w-1/2 overflow-hidden">
-      <TeamCollaboration />
-    </div>
+  <div className="flex flex-col w-full gap-2 custom-1080:gap-4 overflow-hidden">
+  {/* SlabTabs takes 1/3 of the width on large screens */}
+  <div className="custom-1080:w-1/3">
+    <SlabTabs />
   </div>
+
+  {/* TeamCollaboration takes 2/3 of the width on large screens */}
+  <div className=" custom-1080:w-2/3 overflow-hidden">
+    <TeamCollaboration />
+  </div>
+</div>
+
 </div>
 
 

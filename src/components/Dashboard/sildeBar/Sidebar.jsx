@@ -180,7 +180,7 @@ import WithDrawal from "../pages/widthDrawal/withDrawal";
 import Support from "../pages/support/support";
 
 const navItems = [
-  { name: "Dashboard", path: "/", icon: <HiOutlineViewGrid /> },
+  { name: "Dashboard", path: "/dashboard", icon: <HiOutlineViewGrid /> },
   { name: "Wallet", path: "/wallet", icon: <HiOutlineClipboardList /> },
   { name: "My Total Team", path: "/my-team", icon: <HiOutlineCalendar /> },
   {name:"Share Holders", path:"/shareholders", icon:<FaHandshake />},

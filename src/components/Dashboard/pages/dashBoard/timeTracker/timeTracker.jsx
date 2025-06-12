@@ -1,4 +1,6 @@
-import React, { useRef, useState, useEffect } from "react";
+import React, { useRef, useState, useEffect, useCallback } from "react";
+import { ChevronLeft, ChevronRight, Play, Pause } from 'lucide-react';
+
 
 const slabsData = [
   {
@@ -190,159 +192,248 @@ const UpcomingSlabContent = ({ slab }) => (
   </div>
 );
 
+
+
 const SlabTabs = () => {
   const [activeTab, setActiveTab] = useState(0);
+  const [isAutoPlay, setIsAutoPlay] = useState(false);
+  const [isDragging, setIsDragging] = useState(false);
+  const [dragStart, setDragStart] = useState(0);
+  const [dragOffset, setDragOffset] = useState(0);
   const scrollRef = useRef(null);
+  const autoPlayRef = useRef(null);
 
-  const scrollToTab = (index) => {
+  // Enhanced scroll to tab with smooth animation
+  const scrollToTab = useCallback((index, smooth = true) => {
     const container = scrollRef.current;
-    if (container) {
+    if (container && index >= 0 && index < slabsData.length) {
       const width = container.clientWidth;
       container.scrollTo({
         left: width * index,
-        behavior: "smooth",
+        behavior: smooth ? "smooth" : "auto",
       });
-    }
-  };
-
-  const handleScroll = () => {
-    const container = scrollRef.current;
-    if (container) {
-      const index = Math.round(container.scrollLeft / container.clientWidth);
       setActiveTab(index);
     }
+  }, []);
+
+  // Auto-play functionality
+  useEffect(() => {
+    if (isAutoPlay) {
+      autoPlayRef.current = setInterval(() => {
+        setActiveTab(prev => {
+          const next = prev + 1 >= slabsData.length ? 0 : prev + 1;
+          scrollToTab(next);
+          return next;
+        });
+      }, 4000);
+    } else {
+      clearInterval(autoPlayRef.current);
+    }
+
+    return () => clearInterval(autoPlayRef.current);
+  }, [isAutoPlay, scrollToTab]);
+
+  // Enhanced scroll handler
+  const handleScroll = useCallback(() => {
+    const container = scrollRef.current;
+    if (container && !isDragging) {
+      const index = Math.round(container.scrollLeft / container.clientWidth);
+      if (index !== activeTab) {
+        setActiveTab(index);
+      }
+    }
+  }, [activeTab, isDragging]);
+
+  // Touch/mouse drag handlers
+  const handleDragStart = (e) => {
+    setIsDragging(true);
+    setDragStart(e.type === 'mousedown' ? e.clientX : e.touches[0].clientX);
+    setIsAutoPlay(false); // Pause auto-play when user interacts
   };
 
+  const handleDragMove = (e) => {
+    if (!isDragging) return;
+    const currentX = e.type === 'mousemove' ? e.clientX : e.touches[0].clientX;
+    setDragOffset(currentX - dragStart);
+  };
+
+  const handleDragEnd = () => {
+    if (!isDragging) return;
+    setIsDragging(false);
+    
+    const threshold = 50; // Minimum drag distance to trigger swipe
+    if (Math.abs(dragOffset) > threshold) {
+      if (dragOffset > 0 && activeTab > 0) {
+        scrollToTab(activeTab - 1);
+      } else if (dragOffset < 0 && activeTab < slabsData.length - 1) {
+        scrollToTab(activeTab + 1);
+      }
+    }
+    setDragOffset(0);
+  };
+
+  // Keyboard navigation
   useEffect(() => {
-    scrollToTab(activeTab);
-  }, [activeTab]);
+    const handleKeyDown = (e) => {
+      if (e.key === 'ArrowLeft' && activeTab > 0) {
+        scrollToTab(activeTab - 1);
+      } else if (e.key === 'ArrowRight' && activeTab < slabsData.length - 1) {
+        scrollToTab(activeTab + 1);
+      } else if (e.key === ' ') {
+        e.preventDefault();
+        setIsAutoPlay(!isAutoPlay);
+      }
+    };
+
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, [activeTab, isAutoPlay, scrollToTab]);
 
   return (
-    <div
-      className="min-h-screen rounded-xl bg-white"
-      // style={{
-      //   background: `linear-gradient(45deg, rgba(255, 255, 255, 0.8) 25%, transparent 25%),
-      // linear-gradient(-45deg, rgba(242, 242, 242, 0.8) 25%, transparent 25%),
-      // linear-gradient(to bottom, #ffffff, #f2f2f2)`,
-      //   backgroundBlendMode: "screen",
-      //   boxShadow: "0 4px 10px rgba(0,0,0,0.2)",
-      //   height: "100%",
-      // }}
-    >
-     <div className="container mx-auto px-4 py-8 w-full">
+    <div className="min-h-screen rounded-xl bg-white">
+      <div className="container mx-auto px-4 py-8 w-full">
         {/* Header */}
-        <div className="text-center mb-4">
-          <h1 className="text-2xl md:text-3xl font-semibold text-[#084e54] mb-1">
+        <div className="text-center mb-6">
+          <h1 className="text-3xl md:text-4xl font-bold text-[#084e54] mb-2">
             ICO Investment Slabs
           </h1>
-          <p className="text-gray-600 text-base">
+          <p className="text-gray-600 text-lg">
             Choose your preferred investment slab
           </p>
         </div>
 
-        {/* Top Navigation Buttons (1st, 2nd...) */}
-        <div className="flex items-center justify-center gap-2 mb-4">
-  {/* Left Arrow */}
-  {/* <button
-    onClick={() => scrollToTab(Math.max(activeTab - 1, 0))}
-    className="text-emerald-600 hover:text-emerald-800 text-xl px-2"
-  >
-    ◀
-  </button> */}
+        {/* Top Navigation with Auto-play Control */}
+        <div className="flex items-center justify-between mb-6">
+          <div className="flex items-center gap-3">
+            <button
+              onClick={() => setIsAutoPlay(!isAutoPlay)}
+              className="flex items-center gap-2 px-3 py-2 bg-emerald-100 hover:bg-emerald-200 text-emerald-700 rounded-lg transition-colors duration-200"
+            >
+              {isAutoPlay ? <Pause size={16} /> : <Play size={16} />}
+              <span className="text-sm font-medium">
+                {isAutoPlay ? 'Pause' : 'Auto Play'}
+              </span>
+            </button>
+          </div>
 
-  {/* Slab Buttons */}
-  <div className="flex flex-wrap justify-center gap-2">
-    {slabsData.map((slab, index) => (
-      <button
-        key={slab.id}
-        onClick={() => scrollToTab(index)} // this fixes your issue
-        className={`px-3 py-1.5 text-sm rounded-md font-medium transition-all duration-200 ${
-          activeTab === index
-            ? "bg-emerald-500 text-white shadow-md scale-[1.03]"
-            : "bg-white text-gray-700 hover:bg-gray-50 shadow-sm border border-gray-200"
-        }`}
-      >
-        {slab.id}
-        {slab.id === 1
-          ? "st"
-          : slab.id === 2
-          ? "nd"
-          : slab.id === 3
-          ? "rd"
-          : "th"}{" "}
-        Slab
-      </button>
-    ))}
-  </div>
+          {/* Slab Navigation Buttons */}
+          <div className="flex flex-wrap justify-center gap-2">
+            {slabsData.map((slab, index) => (
+              <button
+                key={slab.id}
+                onClick={() => scrollToTab(index)}
+                className={`px-4 py-2 text-sm rounded-lg font-semibold transition-all duration-300 transform ${
+                  activeTab === index
+                    ? "bg-emerald-500 text-white shadow-lg scale-105"
+                    : "bg-white text-gray-700 hover:bg-emerald-50 shadow-md border border-gray-200 hover:border-emerald-200"
+                }`}
+              >
+                {slab.id}
+                {slab.id === 1 ? "st" : slab.id === 2 ? "nd" : slab.id === 3 ? "rd" : "th"} Slab
+              </button>
+            ))}
+          </div>
 
-  {/* Right Arrow */}
-  {/* <button
-    onClick={() => scrollToTab(Math.min(activeTab + 1, slabsData.length - 1))}
-    className="text-emerald-600 hover:text-emerald-800 text-xl px-2"
-  >
-    ▶
-  </button> */}
-</div>
-
-<div className="relative">
-  {/* Left Arrow */}
-  {activeTab > 0 && (
-    <button
-      onClick={() => scrollToTab(activeTab - 1)}
-      className="absolute left-0 top-1/2 transform -translate-y-1/2 z-10 bg-white shadow-md rounded-full p-2 hover:bg-gray-100"
-    >
-      ◀
-    </button>
-  )}
-
-        {/* Swipeable Cards */}
-        <div
-  ref={scrollRef}
-  onScroll={handleScroll}
-  className="flex overflow-x-auto snap-x snap-mandatory scroll-smooth gap-4 pb-6 no-scrollbar w-full"
->
-          {slabsData.map((slab) => (
-           <div key={slab.id} className="w-full snap-center px-2 md:px-4 flex-shrink-0">
-              <div className="p-4 md:p-5">
-                {slab.type === "active" ? (
-                  <ActiveSlabContent slab={slab} />
-                ) : (
-                  <UpcomingSlabContent slab={slab} />
-                )}
-              </div>
-            </div>
-          ))}
+          <div className="text-sm text-gray-500 font-medium">
+            {activeTab + 1} / {slabsData.length}
+          </div>
         </div>
 
-        {/* Right Arrow */}
-  {activeTab < slabsData.length - 1 && (
-    <button
-      onClick={() => scrollToTab(activeTab + 1)}
-      className="absolute right-0 top-1/2 transform -translate-y-1/2 z-10 bg-white shadow-md rounded-full p-2 hover:bg-gray-100"
-    >
-      ▶
-    </button>
-  )}
-</div>
+        {/* Carousel Container */}
+        <div className="relative group">
+          {/* Left Arrow */}
+          {activeTab > 0 && (
+            <button
+              onClick={() => scrollToTab(activeTab - 1)}
+              className="absolute left-2 top-1/2 transform -translate-y-1/2 z-20 bg-white/90 backdrop-blur-sm hover:bg-white shadow-lg rounded-full p-3 transition-all duration-200 opacity-0 group-hover:opacity-100 hover:scale-110"
+            >
+              <ChevronLeft size={24} className="text-emerald-600" />
+            </button>
+          )}
 
-        {/* Pagination Dots */}
-        <div className="flex justify-center gap-2">
+          {/* Swipeable Cards */}
+          <div
+            ref={scrollRef}
+            onScroll={handleScroll}
+            onMouseDown={handleDragStart}
+            onMouseMove={handleDragMove}
+            onMouseUp={handleDragEnd}
+            onMouseLeave={handleDragEnd}
+            onTouchStart={handleDragStart}
+            onTouchMove={handleDragMove}
+            onTouchEnd={handleDragEnd}
+            className="flex overflow-x-auto snap-x snap-mandatory scroll-smooth gap-6 pb-6 no-scrollbar w-full cursor-grab active:cursor-grabbing"
+            style={{ 
+              scrollbarWidth: 'none',
+              msOverflowStyle: 'none',
+              transform: isDragging ? `translateX(${dragOffset * 0.1}px)` : 'none',
+              transition: isDragging ? 'none' : 'transform 0.3s ease'
+            }}
+          >
+            {slabsData.map((slab) => (
+              <div key={slab.id} className="w-full snap-center px-2 md:px-4 flex-shrink-0">
+                <div className="p-2">
+                  {slab.type === "active" ? (
+                    <ActiveSlabContent slab={slab} />
+                  ) : (
+                    <UpcomingSlabContent slab={slab} />
+                  )}
+                </div>
+              </div>
+            ))}
+          </div>
+
+          {/* Right Arrow */}
+          {activeTab < slabsData.length - 1 && (
+            <button
+              onClick={() => scrollToTab(activeTab + 1)}
+              className="absolute right-2 top-1/2 transform -translate-y-1/2 z-20 bg-white/90 backdrop-blur-sm hover:bg-white shadow-lg rounded-full p-3 transition-all duration-200 opacity-0 group-hover:opacity-100 hover:scale-110"
+            >
+              <ChevronRight size={24} className="text-emerald-600" />
+            </button>
+          )}
+        </div>
+
+        {/* Enhanced Pagination Dots */}
+        <div className="flex justify-center items-center gap-3 mt-6">
           {slabsData.map((_, index) => (
             <button
               key={index}
               onClick={() => scrollToTab(index)}
-              className={`h-2 rounded-full transition-all duration-300 ${
+              className={`h-3 rounded-full transition-all duration-300 hover:scale-110 ${
                 activeTab === index
-                  ? "bg-emerald-500 w-6"
-                  : "bg-gray-400 w-2"
+                  ? "bg-emerald-500 w-8 shadow-md"
+                  : "bg-gray-300 w-3 hover:bg-gray-400"
               }`}
-            ></button>
+            />
           ))}
         </div>
+
+        {/* Progress Bar */}
+        <div className="mt-4 bg-gray-200 rounded-full h-1 overflow-hidden">
+          <div 
+            className="bg-emerald-500 h-full transition-all duration-300 ease-out"
+            style={{ width: `${((activeTab + 1) / slabsData.length) * 100}%` }}
+          />
+        </div>
+
+        {/* Keyboard Shortcuts Info */}
+        <div className="text-center mt-6 text-sm text-gray-500">
+          Use ← → arrow keys to navigate • Spacebar to toggle auto-play
+        </div>
       </div>
+
+      <style jsx>{`
+        .no-scrollbar {
+          -ms-overflow-style: none;
+          scrollbar-width: none;
+        }
+        .no-scrollbar::-webkit-scrollbar {
+          display: none;
+        }
+      `}</style>
     </div>
   );
 };
-
 
 export default SlabTabs;
