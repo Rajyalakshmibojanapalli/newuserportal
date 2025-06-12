@@ -1,6 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { Smartphone, Download, Rocket, Sparkles, ArrowRight, Play, Apple, Waves, Shield, TrendingUp } from 'lucide-react';
 import coinsmax from '../../assets/Images/coinsmax.png';
+import icon from '../../assets/Images/loginReg.svg'
+
+import secureImg from "../../assets/Images/3dsecure.png"
 export default function HomeFooter() {
     const [isIframeSupported, setIsIframeSupported] = useState(false);
     const [loading, setLoading] = useState(true);
@@ -285,12 +288,7 @@ export default function HomeFooter() {
                                 </div>
                             ) : isIframeSupported ? (
                                 <div className="relative w-full h-[600px] rounded-3xl overflow-hidden">
-                                    <iframe
-                                        src="https://my.spline.design/iphonecopy-d9f1dc8bf90c48f795dad3b028f52cf8/"
-                                        frameBorder="0"
-                                        title="3D Phone Model"
-                                        className="w-full h-full"
-                                    />
+                                    <img src={secureImg} alt="" width="600px" />
                                     <div className="absolute -inset-1 rounded-3xl opacity-75 -z-10" />
                                 </div>
                             ) : (
@@ -416,20 +414,14 @@ export default function HomeFooter() {
                                     boxShadow: '0 20px 40px rgba(78, 205, 196, 0.3)'
                                 }}
                             >
-                                <div 
-                                    className="w-24 h-24 rounded-full flex items-center justify-center group-hover:rotate-12 transition-transform duration-500"
-                                    style={{ background: 'linear-gradient(135deg, #4ecdc4, #26a69a)' }}
-                                >
-                                    <Waves className="w-12 h-12 text-white animate-pulse" />
-                                </div>
+                                <img src={icon} alt="" width={500}  height={500}/>
+                                
                             </div>
-                            <div 
+                            {/* <div 
                                 className="absolute -inset-8 rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-500 blur-2xl -z-10"
                                 style={{ background: 'radial-gradient(circle, rgba(78, 205, 196, 0.4), transparent)' }}
-                            />
+                            /> */}
                         </div>
-
-                        {/* Stay Connected Text */}
                         <div className="space-y-6">
                             <h2 className="text-3xl lg:text-5xl xl:text-6xl font-bold text-white leading-tight">
                                 Stay connected with us for
@@ -464,7 +456,7 @@ export default function HomeFooter() {
                                 />
                                 
                                 <div className="relative flex items-center justify-center gap-4">
-                                    <Rocket className="w-7 h-7 group-hover:rotate-12 group-hover:scale-110 transition-transform duration-300" />
+                                    {/* <Rocket className="w-7 h-7 group-hover:rotate-12 group-hover:scale-110 transition-transform duration-300" /> */}
                                     <span className="group-hover:tracking-widest  transition-all duration-300">Join the Revolution</span>
                                     <ArrowRight className="w-6 h-6 group-hover:translate-x-2 transition-transform duration-300" />
                                 </div>

@@ -117,13 +117,14 @@ const Home = () => {
         </div>
       </div>
       <CryptoStakingSection />
-      <HomeContact/>
+ 
       <PhaseCarousel />
       <ServicesComponent />
       <Partners />
       <Roadmap />
       <AnimatedTestimonials />
       <JaimaxFAQ />
+           <HomeContact/>
       <HomeFooter />
 
 

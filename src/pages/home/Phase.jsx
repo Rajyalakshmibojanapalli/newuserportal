@@ -60,8 +60,9 @@ function PhaseCarousel() {
   return (
     <div
       className="py-10"
-      style={{
-        background: 'linear-gradient(135deg, #c5d82e 0%, #a4c639 25%, #a4c639 50%, rgb(141, 210, 46) 75%, #c5d82e 100%)'
+      style={{ 
+          background: 'linear-gradient(135deg, rgba(8,83,89,0.95) 0%, rgba(8,83,89,0.9) 100%)',
+          WebkitBackdropFilter: 'blur(16px)' 
       }}
     >
 
@@ -148,13 +149,13 @@ function PhaseCarousel() {
             <div ref={navigationNextRef} className="swiper-button-next text-white cursor-pointer absolute top-1/2 -translate-y-1/2 right-2 z-10 focus:outline-none"></div> */}
             <div
               ref={navigationPrevRef}
-              className=" text-white cursor-pointer absolute top-1/2 -translate-y-1/2 left-2 z-10 focus:outline-none bg-[#99cd34] rounded-full p-2"
+              className=" cursor-pointer absolute top-1/2 -translate-y-1/2 left-2 z-10 focus:outline-none  bg-[#C5D82E] text-[#021516] rounded-full p-2"
             >
               <ArrowLeft size={24} />
             </div>
             <div
               ref={navigationNextRef}
-              className=" text-white cursor-pointer absolute top-1/2 -translate-y-1/2 right-2 z-10 focus:outline-none bg-[#99cd34] rounded-full p-2"
+              className="  cursor-pointer absolute top-1/2 -translate-y-1/2 right-2 z-10 focus:outline-none  bg-[#C5D82E] text-[#021516] rounded-full p-2"
             >
               <ArrowRight size={24} />
             </div>

@@ -1267,7 +1267,7 @@ const ProjectRoadmap = () => {
   // Smooth floating particles
   const SmoothParticles = () => (
     <div className="fixed inset-0 pointer-events-none overflow-hidden z-0">
-   
+
     </div>
   );
 
@@ -1276,7 +1276,7 @@ const ProjectRoadmap = () => {
       <div
         className="w-20 h-20 rounded-full flex items-center justify-center border-2 shadow-xl hover:scale-110 transition-all duration-500 cursor-pointer backdrop-blur-sm"
         style={{
-          background: 'linear-gradient(135deg, #094e54, #4ecdc4)',
+          // background: 'linear-gradient(135deg, #094e54, #4ecdc4)',
           borderColor: '#4ecdc4',
           boxShadow: '0 0 20px rgba(78, 205, 196, 0.4)' // Reduced shadow
         }}
@@ -1301,71 +1301,69 @@ const ProjectRoadmap = () => {
         default: return '#4ecdc4';
       }
     };
-
     return (
       <div
-        ref={el => (cardRefs.current[milestone.id] = el)}
+        ref={(el) => (cardRefs.current[milestone.id] = el)}
         id={milestone.id}
         className={`relative mb-8 ${isLeft ? 'lg:pr-8' : 'lg:pl-8'} lg:w-1/2 ${isLeft ? 'lg:ml-0' : 'lg:ml-auto'}`}
         style={{
           opacity: isVisible ? 1 : 0,
-          transform: isVisible ? 'translateY(0)' : 'translateY(20px)', // Simpler transform
-          transition: 'opacity 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94), transform 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94)',
-          transitionDelay: `${globalIndex * 0.04}s` // Slightly reduced delay
+          transform: isVisible ? 'translateY(0) scale(1)' : 'translateY(40px) scale(0.95)',
+          transition: 'opacity 0.6s ease-out, transform 0.6s ease-out',
+          transitionDelay: `${globalIndex * 0.05}s`,
+          perspective: '1200px',
         }}
       >
-        {/* Smooth connection line */}
+        {/* Line and Dot */}
         <div
           className={`absolute top-6 w-12 h-1 ${isLeft ? 'right-1.5' : 'left-0'} lg:block hidden rounded-full`}
           style={{
             background: `linear-gradient(135deg, #094e54, ${getStatusColor(milestone.status)})`,
-            boxShadow: `0 0 6px ${getStatusColor(milestone.status)}50` // Reduced shadow
+            boxShadow: `0 0 8px ${getStatusColor(milestone.status)}80`,
+          }}
+        />
+        <div
+          className={`absolute top-5 w-3 h-3 rounded-full border-2 border-gray-900 shadow-md ${isLeft ? 'right-1.5' : '-left-1.5'} lg:block hidden`}
+          style={{
+            backgroundColor: getStatusColor(milestone.status),
+            boxShadow: `0 0 10px ${getStatusColor(milestone.status)}`,
           }}
         />
 
-        {/* Smooth timeline dot */}
+        {/* Milestone Card */}
         <div
-          className={`absolute top-5 w-3 h-3 rounded-full border-2 border-gray-900 shadow-md ${isLeft ? 'right-1.5' : '-left-1.5'} lg:block hidden transition-all duration-300 z-10`}
-          style={{
-            background: getStatusColor(milestone.status),
-            boxShadow: `0 0 6px ${getStatusColor(milestone.status)}` // Reduced shadow
-          }}
-        />
-
-        <div
-          className={`group relative backdrop-blur-md rounded-2xl p-5 border shadow-lg transition-all duration-300 cursor-pointer overflow-hidden ${
-            isHovered ? 'scale-101 translate-y-[-2px]' : '' // Simpler hover transform
-          }`}
-          style={{
-            background: `linear-gradient(135deg, rgba(9,78,84,0.3), rgba(78,205,196,0.1))`,
-            borderColor: `${getStatusColor(milestone.status)}60`,
-            boxShadow: isHovered
-              ? `0 10px 20px -5px rgba(9,78,84,0.2), 0 0 0 1px ${getStatusColor(milestone.status)}30`
-              : '0 8px 15px -5px rgba(9,78,84,0.15)', // Reduced hover shadow
-            transform: isHovered ? 'translateY(-2px)' : 'translateY(0px)'
-          }}
           onMouseEnter={() => setIsHovered(true)}
           onMouseLeave={() => setIsHovered(false)}
+          className="group relative p-6 rounded-2xl border shadow-xl transform-gpu transition-transform duration-500 cursor-pointer"
+          style={{
+            background: 'linear-gradient(135deg, rgba(9,78,84,0.4), rgba(78,205,196,0.15))',
+            borderColor: `${getStatusColor(milestone.status)}66`,
+            transform: isHovered
+              ? 'rotateX(4deg) rotateY(-4deg) scale(1.04)'
+              : 'rotateX(0deg) rotateY(0deg) scale(1)',
+            boxShadow: isHovered
+              ? `0 15px 35px -5px ${getStatusColor(milestone.status)}99, 0 5px 10px rgba(0,0,0,0.2)`
+              : '0 8px 18px rgba(0,0,0,0.15)',
+          }}
         >
-          {/* Status indicator */}
+          {/* Status dot and icon */}
           <div
             className="absolute top-3 right-3 w-2 h-2 rounded-full"
             style={{ backgroundColor: getStatusColor(milestone.status) }}
           />
-
-          {/* Compact icon */}
           <div
-            className="absolute top-3 right-8 w-8 h-8 rounded-lg flex items-center justify-center text-lg backdrop-blur-sm border transition-all duration-300"
+            className="absolute top-3 right-8 w-8 h-8 flex items-center justify-center text-lg rounded-md backdrop-blur border"
             style={{
               background: `linear-gradient(135deg, rgba(9,78,84,0.5), rgba(78,205,196,0.3))`,
-              borderColor: `${getStatusColor(milestone.status)}40`,
-              transform: isHovered ? 'scale(1.05) rotate(2deg)' : 'scale(1)' // Reduced hover scale
+              borderColor: `${getStatusColor(milestone.status)}50`,
+              transform: isHovered ? 'scale(1.1)' : 'scale(1)',
+              transition: 'transform 0.3s ease',
             }}
           >
             {milestone.icon}
           </div>
 
-          {/* Phase tag */}
+          {/* Phase */}
           <div
             className="inline-block mb-3 px-3 py-1 rounded-full text-xs font-bold text-white uppercase tracking-wide"
             style={{
@@ -1375,26 +1373,21 @@ const ProjectRoadmap = () => {
             {milestone.phase}
           </div>
 
-          {/* Compact title */}
-          <h3 className="text-lg font-bold text-white mb-2 font-mono">
-            {milestone.title}
-          </h3>
+          {/* Title */}
+          <h3 className="text-lg font-bold text-white mb-2">{milestone.title}</h3>
 
-          {/* Compact description */}
-          <p className="text-gray-300 text-sm leading-relaxed mb-3">
-            {milestone.description}
-          </p>
+          {/* Description */}
+          <p className="text-sm text-gray-300 mb-3">{milestone.description}</p>
 
-          {/* Compact tags */}
+          {/* Tags */}
           <div className="flex flex-wrap gap-1.5 mb-3">
-            {milestone.tags.map((tag, tagIndex) => (
+            {milestone.tags.map((tag, i) => (
               <span
-                key={tagIndex}
-                className="px-2 py-1 text-white text-xs rounded-md border transition-all duration-300"
+                key={i}
+                className="px-2 py-1 text-white text-xs rounded-md border"
                 style={{
                   background: `rgba(9,78,84,0.5)`,
                   borderColor: `${getStatusColor(milestone.status)}40`,
-                  transform: isHovered ? 'translateY(-1px)' : 'translateY(0px)'
                 }}
               >
                 {tag}
@@ -1402,41 +1395,44 @@ const ProjectRoadmap = () => {
             ))}
           </div>
 
-          {/* Compact progress */}
+          {/* Progress */}
           <div className="relative">
-            <div className="flex justify-between items-center mb-2">
+            <div className="flex justify-between items-center mb-1">
               <span className="text-xs text-gray-400">Progress</span>
               <span
                 className="text-xs font-bold text-white px-2 py-0.5 rounded-full"
                 style={{
-                  background: `linear-gradient(135deg, #094e54, ${getStatusColor(milestone.status)})`
+                  background: `linear-gradient(135deg, #094e54, ${getStatusColor(milestone.status)})`,
                 }}
               >
                 {milestone.progress}%
               </span>
             </div>
-            <div className="w-full bg-gray-800/50 rounded-full h-2 overflow-hidden">
+            <div className="w-full bg-gray-700/40 rounded-full h-2">
               <div
                 className="h-full rounded-full transition-all duration-700"
                 style={{
                   width: isVisible ? `${milestone.progress}%` : '0%',
                   background: `linear-gradient(135deg, #094e54, ${getStatusColor(milestone.status)})`,
-                  boxShadow: `0 0 6px ${getStatusColor(milestone.status)}60`
+                  boxShadow: `0 0 5px ${getStatusColor(milestone.status)}88`,
                 }}
               />
             </div>
           </div>
-          <div className="absolute inset-0 bg-gradient-to-br from-white/5 to-transparent opacity-0 group-hover:opacity-80 transition-opacity duration-500 pointer-events-none rounded-2xl" />
+
+          {/* Overlay effect */}
+          <div className="absolute inset-0 bg-gradient-to-br from-white/5 to-transparent opacity-0 group-hover:opacity-90 transition-opacity duration-500 pointer-events-none rounded-2xl" />
         </div>
       </div>
-    );
+    )
+
   };
   const SmoothTimeline = () => (
     <div
       className="absolute left-1/2 transform -translate-x-1/2 h-full w-0.5 shadow-lg lg:block hidden rounded-full"
       style={{
         background: 'linear-gradient(180deg, #094e54, #4ecdc4)',
-        boxShadow: '0 0 28px rgba(78, 205, 196, 0.4)' 
+        boxShadow: '0 0 28px rgba(78, 205, 196, 0.4)'
       }}
     >
       <div
@@ -1491,7 +1487,7 @@ const ProjectRoadmap = () => {
         <SmoothParticles />
 
         {/* Compact header */}
-       <div className="relative z-10 text-center py-16 px-4"> {/* Reduced padding */}
+        <div className="relative z-10 text-center py-16 px-4"> {/* Reduced padding */}
           <div className="relative inline-block">
             <div className="absolute -inset-6 bg-gradient-to-r from-[#005358] via-[#00a3b5] to-[#00c2d1] rounded-full blur-2xl opacity-15 animate-pulse"></div> {/* Reduced blur and opacity */}
             <h1 className="relative text-5xl md:text-7xl font-black bg-gradient-to-r from-[#005358] via-[#00a3b5] to-[#00c2d1] bg-clip-text text-transparent font-mono tracking-tighter hover:scale-103 transition-transform duration-500 cursor-default"> {/* Reduced scale and duration */}

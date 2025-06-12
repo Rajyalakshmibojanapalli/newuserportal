@@ -90,6 +90,7 @@ const handleSubmit = async (e) => {
 
     // Show success toast
     showToast('Login successful!');
+    navigate("/dashboard")
     
   } catch (error) {
     console.error('Login error:', error);

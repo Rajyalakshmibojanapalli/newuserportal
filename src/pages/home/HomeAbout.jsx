@@ -690,9 +690,9 @@ const CoinDisplay = () => {
 //     </>
 //   );
 // }
-
 import { FaChartLine, FaUsers, FaDollarSign } from "react-icons/fa";
-import threecoin  from "../../assets/Images/jaimaxthreecoin2.png"
+import { useNavigate } from "react-router-dom";
+
 
 export default function CryptoStakingSection({
   contractAddress = "0x742d35Cc6648C25cbEC6900001Cfb3De3Fxxd4f",
@@ -704,9 +704,11 @@ export default function CryptoStakingSection({
     { icon: <FaUsers />, label: "Tokens Sold", value: "225.7M" },
     { icon: <FaChartLine />, label: "Community", value: "24,567" },
   ];
+     const navigate = useNavigate()
 
+  
   return (
-    <section className="relative bg-[#040C1C] text-white py-20 overflow-hidden">
+    <section className="relative bg-black/90 text-white py-20 overflow-hidden">
       {/* Top Glow */}
       <div className="absolute top-0 left-0 w-96 h-96 bg-green-400 opacity-20 rounded-full blur-3xl pointer-events-none"></div>
 
@@ -746,7 +748,7 @@ export default function CryptoStakingSection({
               </p>
               <CopyToClipboardButton
                 textToCopy={contractAddress}
-                className="ml-4 bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-lg font-medium transition-all duration-300"
+                className="ml-12 bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-lg font-medium transition-all duration-300"
               />
             </div>
           </div>
@@ -766,8 +768,7 @@ export default function CryptoStakingSection({
 
         {/* Right Coin Display */}
         <div className="flex-1 w-full max-w-md">
-          {/* <CoinDisplay /> */}
-          <img src={threecoin} alt="" />
+          <CoinDisplay />
         </div>
       </div>
 
