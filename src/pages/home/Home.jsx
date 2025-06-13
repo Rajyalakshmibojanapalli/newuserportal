@@ -1,67 +1,66 @@
-import React, { Suspense } from 'react';
-import { useState, useEffect } from 'react';
+import React, { useState, useEffect, Suspense } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { motion } from 'framer-motion';
+
 import homeBgDesktop from "../../assets/Images/HomeDesktop.jpg";
 import homeBgMobile from "../../assets/Images/HomeMobile.jpg";
+
+// Lazy loaded
+const Threads = React.lazy(() => import('../../global/Threads'));
+
+// Components
 import Roadmap from './RoadmapDup';
-import SplitText from '../../global/SplitText';
-import { useNavigate } from 'react-router-dom';
-// import Threads from '../../global/Threads';
 import Partners from './Partners';
 import HomeFooter from './HomeFoot';
 import JaimaxFAQ from './Faq';
 import AnimatedTestimonials from './Testimonals';
-import JaimaxComponent from '../../components/About/About';
 import ServicesComponent from './Homeservices';
-import Component from './Phase';
 import PhaseCarousel from './Phase';
-import AboutSection from './HomeAbout';
-import FeaturesSection from './HomeFeatures';
-import BlogLayout from './Blog';
 import CryptoStakingSection from './HomeAbout';
-import { Globe } from '../../components/ui/globe';
 import HomeContact from './HomeContact';
-
 
 const Home = () => {
   const [currentBg, setCurrentBg] = useState('');
   const navigate = useNavigate();
-  const Threads = React.lazy(() => import('../../global/Threads'));
+
   useEffect(() => {
     const updateBackgroundImage = () => {
-      if (window.innerWidth < 768) {
-        setCurrentBg(homeBgMobile);
-      } else {
-        setCurrentBg(homeBgDesktop);
-      }
+      setCurrentBg(window.innerWidth < 768 ? homeBgMobile : homeBgDesktop);
+    };
+
+    const debounceResize = () => {
+      clearTimeout(window.resizeTimeout);
+      window.resizeTimeout = setTimeout(updateBackgroundImage, 150);
     };
 
     updateBackgroundImage();
-    window.addEventListener('resize', updateBackgroundImage);
+    window.addEventListener('resize', debounceResize);
 
     return () => {
-      window.removeEventListener('resize', updateBackgroundImage);
+      window.removeEventListener('resize', debounceResize);
+      clearTimeout(window.resizeTimeout);
     };
   }, []);
 
-  const handleAnimationComplete = () => {
-    console.log('All letters have animated!');
+  const handleJoinRevolution = () => {
+    navigate('/login');
   };
-  const handlRevolution = () => {
-    navigate('/login')
-  }
+
   return (
-    <div className='outer-container'>
+    <div className="outer-container">
+
       {/* Hero Section */}
-      <div className="revolutionSection w-full min-h-screen flex flex-col items-center justify-center relative overflow-hidden"
+      <div
+        className="revolutionSection w-full min-h-screen flex flex-col items-center justify-center relative overflow-hidden"
         style={{
           backgroundImage: `url(${currentBg})`,
           backgroundSize: "cover",
           backgroundPosition: "center",
           backgroundRepeat: "no-repeat",
           backgroundAttachment: "fixed"
-        }}>
-
-
+        }}
+      >
+        {/* Floating Elements */}
         <div className="floating-elements">
           <div className="floating-circle circle-1"></div>
           <div className="floating-circle circle-2"></div>
@@ -69,41 +68,59 @@ const Home = () => {
           <div className="floating-square square-1"></div>
           <div className="floating-square square-2"></div>
         </div>
+
+        {/* Overlays */}
         <div className="gradient-overlay-1"></div>
         <div className="gradient-overlay-2"></div>
-        <div className="relative z-10 text-center px-6 md:px-12 max-w-6xl mx-auto">
-          <div className="mb-8 logo-main">
 
-           
-            {/* <h1
-              className="main-title text-6xl md:text-8xl lg:text-9xl font-black bg-gradient-to-r from-teal-300 via-emerald-400 to-cyan-300 bg-clip-text text-transparent tracking-wider"
-              style={{ fontDisplay: 'swap' }}
+        {/* Main Heading */}
+        <div className="relative z-10 text-center px-6 md:px-12 max-w-6xl mx-auto mt-44 md:mt-48">
+          <motion.h2
+            initial={{ opacity: 0, y: 50 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 1.2, ease: 'easeOut' }}
+            className="tagline text-2xl md:text-4xl lg:text-5xl font-bold leading-tight text-center"
+          >
+            <span
+              style={{
+                color: '#b8cc26',
+                display: 'block',
+                textShadow: '0 2px 6px rgba(0, 0, 0, 0.6)',
+              }}
             >
-              JAIMAX
-            </h1> */}
+              Secure Your Financial Tomorrow
+            </span>
+            <span
+              style={{
+                color: '#fff',
+                textShadow: '0 1px 4px rgba(0,0,0,0.4)',
+                display: 'block',
+                marginTop: '0.5rem',
+              }}
+            >
+              with Innovation & Trust
+            </span>
+          </motion.h2>
 
-            {/* <div className="logo-underline"></div> */}
-          </div>
-          <div className="mb-12 space-y-4">
-            <h2 className="tagline text-2xl md:text-4xl lg:text-5xl font-bold text-white/90 leading-tight">
-              <span className="text-white">Secure Your Financial Tomorrow</span>
-              <br />
-              <span className="typewriter text-[#c5d82e]">with Innovation & Trust</span>
-            </h2>
-          </div>
-          <div className="cta-section">
-            <button className="cta-button hover:bg-green-700 rounded-full " 
-            style={{
-              padding : "1rem 3rem",
-              color : "white",
-                 background: "linear-gradient(45deg, #c5d82e,rgb(214, 224, 138))"
-            }}
-            onClick={handlRevolution}>
-              <span >join revolution</span>
-              <div className="button-glow"></div>
+          {/* CTA Button */}
+          <div className="cta-section mt-6">
+            <button
+              className="cta-button rounded-full hover:bg-lime-600 transition-transform duration-300 hover:scale-105"
+              style={{
+                padding: "1rem 3rem",
+                color: "white",
+                backgroundColor: "#1e964a",
+                boxShadow: "0 0 12px rgba(186, 206, 39, 0.5)",
+                border: "1px solid #bace27"
+              }}
+              onClick={handleJoinRevolution}
+            >
+              <span className="uppercase tracking-wide font-semibold">Join Revolution</span>
             </button>
           </div>
         </div>
+
+        {/* Threads Animation */}
         <div className="absolute bottom-0 left-0 right-0 h-[400px] md:h-[600px] pointer-events-none">
           <div className="w-full h-full relative opacity-60">
             <Suspense fallback={<div>Loading threads...</div>}>
@@ -116,24 +133,23 @@ const Home = () => {
           </div>
         </div>
       </div>
+
+      {/* Page Sections */}
       <CryptoStakingSection />
- 
       <PhaseCarousel />
       <ServicesComponent />
       <Partners />
       <Roadmap />
       <AnimatedTestimonials />
       <JaimaxFAQ />
-           <HomeContact/>
+      <HomeContact />
       <HomeFooter />
-
-
-      
     </div>
   );
 };
 
 export default Home;
+
 
 
 // <style jsx>{`

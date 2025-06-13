@@ -1,7 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { Smartphone, Download, Rocket, Sparkles, ArrowRight, Play, Apple, Waves, Shield, TrendingUp } from 'lucide-react';
 import coinsmax from '../../assets/Images/coinsmax.png';
-import icon from '../../assets/Images/loginReg.svg'
+// import icon from '../../assets/Images/3dcoin.png'
+
+import icon from "../../assets/3dcoin.png"
 
 import secureImg from "../../assets/Images/3dsecure.png"
 export default function HomeFooter() {
@@ -407,12 +409,12 @@ export default function HomeFooter() {
                         {/* Contact Icon */}
                         <div className="relative inline-block group" >
                             <div 
-                                className="w-40 h-40 rounded-full flex items-center justify-center backdrop-blur-md border-2 group-hover:scale-110 transition-all duration-500 shadow-2xl"
-                                style={{
-                                    background: 'rgba(255, 255, 255, 0.1)',
-                                    borderColor: '#4ecdc4',
-                                    boxShadow: '0 20px 40px rgba(78, 205, 196, 0.3)'
-                                }}
+                                className="w-40 h-40 rounded-full flex items-center justify-center  group-hover:scale-110 transition-all duration-500 shadow-2xl"
+                                // style={{
+                                //     background: 'rgba(255, 255, 255, 0.1)',
+                                //     borderColor: '#4ecdc4',
+                                //     boxShadow: '0 20px 40px rgba(78, 205, 196, 0.3)'
+                                // }}
                             >
                                 <img src={icon} alt="" width={500}  height={500}/>
                                 

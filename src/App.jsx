@@ -575,6 +575,7 @@ import Header from './components/Dashboard/header/header';
 import LogoutModal from './components/Dashboard/pages/logout/logout';
 import Shareholders from './components/Dashboard/pages/shareholders/shareholders';
 import ServicesFlipCards from './components/Services/services';
+import CryptoServicesFlipCards from './components/Services/services';
 
 // Dashboard Layout Component
 const DashboardLayout = () => {
@@ -705,7 +706,7 @@ const App = () => {
           <Route path="contact" element={<Contact />} />
           <Route path="features" element={<FeaturesSection />} />
           <Route path="blog" element={<BlogLayout />} />
-          <Route path="services" element={<ServicesFlipCards />} />
+          <Route path="services" element={<CryptoServicesFlipCards />} />
         </Route>
       </Routes>
     </BrowserRouter>
