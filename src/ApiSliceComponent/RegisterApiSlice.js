@@ -72,4 +72,3 @@ export const authApiSlice = apiSlice.injectEndpoints({
 })
 
 export const { useRegisterMutation, useVerifyMutation, useLoginMutation, useForgotMutation, useVerifyOtpMutation , useChangePwdMutation , useVerifyRecaptchaMutation , useChangePwdReqMutation, useOTPresentMutation } =  authApiSlice;
-// changePassword
