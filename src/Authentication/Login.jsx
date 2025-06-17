@@ -232,7 +232,7 @@ style={{ transform: 'translateX(-8rem) translateY(2rem)' }}
             style={{
               background: loading
                 ? '#bace27'
-                : 'linear-gradient(135deg, #bace27,rgb(225, 236, 136))',
+                : '#094e54',
               '--tw-ring-color': '#094e54',
             }}
             onMouseEnter={(e) => {

@@ -38,7 +38,7 @@ const CopyToClipboardButton = ({ textToCopy, className }) => {
             exit={{ opacity: 0, y: -5 }}
             className="flex items-center gap-2"
           >
-            📋 Copy
+            Copy
           </motion.span>
         )}
       </AnimatePresence>
@@ -240,12 +240,14 @@ export default function CryptoStakingSection({
           </h2>
           <p className="text-gray-300 leading-relaxed">
             Jaimax, the most valuable crypto investment app, is dedicated to making crypto accessible in a simple way. Established in 2024, Jaimax has addressed numerous challenges faced by the crypto community, providing solutions for investing, trading, and literacy.
-            <span
-              onClick={onClickNavigateToAboutUs}
-              className="cursor-pointer text-green-400 hover:text-green-500 font-semibold hover:underline transition-all duration-300 ml-2"
-            >
-              READ MORE →
-            </span>
+           <a
+  href="#"
+  onClick={onClickNavigateToAboutUs}
+  className="cursor-pointer text-green-400 hover:text-green-500 font-semibold hover:underline transition-all duration-300 ml-2"
+>
+  READ MORE →
+</a>
+
           </p>
 
           {/* Contract Address */}
