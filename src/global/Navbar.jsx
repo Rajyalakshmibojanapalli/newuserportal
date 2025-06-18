@@ -141,7 +141,7 @@ const Navbar = () => {
               <li>
                 <NavLink
                   className="inline-flex items-center text-white/90 px-4 py-2.5 rounded-full mx-1 transition-all duration-300 ease-in-out hover:bg-gradient-to-r hover:from-[#c5d82e] hover:to-[#b8cc26] hover:text-[#0e0b0b] hover:shadow-lg hover:scale-105 text-sm"
-                  to="/images/Jaimax_white_paper.pdf"
+                  to="/images/white_paper.pdf"
                   target="_blank"
                 >
                   White Paper
@@ -246,7 +246,7 @@ const Navbar = () => {
                         ? "flex items-center justify-center text-[#0e0b0b] bg-gradient-to-r from-[#c5d82e] to-[#b8cc26] font-semibold px-4 py-3 rounded-xl transition-all duration-300 ease-in-out text-sm shadow-lg"
                         : "flex items-center justify-center text-white/90 px-4 py-3 rounded-xl transition-all duration-300 ease-in-out hover:bg-gradient-to-r hover:from-[#c5d82e] hover:to-[#b8cc26] hover:text-[#0e0b0b] hover:shadow-lg text-sm"
                     }
-                    to="/#services"
+                    to="/services"
                     onClick={closeNavbar}
                   >
                     Services
@@ -298,7 +298,7 @@ const Navbar = () => {
                 <li>
                   <NavLink
                     className="flex items-center justify-center text-white/90 px-4 py-3 rounded-xl transition-all duration-300 ease-in-out hover:bg-gradient-to-r hover:from-[#c5d82e] hover:to-[#b8cc26] hover:text-[#0e0b0b] hover:shadow-lg text-sm"
-                    to="/images/Jaimax_white_paper.pdf"
+                    to="/images/white_paper.pdf"
                     target="_blank"
                     onClick={closeNavbar}
                   >
