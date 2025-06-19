@@ -30,17 +30,17 @@ import RefundPolicy from './global/RefundPolicy';
 import TermsConditions from './global/TermsConditons';
 import PrivacyPolicy from './global/PrivacyPolicy';
 import Disclaimer from './global/Disclaimer';
-<<<<<<< HEAD
+
 import Margintrading from "./services/Margintrading";
 import ApiTrading from "./services/Apitrading";
 import SpotTrading from "./services/Spottrading";
 import FuturesTrading from "./services/Futurestrading";
 import PreSale from './services/Presale'
 import ReferEarn from './services/Referearn'
-=======
+
 import AddFundsPage from './components/Dashboard/pages/AddMoneyToWallet/AddMoneyToWallet';
 // Dashboard Layout Component
->>>>>>> 09e11bbf4d9db1ed151c238ce4110f373d6b85a8
+
 const DashboardLayout = () => {
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [showLogoutModal, setShowLogoutModal] = useState(false);

@@ -23,6 +23,7 @@
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
     "cobe": "^0.6.3",
+    "crypto-js": "^4.2.0",
     "daisyui": "^5.0.43",
     "dotted-map": "^2.2.3",
     "formik": "^2.4.6",

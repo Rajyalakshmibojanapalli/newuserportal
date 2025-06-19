@@ -1,5 +1,3 @@
-<<<<<<< HEAD
-=======
 
 // import { StrictMode } from 'react'
 // import { createRoot } from 'react-dom/client'
@@ -44,7 +42,7 @@
 //     </Provider>
 //   </React.StrictMode>
 // );
->>>>>>> 09e11bbf4d9db1ed151c238ce4110f373d6b85a8
+
 import React from "react";
 import ReactDOM from "react-dom/client";
 import { BrowserRouter } from "react-router-dom";

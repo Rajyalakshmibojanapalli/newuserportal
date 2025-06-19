@@ -16,7 +16,7 @@
 // export const { useUserDetailsQuery } = myTeamApiSlice;
  
 
-import { apiSlice } from "../../storeJs/api/JaimaxApi"; 
+import { apiSlice } from "../../../../ApiSliceComponent/jaiMaxApi"; 
 
 export const dashboardApiSlice = apiSlice.injectEndpoints({
   endpoints: (builder) => ({
