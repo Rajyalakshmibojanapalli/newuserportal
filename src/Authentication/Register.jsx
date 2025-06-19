@@ -1,6 +1,9 @@
 import React, { useState, useEffect, useCallback } from 'react';
-import { Eye, EyeOff, Mail,Users, Lock, ArrowRight, Shield, User, Phone, Key, ChevronDown, Clock, RefreshCw, CheckCircle, AlertCircle } from 'lucide-react';
+import Swal from 'sweetalert2';
+import { Eye, EyeOff, Mail, Users, Lock, ArrowRight, Shield, User, Phone, Key, ChevronDown, Clock, RefreshCw, CheckCircle, AlertCircle } from 'lucide-react';
 import Logo from "./Logo";
+import countryCodes from './countryCodes.json';
+import { useRegisterMutation, useVerifyMutation, useOTPresentMutation } from './authApiSlice'; // Update the import path
 
 const RegisterPage = () => {
   const [formData, setFormData] = useState({
@@ -30,25 +33,15 @@ const RegisterPage = () => {
   const [isVisible, setIsVisible] = useState(false);
   const [fieldValidation, setFieldValidation] = useState({});
 
-  // Enhanced country codes data
-  const countryCodes = [
-    { flag: '🇮🇳', country_code: '+91', country_name: 'India' },
-    { flag: '🇺🇸', country_code: '+1', country_name: 'United States' },
-    { flag: '🇬🇧', country_code: '+44', country_name: 'United Kingdom' },
-    { flag: '🇨🇦', country_code: '+1', country_name: 'Canada' },
-    { flag: '🇦🇺', country_code: '+61', country_name: 'Australia' },
-    { flag: '🇩🇪', country_code: '+49', country_name: 'Germany' },
-    { flag: '🇫🇷', country_code: '+33', country_name: 'France' },
-    { flag: '🇯🇵', country_code: '+81', country_name: 'Japan' },
-    { flag: '🇸🇬', country_code: '+65', country_name: 'Singapore' },
-    { flag: '🇦🇪', country_code: '+971', country_name: 'UAE' }
-  ];
+  // API hooks
+  const [register, { isLoading: isRegistering }] = useRegisterMutation();
+  const [verify, { isLoading: isVerifying }] = useVerifyMutation();
+  const [resendOtp, { isLoading: isResending }] = useOTPresentMutation();
 
   useEffect(() => {
     setIsVisible(true);
   }, []);
 
-  // Timer for OTP resend
   useEffect(() => {
     let countdown;
     if (otpSent && timer > 0) {
@@ -61,31 +54,25 @@ const RegisterPage = () => {
     return () => clearInterval(countdown);
   }, [otpSent, timer]);
 
-  // Real-time validation
   const validateField = useCallback((name, value) => {
     const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.(com|in|org|net|edu|gov|mil|info|co|io|me|biz|live|yahoo|gmail)$/i;
     const phoneRegex = /^\d+$/;
-
     switch (name) {
       case 'name':
         if (!value.trim()) return { isValid: false, message: 'Full name is required' };
         if (value.length < 3) return { isValid: false, message: 'Name must be at least 3 characters' };
         if (!/^[A-Za-z\s]+$/.test(value)) return { isValid: false, message: 'Name can only contain letters and spaces' };
         return { isValid: true, message: '' };
-
-
       case 'email':
         if (!value.trim()) return { isValid: false, message: 'Email is required' };
         if (!emailRegex.test(value.trim())) return { isValid: false, message: 'Please enter a valid email address' };
         return { isValid: true, message: '' };
-
       case 'phone':
         if (!value.trim()) return { isValid: false, message: 'Phone number is required' };
         if (!phoneRegex.test(value)) return { isValid: false, message: 'Phone number should contain only digits' };
         if (formData.countryPhoneCode === '+91' && value.length !== 10) return { isValid: false, message: 'Phone number must be 10 digits for India' };
         if (formData.countryPhoneCode !== '+91' && (value.length < 4 || value.length > 15)) return { isValid: false, message: 'Phone number must be between 4 to 15 digits' };
         return { isValid: true, message: '' };
-
       case 'password':
         if (!value) return { isValid: false, message: 'Password is required' };
         if (value.length < 8) return { isValid: false, message: 'Password must be at least 8 characters long' };
@@ -94,19 +81,13 @@ const RegisterPage = () => {
         if (!/(?=.*\d)/.test(value)) return { isValid: false, message: 'Password must contain at least one number' };
         if (!/(?=.*[^A-Za-z0-9])/.test(value)) return { isValid: false, message: 'Password must contain at least one special character' };
         return { isValid: true, message: '' };
-
-
       case 'confirmPassword':
         if (!value) return { isValid: false, message: 'Please confirm your password' };
         if (formData.password !== value) return { isValid: false, message: 'Passwords do not match' };
         return { isValid: true, message: '' };
-      case 'referralcode':
-        if (!value.trim()) {
-          return { isValid: true, message: '' };
-        }
-        if (!/^[A-Z]+$/.test(value)) {
-          return { isValid: false, message: 'Referral code must contain only capital letters' };
-        }
+      case 'referralCode':
+        if (!value.trim()) return { isValid: true, message: '' };
+        if (!/^[A-Z0-9]+$/.test(value)) return { isValid: false, message: 'Referral code must contain only capital letters and numbers' };
         return { isValid: true, message: '' };
       default:
         return { isValid: true, message: '' };
@@ -115,15 +96,13 @@ const RegisterPage = () => {
 
   const handleChange = (e) => {
     const { name, value } = e.target;
+    
     setFormData(prev => ({ ...prev, [name]: value }));
-
-    // Real-time validation
     const validation = validateField(name, value);
     setFieldValidation(prev => ({
       ...prev,
       [name]: validation
     }));
-
     if (errors[name]) {
       setErrors(prev => ({ ...prev, [name]: '' }));
     }
@@ -138,8 +117,6 @@ const RegisterPage = () => {
       phone: ''
     }));
     setShowCountryDropdown(false);
-
-    // Revalidate phone if it has content
     if (formData.phone) {
       const validation = validateField('phone', '');
       setFieldValidation(prev => ({
@@ -151,8 +128,6 @@ const RegisterPage = () => {
 
   const validate = () => {
     const newErrors = {};
-
-    // Validate all fields
     Object.keys(formData).forEach(field => {
       if (field !== 'referralCode' && field !== 'otp' && field !== 'countryCode' && field !== 'countryPhoneCode' && field !== 'country') {
         const validation = validateField(field, formData[field]);
@@ -161,26 +136,24 @@ const RegisterPage = () => {
         }
       }
     });
-
     if (otpSent && !formData.otp) {
       newErrors.otp = 'Please enter the OTP';
     }
-
     if (!agreeTerms) {
       newErrors.terms = 'Please accept the terms and conditions';
     }
-
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
   };
 
   const handleSendOTP = async () => {
+    // Validate required fields first
     const requiredFields = ['name', 'email', 'phone', 'password', 'confirmPassword'];
     const hasErrors = requiredFields.some(field => {
       const validation = validateField(field, formData[field]);
       return !validation.isValid;
     });
-
+    
     if (hasErrors) {
       validate();
       return;
@@ -188,21 +161,93 @@ const RegisterPage = () => {
 
     setOtpLoading(true);
     try {
-      await new Promise(resolve => setTimeout(resolve, 2000));
+      // Prepare registration data
+      const registrationData = {
+        name: formData.name.trim(),
+        email: formData.email.trim(),
+        phone: formData.countryPhoneCode + formData.phone,
+        password: formData.password,
+        referralCode: formData.referralCode.trim() || undefined,
+        countryCode: formData.countryPhoneCode,
+        country: formData.country
+      };
+
+      // Call the register API
+      const response = await register(registrationData).unwrap();
+      
+      // If registration is successful, set OTP sent state
       setOtpSent(true);
-      setTimer(120);
+      setTimer(60);
       setCanResend(false);
-      // Show success notification instead of alert
-      setFieldValidation(prev => ({
-        ...prev,
-        otpSent: { isValid: true, message: 'OTP sent successfully to your email!' }
-      }));
+      
+      Swal.fire({
+        icon: 'success',
+        title: 'OTP Sent!',
+        text: 'OTP sent successfully to your email!',
+        timer: 2000,
+        showConfirmButton: false,
+      });
+      
     } catch (error) {
-      console.error('Error sending OTP:', error);
-      setFieldValidation(prev => ({
-        ...prev,
-        otpSent: { isValid: false, message: 'Failed to send OTP. Please try again.' }
-      }));
+      console.error('Registration error:', error);
+      
+      // Handle specific error messages from the API
+      let errorMessage = 'Registration failed. Please try again.';
+      
+      if (error?.data?.message) {
+        errorMessage = error.data.message;
+      } else if (error?.data?.error) {
+        errorMessage = error.data.error;
+      } else if (error?.status === 400) {
+        errorMessage = 'Invalid registration data. Please check your inputs.';
+      } else if (error?.status === 409) {
+        errorMessage = 'Email or phone number already exists.';
+      }
+      
+      Swal.fire({
+        icon: 'error',
+        title: 'Registration Failed',
+        text: errorMessage,
+      });
+    } finally {
+      setOtpLoading(false);
+    }
+  };
+
+  const handleResendOTP = async () => {
+    if (!canResend) return;
+    
+    setOtpLoading(true);
+    try {
+      const otpData = {
+        email: formData.email.trim(),
+        phone: formData.countryPhoneCode + formData.phone,
+        otpType: "register", // Match the same value as verification
+      };
+
+      console.log('Resend OTP data being sent:', otpData); // Debug log
+      
+      await resendOtp(otpData).unwrap();
+      
+      setTimer(60);
+      setCanResend(false);
+      
+      Swal.fire({
+        icon: 'success',
+        title: 'OTP Resent!',
+        text: 'New OTP sent successfully!',
+        timer: 1500,
+        showConfirmButton: false,
+      });
+      
+    } catch (error) {
+      console.error('Resend OTP error:', error);
+      
+      Swal.fire({
+        icon: 'error',
+        title: 'Failed to resend OTP',
+        text: 'Please try again later.',
+      });
     } finally {
       setOtpLoading(false);
     }
@@ -210,33 +255,97 @@ const RegisterPage = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
     if (!validate()) return;
+
+    // Additional OTP validation matching your previous code
+    if (!formData.otp) {
+      setErrors((prevErrors) => ({
+        ...prevErrors,
+        otp: "OTP is required",
+      }));
+      Swal.fire({
+        icon: 'error',
+        title: 'OTP Required',
+        text: 'Please enter the OTP sent to your email.',
+      });
+      return;
+    }
+
+    // Validate OTP is a number
+    if (isNaN(formData.otp)) {
+      setErrors((prevErrors) => ({
+        ...prevErrors,
+        otp: "OTP must be a number",
+      }));
+      Swal.fire({
+        icon: 'error',
+        title: 'Invalid OTP Format',
+        text: 'OTP must be a number.',
+      });
+      return;
+    }
 
     setLoading(true);
     try {
-      await new Promise(resolve => setTimeout(resolve, 2000));
-      console.log('Registration data:', formData);
-      setFieldValidation(prev => ({
-        ...prev,
-        registration: { isValid: true, message: 'Registration successful! Welcome to JAIMAX!' }
-      }));
-    } catch (error) {
-      console.error('Registration error:', error);
-      setFieldValidation(prev => ({
-        ...prev,
-        registration: { isValid: false, message: 'Registration failed. Please try again.' }
-      }));
+      // Prepare verification data matching your API structure
+      const payload = {
+        email: formData.email,
+        otp: Number(formData.otp), // Convert to number like your previous code
+        otpType: "register",
+      };
+
+      console.log('Verification payload being sent:', payload); // Debug log
+
+      // Call the verify API
+      const res = await verify(payload).unwrap();
+      
+      // Handle successful response like your previous code
+      const userRegisterData = {
+        ...res,
+        email: formData.email,
+        name: formData.name,
+        username: localStorage.getItem("username") || formData.name, // Fallback if no username
+      };
+      
+      // Store user data in localStorage
+      if (res?.data) {
+        localStorage.setItem("userData", JSON.stringify(res.data));
+      }
+      
+      if (res?.data?.token) {
+        localStorage.setItem("token", res.data.token);
+      }
+      
+      localStorage.setItem("userRegisterData", JSON.stringify(userRegisterData));
+      
+      Swal.fire({
+        icon: 'success',
+        title: 'Registration Successful!',
+        text: res?.message || 'Welcome to JAIMAX! Your account has been verified.',
+        timer: 3000,
+        showConfirmButton: false,
+      }).then(() => {
+        // Navigate to home page like your previous code
+        // navigate("/home"); // Uncomment this when you add navigation
+        // window.location.href = '/home'; // Alternative navigation
+      });
+      
+    } catch (err) {
+      console.error('Verification error:', err);
+      
+      let errorMessage = 'Verification failed. Please try again.';
+      
+      if (err?.data?.message) {
+        errorMessage = err.data.message;
+      }
+      
+      Swal.fire({
+        icon: 'error',
+        title: 'Verification Failed',
+        text: errorMessage,
+      });
     } finally {
       setLoading(false);
-    }
-  };
-
-  const handleTermsChange = (e) => {
-    const checked = e.target.checked;
-    setAgreeTerms(checked);
-    if (checked) {
-      setShowTermsModal(true);
     }
   };
 
@@ -249,7 +358,6 @@ const RegisterPage = () => {
   const getFieldIcon = (fieldName) => {
     const validation = fieldValidation[fieldName];
     if (!validation) return null;
-
     return validation.isValid ? (
       <CheckCircle className="w-4 h-4 text-green-400" />
     ) : (
@@ -258,44 +366,31 @@ const RegisterPage = () => {
   };
 
   return (
-    <div className="min-h-screen bg-[#094e54] flex items-center justify-center p-4 relative overflow-hidden">
-      {/* Animated background elements */}
-      {/* <div className="absolute inset-0 overflow-hidden">
-        <div className="absolute -top-40 -right-40 w-80 h-80 rounded-full mix-blend-multiply filter blur-xl opacity-20 animate-pulse" style={{ backgroundColor: '#094e54' }}></div>
-        <div className="absolute -bottom-40 -left-40 w-80 h-80 rounded-full mix-blend-multiply filter blur-xl opacity-20 animate-pulse" style={{ backgroundColor: '#094e54', animationDelay: '2s' }}></div>
-        <div className="absolute top-40 left-40 w-60 h-60 rounded-full mix-blend-multiply filter blur-xl opacity-20 animate-pulse" style={{ backgroundColor: '#0a5c64', animationDelay: '4s' }}></div>
-      </div> */}
-
-      <div className={`w-full max-w-6xl grid lg:grid-cols-2 gap-12 m-10 items-start transform transition-all duration-1000 ${isVisible ? 'translate-y-0 opacity-100' : 'translate-y-8 opacity-0'}`}>
-
-        {/* Left Side - Branding */}
-        <div className="hidden lg:flex flex-col items-center justify-center text-center space-y-8 p-0"
-          style={{ transform: 'translateX(-7rem) translateY(2rem)' }}>
-          <h1 class="text-5xl md:text-6xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-teal-400 via-blue-500 to-indigo-600 mb-2 drop-shadow-lg">
+    <div className="min-h-screen bg-[#094e54] flex items-center justify-center p-2">
+      <div className={`w-full max-w-8xl grid grid-cols-1 lg:grid-cols-2 gap-4 items-start`}>
+        {/* Branding Section */}
+        <div className="order-1 lg:order-none flex flex-col items-center justify-center text-center space-y-4 p-2">
+          <h1 className="text-4xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-teal-400 via-blue-500 to-indigo-600 mb-1 drop-shadow-lg">
             JAIMAX
           </h1>
-          <div class="flex items-center justify-center gap-2 text-sky-200/90 text-base md:text-lg font-medium">
-            <Shield className="w-5 h-5 md:w-6 md:h-6 text-sky-300" />
+          <div className="flex items-start justify-start gap-2 text-sky-200/90 text-base font-medium">
+            <Shield className="w-5 h-5 text-sky-300" />
             <span>"Your Security, Our Priority – Join with Confidence"</span>
           </div>
           <Logo />
-          {/* <div className="grid grid-cols-3 gap-4 w-full max-w-sm">
-            {[1, 2, 3].map((i) => (
-              <div key={i} className="h-2 rounded-full opacity-60 animate-pulse" style={{ background: 'linear-gradient(135deg, #094e54, #4ecdc4)', animationDelay: `${i * 0.5}s` }}></div>
-            ))}
-          </div> */}
         </div>
-
-        {/* Right Side - Register Form */}
-        <div className="w-full max-w-lg" style={{ position: "relative", top: "-1rem" }}>
-          <div className="bg-white/10 backdrop-blur-lg rounded-3xl p-4 shadow-2xl border border-white/20 hover:shadow-purple-500/20 transition-all duration-300">
-            <form onSubmit={handleSubmit} className="space-y-2">
-              <h1 class="text-3xl font-bold text-gray-800 text-center mb-2">
-                Sign In
+        
+        {/* Registration Form */}
+        <div className="order-2 lg:order-none w-full max-w-md mx-auto" style={{ position: "relative", top: "0" }}>
+          <div className="bg-white/10 backdrop-blur-lg rounded-2xl p-3 shadow-2xl border border-white/20 hover:shadow-purple-500/20 transition-all duration-300">
+            <form onSubmit={handleSubmit} className="space-y-3">
+              <h1 className="text-2xl font-bold text-gray-800 text-center mb-1">
+                Sign Up
               </h1>
+              
               {/* Full Name */}
-              <div className="space-y-1">
-                <label className="text-sm font-medium text-gray-200 flex items-center gap-2">
+              <div className="space-y-0.5">
+                <label className="text-xs font-medium text-gray-200 flex items-center gap-2">
                   <User className="w-4 h-4" />
                   Full Name
                   <span className="text-red-400">*</span>
@@ -306,25 +401,22 @@ const RegisterPage = () => {
                   name="name"
                   value={formData.name}
                   onChange={handleChange}
-                  className={`w-full px-4 py-2 bg-white/10 border ${errors.name ? 'border-red-400' :
+                  className={`w-full px-3 py-1.5 bg-white/10 border ${errors.name ? 'border-red-400' :
                     fieldValidation.name?.isValid ? 'border-green-400' : 'border-white/20'
                     } rounded-xl text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:border-transparent transition-all duration-200 backdrop-blur-sm`}
-                  style={{ '--tw-ring-color': '#094e54' }}
-                  onFocus={(e) => e.target.style.boxShadow = '0 0 0 2px #094e54'}
-                  onBlur={(e) => e.target.style.boxShadow = 'none'}
                   placeholder="Enter your full name"
+                  disabled={otpSent}
                 />
                 {(errors.name || fieldValidation.name?.message) && (
-                  <p className={`text-sm flex items-center gap-1 ${errors.name ? 'text-red-400' : fieldValidation.name?.isValid ? 'text-green-400' : 'text-red-400'}`}>
-                    <span className={`w-1 h-1 rounded-full ${errors.name ? 'bg-red-400' : fieldValidation.name?.isValid ? 'bg-green-400' : 'bg-red-400'}`}></span>
+                  <p className={`text-xs flex items-center gap-1 ${errors.name ? 'text-red-400' : fieldValidation.name?.isValid ? 'text-green-400' : 'text-red-400'}`}>
                     {errors.name || fieldValidation.name?.message}
                   </p>
                 )}
               </div>
 
               {/* Phone Number with Country Code */}
-              <div className="space-y-1">
-                <label className="text-sm font-medium text-gray-200 flex items-center gap-2">
+              <div className="space-y-0.5">
+                <label className="text-xs font-medium text-gray-200 flex items-center gap-2">
                   <Phone className="w-4 h-4" />
                   Phone Number
                   <span className="text-red-400">*</span>
@@ -335,15 +427,15 @@ const RegisterPage = () => {
                     <button
                       type="button"
                       onClick={() => setShowCountryDropdown(!showCountryDropdown)}
-                      className="flex items-center gap-2 px-3 py-2 bg-white/10 border border-white/20 rounded-xl hover:border-white/40 transition-all duration-200 backdrop-blur-sm min-w-[120px]"
+                      className="flex items-center gap-2 px-2 py-1 bg-white/10 border border-white/20 rounded-xl hover:border-white/40 transition-all duration-200 backdrop-blur-sm min-w-[80px]"
+                      disabled={otpSent}
                     >
                       <span className="text-lg">{formData.countryCode}</span>
                       <span className="font-medium text-gray-200">{formData.countryPhoneCode}</span>
                       <ChevronDown className="w-4 h-4 text-gray-400" />
                     </button>
-
-                    {showCountryDropdown && (
-                      <div className="absolute top-full left-0 mt-1 w-80 bg-white/95 backdrop-blur-lg border border-white/20 rounded-xl shadow-xl z-50 max-h-60 overflow-y-auto">
+                    {showCountryDropdown && !otpSent && (
+                      <div className="absolute top-full left-0 mt-1 w-56 bg-white/95 backdrop-blur-lg border border-white/20 rounded-xl shadow-xl z-50 max-h-60 overflow-y-auto">
                         {countryCodes.map((country, index) => (
                           <button
                             key={index}
@@ -359,34 +451,30 @@ const RegisterPage = () => {
                       </div>
                     )}
                   </div>
-
                   <input
                     type="tel"
                     name="phone"
                     value={formData.phone}
                     onChange={handleChange}
-                    className={`flex-1 px-4 py-2 bg-white/10 border ${errors.phone ? 'border-red-400' :
+                    className={`w-full px-3 py-1.5 bg-white/10 border ${errors.phone ? 'border-red-400' :
                       fieldValidation.phone?.isValid ? 'border-green-400' : 'border-white/20'
                       } rounded-xl text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:border-transparent transition-all duration-200 backdrop-blur-sm`}
-                    style={{ '--tw-ring-color': '#094e54' }}
-                    onFocus={(e) => e.target.style.boxShadow = '0 0 0 2px #094e54'}
-                    onBlur={(e) => e.target.style.boxShadow = 'none'}
-                    placeholder="Enter phone number"
+                    placeholder="Phone number"
+                    disabled={otpSent}
                   />
                 </div>
                 {(errors.phone || fieldValidation.phone?.message) && (
-                  <p className={`text-sm flex items-center gap-1 ${errors.phone ? 'text-red-400' : fieldValidation.phone?.isValid ? 'text-green-400' : 'text-red-400'}`}>
-                    <span className={`w-1 h-1 rounded-full ${errors.phone ? 'bg-red-400' : fieldValidation.phone?.isValid ? 'bg-green-400' : 'bg-red-400'}`}></span>
+                  <p className={`text-xs flex items-center gap-1 ${errors.phone ? 'text-red-400' : fieldValidation.phone?.isValid ? 'text-green-400' : 'text-red-400'}`}>
                     {errors.phone || fieldValidation.phone?.message}
                   </p>
                 )}
               </div>
 
-              {/* Email Field */}
-              <div className="space-y-1">
-                <label className="text-sm font-medium text-gray-200 flex items-center gap-2">
+              {/* Email */}
+              <div className="space-y-0.5">
+                <label className="text-xs font-medium text-gray-200 flex items-center gap-2">
                   <Mail className="w-4 h-4" />
-                  Email Address
+                  Email
                   <span className="text-red-400">*</span>
                   {getFieldIcon('email')}
                 </label>
@@ -395,353 +483,209 @@ const RegisterPage = () => {
                   name="email"
                   value={formData.email}
                   onChange={handleChange}
-                  className={`w-full px-4 py-2 bg-white/10 border ${errors.email ? 'border-red-400' :
+                  className={`w-full px-3 py-1.5 bg-white/10 border ${errors.email ? 'border-red-400' :
                     fieldValidation.email?.isValid ? 'border-green-400' : 'border-white/20'
                     } rounded-xl text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:border-transparent transition-all duration-200 backdrop-blur-sm`}
-                  style={{ '--tw-ring-color': '#094e54' }}
-                  onFocus={(e) => e.target.style.boxShadow = '0 0 0 2px #094e54'}
-                  onBlur={(e) => e.target.style.boxShadow = 'none'}
-                  placeholder="Enter your email address"
+                  placeholder="Enter your email"
+                  disabled={otpSent}
                 />
                 {(errors.email || fieldValidation.email?.message) && (
-                  <p className={`text-sm flex items-center gap-1 ${errors.email ? 'text-red-400' : fieldValidation.email?.isValid ? 'text-green-400' : 'text-red-400'}`}>
-                    <span className={`w-1 h-1 rounded-full ${errors.email ? 'bg-red-400' : fieldValidation.email?.isValid ? 'bg-green-400' : 'bg-red-400'}`}></span>
+                  <p className={`text-xs flex items-center gap-1 ${errors.email ? 'text-red-400' : fieldValidation.email?.isValid ? 'text-green-400' : 'text-red-400'}`}>
                     {errors.email || fieldValidation.email?.message}
                   </p>
                 )}
               </div>
 
-              {/* Password Fields */}
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                {/* Password */}
-                <div className="space-y-1">
-                  <label className="text-sm font-medium text-gray-200 flex items-center gap-2">
-                    <Lock className="w-4 h-4" />
-                    Password
-                    <span className="text-red-400">*</span>
-                    {getFieldIcon('password')}
-                  </label>
-                  <div className="relative">
-                    <input
-                      type={showPassword ? 'text' : 'password'}
-                      name="password"
-                      value={formData.password}
-                      onChange={handleChange}
-                      className={`w-full px-4 py-2 pr-12 bg-white/10 border ${errors.password ? 'border-red-400' :
-                        fieldValidation.password?.isValid ? 'border-green-400' : 'border-white/20'
-                        } rounded-xl text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:border-transparent transition-all duration-200 backdrop-blur-sm`}
-                      style={{ '--tw-ring-color': '#094e54' }}
-                      onFocus={(e) => e.target.style.boxShadow = '0 0 0 2px #094e54'}
-                      onBlur={(e) => e.target.style.boxShadow = 'none'}
-                      placeholder="Password"
-                    />
-                    <button
-                      type="button"
-                      onClick={() => setShowPassword(!showPassword)}
-                      className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-white transition-colors cursor-pointer"
-                    >
-                      {showPassword ? <EyeOff className="w-5 h-5" /> : <Eye className="w-5 h-5" />}
-                    </button>
-                  </div>
-                  {(errors.password || fieldValidation.password?.message) && (
-                    <p className={`text-sm flex items-center gap-1 ${errors.password ? 'text-red-400' : fieldValidation.password?.isValid ? 'text-green-400' : 'text-red-400'}`}>
-                      <span className={`w-1 h-1 rounded-full ${errors.password ? 'bg-red-400' : fieldValidation.password?.isValid ? 'bg-green-400' : 'bg-red-400'}`}></span>
-                      {errors.password || fieldValidation.password?.message}
-                    </p>
-                  )}
-                </div>
-
-                {/* Confirm Password */}
-                <div className="space-y-1">
-                  <label className="text-sm font-medium text-gray-200 flex items-center gap-2">
-                    <Lock className="w-4 h-4" />
-                    Confirm
-                    <span className="text-red-400">*</span>
-                    {getFieldIcon('confirmPassword')}
-                  </label>
-                  <div className="relative">
-                    <input
-                      type={showConfirmPassword ? 'text' : 'password'}
-                      name="confirmPassword"
-                      value={formData.confirmPassword}
-                      onChange={handleChange}
-                      className={`w-full px-4 py-2 pr-12 bg-white/10 border ${errors.confirmPassword ? 'border-red-400' :
-                        fieldValidation.confirmPassword?.isValid ? 'border-green-400' : 'border-white/20'
-                        } rounded-xl text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:border-transparent transition-all duration-200 backdrop-blur-sm`}
-                      style={{ '--tw-ring-color': '#094e54' }}
-                      onFocus={(e) => e.target.style.boxShadow = '0 0 0 2px #094e54'}
-                      onBlur={(e) => e.target.style.boxShadow = 'none'}
-                      placeholder="Confirm"
-                    />
-                    <button
-                      type="button"
-                      onClick={() => setShowConfirmPassword(!showConfirmPassword)}
-                      className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-white transition-colors cursor-pointer"
-                    >
-                      {showConfirmPassword ? <EyeOff className="w-5 h-5" /> : <Eye className="w-5 h-5" />}
-                    </button>
-                  </div>
-                  {(errors.confirmPassword || fieldValidation.confirmPassword?.message) && (
-                    <p className={`text-sm flex items-center gap-1 ${errors.confirmPassword ? 'text-red-400' : fieldValidation.confirmPassword?.isValid ? 'text-green-400' : 'text-red-400'}`}>
-                      <span className={`w-1 h-1 rounded-full ${errors.confirmPassword ? 'bg-red-400' : fieldValidation.confirmPassword?.isValid ? 'bg-green-400' : 'bg-red-400'}`}></span>
-                      {errors.confirmPassword || fieldValidation.confirmPassword?.message}
-                    </p>
-                  )}
-                </div>
-              </div>
-
-              
-            <div>
-                  <label className="block text-xs font-medium text-gray-700 mb-1">
-                    Referral Code (Optional)
-                  </label>
-                  <div className="relative">
-                    <Users className="absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-gray-400" />
-                    <input
-                      type="text"
-                      name="referralCode"
-                      value={formData.referralCode}
-                      onChange={handleChange}
-                      className="w-full pl-9 pr-3 py-2.5 text-sm border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#0a545a] focus:border-transparent"
-                      placeholder="Enter referral code (if any)"
-                    />
-                  </div>
-                  {errors.referralCode && <p className="text-red-500 text-xs mt-1">{errors.referralCode}</p>}
-                </div>
-
-                {/* OTP Section */}
-                <div>
-                  <label className="block text-xs font-medium text-gray-700 mb-1">
-                    Email Verification *
-                  </label>
-                  <div className="flex gap-3">
-                    <button
-                      type="button"
-                      onClick={otpSent && canResend ? handleResendOTP : handleSendOTP}
-                      disabled={otpLoading || (otpSent && !canResend)}
-                      className={`px-4 py-2.5 text-sm rounded-lg font-medium transition-all duration-200 flex items-center gap-2 min-w-[100px] ${
-                        otpSent && !canResend
-                          ? 'bg-[#20934a] text-white cursor-not-allowed'
-                          : otpLoading
-                          ? 'bg-gray-400 text-white cursor-not-allowed'
-                          : 'bg-[#0a545a] text-white hover:bg-[#0a545a]/90'
-                      }`}
-                    >
-                      {otpLoading ? (
-                        <RefreshCw className="w-4 h-4 animate-spin" />
-                      ) : otpSent && !canResend ? (
-                        <>
-                          <CheckCircle className="w-4 h-4" />
-                          <span>Sent</span>
-                        </>
-                      ) : otpSent && canResend ? (
-                        'Resend'
-                      ) : (
-                        'Send OTP'
-                      )}
-                    </button>
-                    
-                    <div className="flex-1">
-                      <input
-                        type="text"
-                        name="otp"
-                        value={formData.otp}
-                        onChange={handleChange}
-                        maxLength="6"
-                        className="w-full px-3 py-2.5 text-sm border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#0a545a] focus:border-transparent text-center tracking-widest font-mono"
-                        placeholder="000000"
-                      />
-                      {otpSent && !canResend && (
-                        <div className="flex items-center justify-center mt-1 text-xs text-gray-500">
-                          <Clock className="w-3 h-3 mr-1" />
-                          Resend in {formatTime(timer)}
-                        </div>
-                      )}
-                    </div>
-                  </div>
-                  {errors.otp && <p className="text-red-500 text-xs mt-1">{errors.otp}</p>}
-                </div>
-
-              {/* Terms & Conditions */}
-              <div className="space-y-1">
-                <label className="flex items-start gap-3 cursor-pointer">
-                  <input
-                    type="checkbox"
-                    checked={agreeTerms}
-                    onChange={handleTermsChange}
-                    className="mt-1 w-4 h-4 bg-white/10 border-white/20 rounded focus:ring-2 cursor-pointer"
-                    style={{ accentColor: '#094e54' }}
-                  />
-                  <span className="text-sm text-gray-300">
-                    I accept the{' '}
-                    <span className="font-semibold transition-colors cursor-pointer" style={{ color: '#4ecdc4' }}>
-                      Terms & Conditions
-                    </span>{' '}
-                    and{' '}
-                    <span className="font-semibold transition-colors cursor-pointer" style={{ color: '#4ecdc4' }}>
-                      Privacy Policy
-                    </span>
-                  </span>
+              {/* Password */}
+              <div className="space-y-0.5">
+                <label className="text-xs font-medium text-gray-200 flex items-center gap-2">
+                  <Lock className="w-4 h-4" />
+                  Password
+                  <span className="text-red-400">*</span>
+                  {getFieldIcon('password')}
                 </label>
-                {errors.terms && (
-                  <p className="text-red-400 text-sm flex items-center gap-1">
-                    <span className="w-1 h-1 bg-red-400 rounded-full"></span>
-                    {errors.terms}
+                <div className="relative">
+                  <input
+                    type={showPassword ? "text" : "password"}
+                    name="password"
+                    value={formData.password}
+                    onChange={handleChange}
+                    className={`w-full px-3 py-1.5 bg-white/10 border ${errors.password ? 'border-red-400' :
+                      fieldValidation.password?.isValid ? 'border-green-400' : 'border-white/20'
+                      } rounded-xl text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:border-transparent transition-all duration-200 backdrop-blur-sm`}
+                    placeholder="Password"
+                    disabled={otpSent}
+                  />
+                  <button
+                    type="button"
+                    className="absolute right-2 top-1/2 -translate-y-1/2 text-gray-400"
+                    onClick={() => setShowPassword((s) => !s)}
+                    disabled={otpSent}
+                  >
+                    {showPassword ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
+                  </button>
+                </div>
+                {(errors.password || fieldValidation.password?.message) && (
+                  <p className={`text-xs flex items-center gap-1 ${errors.password ? 'text-red-400' : fieldValidation.password?.isValid ? 'text-green-400' : 'text-red-400'}`}>
+                    {errors.password || fieldValidation.password?.message}
                   </p>
                 )}
               </div>
 
-              {/* Register Button */}
-              <button
-                type="submit"
-                disabled={loading || !otpSent || !agreeTerms}
-                className={`w-full py-3 px-6 rounded-full font-semibold transition-all duration-200 flex items-center justify-center gap-2 group ${loading || !otpSent || !agreeTerms
-                  ? 'text-white cursor-not-allowed'
-                  : 'text-white cursor-pointer'
-                  }`}
-                style={{
-                  background: loading || !otpSent || !agreeTerms ? '#c5d82e' : 'linear-gradient(135deg,#c5d82e',
-                  '--tw-ring-color': '#094e54'
-                }}
-                onMouseEnter={(e) => {
-                  if (!loading && otpSent && agreeTerms) {
-                    e.target.style.background = 'linear-gradient(135deg, #c5d82e, #c5d82e)';
-                  }
-                }}
-                onMouseLeave={(e) => {
-                  if (!loading && otpSent && agreeTerms) {
-                    e.target.style.background = 'linear-gradient(135deg, #c5d82e, #c5d82e)';
-                  }
-                }}
-              >
-                {loading ? (
-                  <>
-                    <div className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin bg-yellow"
-                      style={{
-                        background: 'linear-gradient(135deg,rgb(149, 161, 53),rgb(147, 235, 96))',
-                        '--tw-ring-color': '#094e54'
-                      }}
-                    ></div>
-                    Creating Account...
-                  </>
-                ) : (
-                  <>
-                    Create Account
-                    <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform duration-200" />
-                  </>
-                )}
-              </button>
-
-              {/* Login Link */}
-              <div className="text-center pt-1 border-t border-white/10">
-                <p className="text-gray-300">
-                  Already have an account?{' '}
+              {/* Confirm Password */}
+              <div className="space-y-0.5">
+                <label className="text-xs font-medium text-gray-200 flex items-center gap-2">
+                  <Lock className="w-4 h-4" />
+                  Confirm Password
+                  <span className="text-red-400">*</span>
+                  {getFieldIcon('confirmPassword')}
+                </label>
+                <div className="relative">
+                  <input
+                    type={showConfirmPassword ? "text" : "password"}
+                    name="confirmPassword"
+                    value={formData.confirmPassword}
+                    onChange={handleChange}
+                    className={`w-full px-3 py-1.5 bg-white/10 border ${errors.confirmPassword ? 'border-red-400' :
+                      fieldValidation.confirmPassword?.isValid ? 'border-green-400' : 'border-white/20'
+                      } rounded-xl text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:border-transparent transition-all duration-200 backdrop-blur-sm`}
+                    placeholder="Confirm password"
+                    disabled={otpSent}
+                  />
                   <button
                     type="button"
-                    className="font-semibold transition-colors cursor-pointer"
-                    style={{ color: '#4ecdc4' }}
-                    onClick={() => alert('Login functionality would go here')}
-                    onMouseEnter={(e) => e.target.style.color = '#5dd5cd'}
-                    onMouseLeave={(e) => e.target.style.color = '#4ecdc4'}
+                    className="absolute right-2 top-1/2 -translate-y-1/2 text-gray-400"
+                    onClick={() => setShowConfirmPassword((s) => !s)}
+                    disabled={otpSent}
                   >
-                    Sign In
+                    {showConfirmPassword ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
                   </button>
-                </p>
+                </div>
+                {(errors.confirmPassword || fieldValidation.confirmPassword?.message) && (
+                  <p className={`text-xs flex items-center gap-1 ${errors.confirmPassword ? 'text-red-400' : fieldValidation.confirmPassword?.isValid ? 'text-green-400' : 'text-red-400'}`}>
+                    {errors.confirmPassword || fieldValidation.confirmPassword?.message}
+                  </p>
+                )}
               </div>
-            </form>
-          </div>
 
-          {/* Mobile Branding */}
-          <div className="lg:hidden text-center mt-8">
-            <div className="w-16 h-16 rounded-2xl flex items-center justify-center mx-auto mb-4 transform rotate-12 cursor-pointer hover:rotate-0 transition-transform duration-300" style={{ background: 'linear-gradient(135deg, #094e54, #0a5c64)' }}>
-              <Shield className="w-8 h-8 text-white" />
-            </div>
-            <h1 className="text-2xl font-bold text-white mb-2">
-              Join <span className="text-transparent bg-clip-text" style={{ backgroundImage: 'linear-gradient(135deg, #094e54, #4ecdc4)' }}>JAIMAX</span>
-            </h1>
-            <p className="text-gray-300 text-sm">Create your account and unlock possibilities</p>
+              {/* Referral Code */}
+              <div className="space-y-0.5">
+                <label className="text-xs font-medium text-gray-200 flex items-center gap-2">
+                  <Key className="w-4 h-4" />
+                  Referral Code (Optional)
+                  {getFieldIcon('referralCode')}
+                </label>
+                <input
+                  type="text"
+                  name="referralCode"
+                  value={formData.referralCode}
+                  onChange={handleChange}
+                  className={`w-full px-3 py-1.5 bg-white/10 border ${errors.referralCode ? 'border-red-400' :
+                    fieldValidation.referralCode?.isValid ? 'border-green-400' : 'border-white/20'
+                    } rounded-xl text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:border-transparent transition-all duration-200 backdrop-blur-sm`}
+                  placeholder="Referral code"
+                  disabled={otpSent}
+                />
+                {(errors.referralCode || fieldValidation.referralCode?.message) && (
+                  <p className={`text-xs flex items-center gap-1 ${errors.referralCode ? 'text-red-400' : fieldValidation.referralCode?.isValid ? 'text-green-400' : 'text-red-400'}`}>
+                    {errors.referralCode || fieldValidation.referralCode?.message}
+                  </p>
+                )}
+              </div>
+
+              {/* OTP Section */}
+              {otpSent && (
+                <div className="space-y-0.5">
+                  <label className="text-xs font-medium text-gray-200 flex items-center gap-2">
+                    <Key className="w-4 h-4" />
+                    OTP
+                    <span className="text-red-400">*</span>
+                  </label>
+                  <div className="flex gap-2">
+                    <input
+                      type="text"
+                      name="otp"
+                      value={formData.otp}
+                      onChange={handleChange}
+                      className={`w-full px-3 py-1.5 bg-white/10 border ${errors.otp ? 'border-red-400' : 'border-white/20'
+                        } rounded-xl text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:border-transparent transition-all duration-200 backdrop-blur-sm`}
+                      placeholder="Enter OTP"
+                      maxLength={8}
+                      autoComplete="one-time-code"
+                      inputMode="numeric"
+                      pattern="[0-9]*"
+                    />
+                    <button
+                      type="button"
+                      className="px-2 py-1 bg-blue-500 text-white rounded-xl text-xs flex items-center gap-1 disabled:opacity-50 hover:bg-blue-600 transition-colors"
+                      disabled={!canResend || isResending}
+                      onClick={handleResendOTP}
+                    >
+                      <RefreshCw className={`w-4 h-4 ${isResending ? 'animate-spin' : ''}`} />
+                      {isResending ? 'Sending...' : 'Resend'}
+                    </button>
+                  </div>
+                  <div className="flex items-center justify-between">
+                    {errors.otp && (
+                      <p className="text-xs text-red-400">{errors.otp}</p>
+                    )}
+                    <span className="text-xs text-gray-200 flex items-center gap-1 ml-auto">
+                      <Clock className="w-3 h-3" /> {formatTime(timer)}
+                    </span>
+                  </div>
+                </div>
+              )}
+
+              {/* Send OTP Button */}
+              {!otpSent && (
+                <div className="flex justify-end">
+                  <button
+                    type="button"
+                    className="px-4 py-1.5 bg-blue-600 text-white rounded-xl text-xs font-bold hover:bg-blue-700 transition disabled:opacity-50"
+                    disabled={otpLoading || isRegistering}
+                    onClick={handleSendOTP}
+                  >
+                    {otpLoading || isRegistering ? "Sending..." : "Send OTP"}
+                  </button>
+                </div>
+              )}
+
+              {/* Terms and Conditions */}
+              <div className="flex items-center gap-2">
+                <input
+                  type="checkbox"
+                  className="accent-blue-600"
+                  checked={agreeTerms}
+                  onChange={e => setAgreeTerms(e.target.checked)}
+                  id="terms"
+                />
+                <label htmlFor="terms" className="text-xs text-gray-200">
+                  I agree to the <span className="underline cursor-pointer">terms and conditions</span>
+                </label>
+              </div>
+              {errors.terms && (
+                <p className="text-xs text-red-400">{errors.terms}</p>
+              )}
+
+              {/* Submit Button */}
+              <button
+                type="submit"
+                className="w-full py-1.5 bg-gradient-to-r from-yellow-400 via-yellow-500 to-yellow-600 text-black font-bold rounded-xl text-sm hover:from-teal-500 hover:to-indigo-700 transition-all duration-200 disabled:opacity-50"
+                disabled={loading || isVerifying || !otpSent}
+              >
+                {loading || isVerifying ? "Verifying..." : "Submit"}
+              </button>
+            </form>
           </div>
         </div>
       </div>
-
-      {/* Terms Modal */}
-      {showTermsModal && (
-        <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
-          <div className="bg-white rounded-xl shadow-2xl max-w-md w-full max-h-[80vh] overflow-y-auto">
-            <div className="p-6">
-              <h3 className="text-xl font-bold text-gray-800 mb-4">Terms & Conditions</h3>
-              <div className="text-sm text-gray-600 mb-6 space-y-3">
-                <h4 className="font-semibold text-gray-800">Welcome to JAIMAX</h4>
-                <p>
-                  Please read these Terms and Conditions carefully before using our services.
-                  By accessing or using our services, you agree to comply with these Terms.
-                </p>
-
-                <h5 className="font-semibold text-gray-800">1. Account Security</h5>
-                <p>
-                  You are responsible for maintaining the security of your account credentials.
-                  JAIMAX shall not be liable for any loss or damage arising from your failure
-                  to maintain the security of your account or password.
-                </p>
-
-                <h5 className="font-semibold text-gray-800">2. Compliance and Conduct</h5>
-                <p>
-                  You agree not to disrupt or attempt to tamper with JAIMAX's services or servers.
-                  Respect the privacy of others and refrain from disclosing personal information
-                  without consent.
-                </p>
-
-                <h5 className="font-semibold text-gray-800">3. Financial Obligations</h5>
-                <p>
-                  Any excess deposits or withdrawals mistakenly made to your account must be
-                  promptly returned. Failure to do so may result in legal action.
-                </p>
-
-                <h5 className="font-semibold text-gray-800">4. Privacy Policy</h5>
-                <p>
-                  We respect your privacy and are committed to protecting it through our
-                  compliance with this Policy. We collect only the data necessary for each
-                  specific purpose.
-                </p>
-
-                <h5 className="font-semibold text-gray-800">5. Contact Us</h5>
-                <p>
-                  If you have any questions regarding these Terms and Conditions, please
-                  contact us at support@jaimax.com.
-                </p>
-              </div>
-
-              <div className="flex gap-3">
-                <button
-                  onClick={() => {
-                    setShowTermsModal(false);
-                    setAgreeTerms(false);
-                  }}
-                  className="flex-1 py-3 px-4 border border-gray-300 rounded-lg text-gray-700 hover:bg-gray-50 transition-colors"
-                >
-                  Decline
-                </button>
-                <button
-                  onClick={() => {
-                    setShowTermsModal(false);
-                    setAgreeTerms(true);
-                  }}
-                  className="flex-1 py-3 px-4 text-white rounded-lg transition-colors"
-                  style={{ background: 'linear-gradient(135deg, #094e54, #4ecdc4)' }}
-                  onMouseEnter={(e) => e.target.style.background = 'linear-gradient(135deg, #0a5c64, #5dd5cd)'}
-                  onMouseLeave={(e) => e.target.style.background = 'linear-gradient(135deg, #094e54, #4ecdc4)'}
-                >
-                  Accept
-                </button>
-              </div>
-            </div>
-          </div>
-        </div>
-      )}
     </div>
   );
 };
 
 export default RegisterPage;
+<<<<<<< HEAD
 
 
+=======
+>>>>>>> 58921db3f18a278a8ae50afcfb0883d75ca5f5e1

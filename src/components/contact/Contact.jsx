@@ -93,11 +93,7 @@ const ContactPage = () => {
           <p className="text-gray-600 mb-6">
             Your message has been sent successfully. We'll get back to you within 24 hours!
           </p>
-          <div className="flex space-x-2 justify-center mb-4">
-            <Heart className="w-5 h-5 text-red-500 animate-pulse" />
-            <Sparkles className="w-5 h-5 text-yellow-500 animate-spin" />
-            <Heart className="w-5 h-5 text-red-500 animate-pulse" />
-          </div>
+          
           <button
             onClick={() =>navigate('/')}
             className="bg-gradient-to-r from-green-400 to-blue-500 text-white px-6 py-2 rounded-full hover:shadow-lg transform hover:scale-105 transition-all duration-200"
@@ -139,6 +135,7 @@ const ContactPage = () => {
       
       <div 
         className="min-h-screen py-12 px-4 relative overflow-hidden"
+<<<<<<< HEAD
         // style={{
         //   background: 'linear-gradient(135deg, #195f64 0%, #bbcf28 50%, #1c994a 100%)'
         // }}
@@ -146,6 +143,11 @@ const ContactPage = () => {
           background: 'linear-gradient(135deg, rgba(8,83,89,0.95) 0%, rgba(8,83,89,0.9) 100%)',
           WebkitBackdropFilter: 'blur(16px)' 
       }}
+=======
+        style={{
+          background: 'linear-gradient(135deg, #195f64 0%,rgb(40, 100, 104) 50%, #1c994a 100%)'
+        }}
+>>>>>>> 58921db3f18a278a8ae50afcfb0883d75ca5f5e1
       >
 
 
@@ -225,14 +227,14 @@ const ContactPage = () => {
 
             {/* Contact Form Section */}
             <div className="bg-white/95 backdrop-blur-lg rounded-3xl shadow-2xl p-8 border border-white/20">
-              <h2 className="text-3xl font-bold text-gray-900 mb-8 flex items-center">
+              <h2 className="text-3xl font-bold text-gray-900 mb-4 flex items-center">
                 {/* <Send className="w-8 h-8 mr-3 text-green-600" /> */}
                 Send Message
               </h2>
               
-              <div className="space-y-6">
+              <div className="space-y-4">
                 <div>
-                  <label htmlFor="name" className="block text-sm font-medium text-gray-700 mb-2">
+                  <label htmlFor="name" className="block text-sm font-medium text-gray-700 mb-0">
                     Your Name 
                   </label>
                   <input
@@ -242,7 +244,7 @@ const ContactPage = () => {
                     onChange={handleChange}
                     onFocus={() => setFocusedField('name')}
                     onBlur={() => setFocusedField('')}
-                    className={`w-full px-4 py-3 border-2 rounded-xl transition-all duration-300 ${
+                    className={`w-full px-4 py-2 border-2 rounded-xl transition-all duration-300 ${
                       focusedField === 'name' ? 'border-green-400 ring-4 ring-green-100 shadow-lg' : 'border-gray-300'
                     } ${errors.name ? 'border-red-400' : ''}`}
                     placeholder="Your awesome name"
@@ -256,7 +258,7 @@ const ContactPage = () => {
                 </div>
 
                 <div>
-                  <label htmlFor="phone" className="block text-sm font-medium text-gray-700 mb-2">
+                  <label htmlFor="phone" className="block text-sm font-medium text-gray-700 mb-0">
                     Phone Number 
                   </label>
                   <input
@@ -266,7 +268,7 @@ const ContactPage = () => {
                     onChange={handleChange}
                     onFocus={() => setFocusedField('phone')}
                     onBlur={() => setFocusedField('')}
-                    className={`w-full px-4 py-3 border-2 rounded-xl transition-all duration-300 ${
+                    className={`w-full px-4 py-2 border-2 rounded-xl transition-all duration-300 ${
                       focusedField === 'phone' ? 'border-blue-400 ring-4 ring-blue-100 shadow-lg' : 'border-gray-300'
                     } ${errors.phone ? 'border-red-400' : ''}`}
                     placeholder="Your contact number"
@@ -280,7 +282,7 @@ const ContactPage = () => {
                 </div>
 
                 <div>
-                  <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-2">
+                  <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-0">
                     Email Address 
                   </label>
                   <input
@@ -290,7 +292,7 @@ const ContactPage = () => {
                     onChange={handleChange}
                     onFocus={() => setFocusedField('email')}
                     onBlur={() => setFocusedField('')}
-                    className={`w-full px-4 py-3 border-2 rounded-xl transition-all duration-300 ${
+                    className={`w-full px-4 py-2 border-2 rounded-xl transition-all duration-300 ${
                       focusedField === 'email' ? 'border-purple-400 ring-4 ring-purple-100 shadow-lg' : 'border-gray-300'
                     } ${errors.email ? 'border-red-400' : ''}`}
                     placeholder="your@email.com"
@@ -304,7 +306,7 @@ const ContactPage = () => {
                 </div>
 
                 <div>
-                  <label htmlFor="message" className="block text-sm font-medium text-gray-700 mb-2">
+                  <label htmlFor="message" className="block text-sm font-medium text-gray-700 mb-0">
                     Your Message 
                   </label>
                   <textarea
@@ -313,8 +315,8 @@ const ContactPage = () => {
                     onChange={handleChange}
                     onFocus={() => setFocusedField('message')}
                     onBlur={() => setFocusedField('')}
-                    rows="5"
-                    className={`w-full px-4 py-3 border-2 rounded-xl transition-all duration-300 resize-none ${
+                    rows="3"
+                    className={`w-full px-4 py-2 border-2 rounded-xl transition-all duration-300 resize-none ${
                       focusedField === 'message' ? 'border-orange-400 ring-4 ring-orange-100 shadow-lg' : 'border-gray-300'
                     } ${errors.message ? 'border-red-400' : ''}`}
                     placeholder="Tell us about your amazing project..."
@@ -334,7 +336,7 @@ const ContactPage = () => {
                   className={`w-full py-4 px-6 rounded-xl text-white font-bold text-lg transition-all duration-300 transform hover:scale-105 hover:shadow-2xl flex items-center justify-center space-x-2 ${
                     isSubmitting 
                       ? 'bg-gray-400 cursor-not-allowed' 
-                      : 'bg-gradient-to-r from-green-500 to-green-600 hover:from-green-600 hover:to-green-700'
+                      : 'bg-gradient-to-r from-green-500 to-teal-600 hover:from-green-600 hover:to-green-700'
                   }`}
                 >
                   {isSubmitting ? (

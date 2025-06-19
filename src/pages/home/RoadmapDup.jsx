@@ -2118,21 +2118,8 @@ const phaseData = [
 const TokenRoadmap = () => {
   return (
     <div className="min-h-screen relative overflow-hidden p-4 md:p-8" style={{
-      background: 'linear-gradient(135deg, #095258 0%, #1c994a 50%, #095258 100%)'
+      // background: '#095258'
     }}>
-      {/* Animated Background Elements */}
-      <div className="absolute inset-0 overflow-hidden">
-        <div className="absolute top-20 left-20 w-72 h-72 rounded-full opacity-10 animate-pulse" style={{
-          background: 'radial-gradient(circle, #bbcf28 0%, transparent 70%)'
-        }}></div>
-        <div className="absolute top-40 right-32 w-96 h-96 rounded-full opacity-5 animate-pulse delay-1000" style={{
-          background: 'radial-gradient(circle, #1c994a 0%, transparent 70%)'
-        }}></div>
-        <div className="absolute bottom-32 left-40 w-64 h-64 rounded-full opacity-10 animate-pulse delay-2000" style={{
-          background: 'radial-gradient(circle, #bbcf28 0%, transparent 70%)'
-        }}></div>
-      </div>
-
       <div className="max-w-6xl mx-auto relative z-10">
         <div className="text-center mb-8 md:mb-16">
           <div className="inline-block p-1 rounded-full mb-6" style={{
@@ -2223,9 +2210,9 @@ const TokenRoadmap = () => {
                             <h3 className="text-3xl font-black text-white mb-2 tracking-tight">{phase.phaseNo}</h3>
                             <p className="text-gray-400 text-sm mb-6 italic">{phase.description}</p>
                             
-                            <div className="space-y-4 mb-8">
+                            <div className="space-y-4 mb-8 flex flex-2">
                               <div className="flex items-center space-x-3 p-3 rounded-xl bg-black/20 border border-green-400/20">
-                                <div className="w-3 h-3 rounded-full bg-gradient-to-r from-green-400 to-green-300 animate-pulse"></div>
+                                {/* <div className="w-3 h-3 rounded-full bg-gradient-to-r from-green-400 to-green-300 animate-pulse"></div> */}
                                 <span className="font-bold text-green-300">{phase.tokens}</span>
                               </div>
                               
@@ -2309,7 +2296,7 @@ const TokenRoadmap = () => {
                             <h3 className="text-3xl font-black text-white mb-2 tracking-tight">{phase.phaseNo}</h3>
                             <p className="text-gray-400 text-sm mb-6 italic">{phase.description}</p>
                             
-                            <div className="space-y-4 mb-8">
+                            <div className="space-y-4 mb-8 flex flex-1">
                               <div className="flex items-center space-x-3 p-3 rounded-xl bg-black/20 border border-green-400/20">
                                 <div className="w-3 h-3 rounded-full bg-gradient-to-r from-green-400 to-green-300 animate-pulse"></div>
                                 <span className="font-bold text-green-300">{phase.tokens}</span>

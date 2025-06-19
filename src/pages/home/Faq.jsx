@@ -63,16 +63,20 @@ const JaimaxFAQ = () => {
   };
 
   return (
+<<<<<<< HEAD
     <div className="min-h-screen "
     
        style={{ 
           background: 'linear-gradient(135deg, rgba(8,83,89,0.95) 0%, rgba(8,83,89,0.9) 100%)',
           WebkitBackdropFilter: 'blur(16px)' 
       }}>
+=======
+    <div className="min-h-screen  to-slate-900">
+>>>>>>> 58921db3f18a278a8ae50afcfb0883d75ca5f5e1
       {/* Subtle Background Pattern */}
       <div className="absolute inset-0 opacity-5">
         <div className="absolute inset-0" style={{
-          backgroundImage: 'radial-gradient(circle at 25% 25%, #4ecdc4 2px, transparent 2px), radial-gradient(circle at 75% 75%, #4ecdc4 1px, transparent 1px)',
+          // backgroundImage: 'radial-gradient(circle at 25% 25%, #4ecdc4 2px, transparent 2px), radial-gradient(circle at 75% 75%, #4ecdc4 1px, transparent 1px)',
           backgroundSize: '100px 100px, 60px 60px'
         }}></div>
       </div>
