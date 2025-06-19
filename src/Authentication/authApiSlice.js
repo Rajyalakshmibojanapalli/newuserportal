@@ -1,5 +1,5 @@
 
-import { apiSlice } from "../ApiSliceComponent/jaiMaxApi"
+import { apiSlice } from "../ApiSliceComponent/jaiMaxApi";
 
 export const authApiSlice = apiSlice.injectEndpoints({
     endpoints: (builder) => ({
@@ -72,3 +72,4 @@ export const authApiSlice = apiSlice.injectEndpoints({
 })
 
 export const { useRegisterMutation, useVerifyMutation, useLoginMutation, useForgotMutation, useVerifyOtpMutation , useChangePwdMutation , useVerifyRecaptchaMutation , useChangePwdReqMutation, useOTPresentMutation } =  authApiSlice;
+// changePassword

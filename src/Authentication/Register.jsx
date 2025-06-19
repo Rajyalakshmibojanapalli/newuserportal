@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useCallback } from 'react';
-import { Eye, EyeOff, Mail, Lock, ArrowRight, Shield, User, Phone, Key, ChevronDown, Clock, RefreshCw, CheckCircle, AlertCircle } from 'lucide-react';
+import { Eye, EyeOff, Mail,Users, Lock, ArrowRight, Shield, User, Phone, Key, ChevronDown, Clock, RefreshCw, CheckCircle, AlertCircle } from 'lucide-react';
 import Logo from "./Logo";
 
 const RegisterPage = () => {
@@ -63,7 +63,7 @@ const RegisterPage = () => {
 
   // Real-time validation
   const validateField = useCallback((name, value) => {
-    const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+    const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.(com|in|org|net|edu|gov|mil|info|co|io|me|biz|live|yahoo|gmail)$/i;
     const phoneRegex = /^\d+$/;
 
     switch (name) {
@@ -279,18 +279,18 @@ const RegisterPage = () => {
             <span>"Your Security, Our Priority – Join with Confidence"</span>
           </div>
           <Logo />
-          <div className="grid grid-cols-3 gap-4 w-full max-w-sm">
+          {/* <div className="grid grid-cols-3 gap-4 w-full max-w-sm">
             {[1, 2, 3].map((i) => (
               <div key={i} className="h-2 rounded-full opacity-60 animate-pulse" style={{ background: 'linear-gradient(135deg, #094e54, #4ecdc4)', animationDelay: `${i * 0.5}s` }}></div>
             ))}
-          </div>
+          </div> */}
         </div>
 
         {/* Right Side - Register Form */}
         <div className="w-full max-w-lg" style={{ position: "relative", top: "-1rem" }}>
           <div className="bg-white/10 backdrop-blur-lg rounded-3xl p-4 shadow-2xl border border-white/20 hover:shadow-purple-500/20 transition-all duration-300">
             <form onSubmit={handleSubmit} className="space-y-2">
-              <h1 class="text-4xl font-bold text-gray-800 text-center mb-2">
+              <h1 class="text-3xl font-bold text-gray-800 text-center mb-2">
                 Sign In
               </h1>
               {/* Full Name */}
@@ -306,7 +306,7 @@ const RegisterPage = () => {
                   name="name"
                   value={formData.name}
                   onChange={handleChange}
-                  className={`w-full px-4 py-3 bg-white/10 border ${errors.name ? 'border-red-400' :
+                  className={`w-full px-4 py-2 bg-white/10 border ${errors.name ? 'border-red-400' :
                     fieldValidation.name?.isValid ? 'border-green-400' : 'border-white/20'
                     } rounded-xl text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:border-transparent transition-all duration-200 backdrop-blur-sm`}
                   style={{ '--tw-ring-color': '#094e54' }}
@@ -335,7 +335,7 @@ const RegisterPage = () => {
                     <button
                       type="button"
                       onClick={() => setShowCountryDropdown(!showCountryDropdown)}
-                      className="flex items-center gap-2 px-3 py-3 bg-white/10 border border-white/20 rounded-xl hover:border-white/40 transition-all duration-200 backdrop-blur-sm min-w-[120px]"
+                      className="flex items-center gap-2 px-3 py-2 bg-white/10 border border-white/20 rounded-xl hover:border-white/40 transition-all duration-200 backdrop-blur-sm min-w-[120px]"
                     >
                       <span className="text-lg">{formData.countryCode}</span>
                       <span className="font-medium text-gray-200">{formData.countryPhoneCode}</span>
@@ -365,7 +365,7 @@ const RegisterPage = () => {
                     name="phone"
                     value={formData.phone}
                     onChange={handleChange}
-                    className={`flex-1 px-4 py-3 bg-white/10 border ${errors.phone ? 'border-red-400' :
+                    className={`flex-1 px-4 py-2 bg-white/10 border ${errors.phone ? 'border-red-400' :
                       fieldValidation.phone?.isValid ? 'border-green-400' : 'border-white/20'
                       } rounded-xl text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:border-transparent transition-all duration-200 backdrop-blur-sm`}
                     style={{ '--tw-ring-color': '#094e54' }}
@@ -395,7 +395,7 @@ const RegisterPage = () => {
                   name="email"
                   value={formData.email}
                   onChange={handleChange}
-                  className={`w-full px-4 py-3 bg-white/10 border ${errors.email ? 'border-red-400' :
+                  className={`w-full px-4 py-2 bg-white/10 border ${errors.email ? 'border-red-400' :
                     fieldValidation.email?.isValid ? 'border-green-400' : 'border-white/20'
                     } rounded-xl text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:border-transparent transition-all duration-200 backdrop-blur-sm`}
                   style={{ '--tw-ring-color': '#094e54' }}
@@ -427,7 +427,7 @@ const RegisterPage = () => {
                       name="password"
                       value={formData.password}
                       onChange={handleChange}
-                      className={`w-full px-4 py-3 pr-12 bg-white/10 border ${errors.password ? 'border-red-400' :
+                      className={`w-full px-4 py-2 pr-12 bg-white/10 border ${errors.password ? 'border-red-400' :
                         fieldValidation.password?.isValid ? 'border-green-400' : 'border-white/20'
                         } rounded-xl text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:border-transparent transition-all duration-200 backdrop-blur-sm`}
                       style={{ '--tw-ring-color': '#094e54' }}
@@ -465,7 +465,7 @@ const RegisterPage = () => {
                       name="confirmPassword"
                       value={formData.confirmPassword}
                       onChange={handleChange}
-                      className={`w-full px-4 py-3 pr-12 bg-white/10 border ${errors.confirmPassword ? 'border-red-400' :
+                      className={`w-full px-4 py-2 pr-12 bg-white/10 border ${errors.confirmPassword ? 'border-red-400' :
                         fieldValidation.confirmPassword?.isValid ? 'border-green-400' : 'border-white/20'
                         } rounded-xl text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:border-transparent transition-all duration-200 backdrop-blur-sm`}
                       style={{ '--tw-ring-color': '#094e54' }}
@@ -490,99 +490,77 @@ const RegisterPage = () => {
                 </div>
               </div>
 
-              {/* Referral Code */}
-              <div className="space-y-1">
-                <label className="text-sm font-medium text-gray-200">
-                  Referral Code<span className="text-red-400">*</span>
-                </label>
-                <input
-                  type="text"
-                  name="referralCode"
-                  value={formData.referralCode}
-                  onChange={handleChange}
-                  className="w-full px-4 py-3 bg-white/10 border border-white/20 rounded-xl text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:border-transparent transition-all duration-200 backdrop-blur-sm"
-                  style={{ '--tw-ring-color': '#094e54' }}
-                  onFocus={(e) => e.target.style.boxShadow = '0 0 0 2px #094e54'}
-                  onBlur={(e) => e.target.style.boxShadow = 'none'}
-                  placeholder="Enter referral code"
-                />
-              </div>
-
-              {/* Send OTP Button */}
-              <button
-                type="button"
-                onClick={handleSendOTP}
-                disabled={otpLoading || (otpSent && !canResend)}
-                className={`w-full py-3 px-6 rounded-xl font-semibold transition-all duration-200 flex items-center justify-center gap-2 ${otpLoading || (otpSent && !canResend)
-                  ? 'bg-gray-500 text-white cursor-not-allowed'
-                  : 'text-white cursor-pointer'
-                  }`}
-                style={{
-                  background: otpLoading || (otpSent && !canResend) ? '#666' : 'linear-gradient(135deg, #094e54, #4ecdc4)',
-                  '--tw-ring-color': '#094e54'
-                }}
-                onMouseEnter={(e) => {
-                  if (!otpLoading && (!otpSent || canResend)) {
-                    e.target.style.background = 'linear-gradient(135deg, #0a5c64, #5dd5cd)';
-                  }
-                }}
-                onMouseLeave={(e) => {
-                  if (!otpLoading && (!otpSent || canResend)) {
-                    e.target.style.background = 'linear-gradient(135deg, #094e54, #4ecdc4)';
-                  }
-                }}
-              >
-                {otpLoading ? (
-                  <>
-                    <RefreshCw className="w-5 h-5 animate-spin" />
-                    Sending OTP...
-                  </>
-                ) : otpSent && !canResend ? (
-                  <>
-                    <Clock className="w-5 h-5" />
-                    Resend OTP in {formatTime(timer)}
-                  </>
-                ) : otpSent && canResend ? (
-                  <>
-                    <RefreshCw className="w-5 h-5" />
-                    Resend OTP
-                  </>
-                ) : (
-                  <>
-                    <Mail className="w-5 h-5" />
-                    Send OTP
-                  </>
-                )}
-              </button>
-
-              {/* OTP Field */}
-              {otpSent && (
-                <div className="space-y-1 p-4 rounded-xl" style={{ backgroundColor: '#094e54' + '20', border: '1px solid #094e54' + '40' }}>
-                  <label className="text-sm font-medium text-gray-200 flex items-center gap-2">
-                    <Key className="w-4 h-4" />
-                    Enter OTP
-                    <span className="text-red-400">*</span>
+              
+            <div>
+                  <label className="block text-xs font-medium text-gray-700 mb-1">
+                    Referral Code (Optional)
                   </label>
-                  <input
-                    type="text"
-                    name="otp"
-                    value={formData.otp}
-                    onChange={handleChange}
-                    maxLength="6"
-                    className={`w-full px-4 py-3 bg-white/10 border ${errors.otp ? 'border-red-400' : 'border-white/20'} rounded-xl text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:border-transparent transition-all duration-200 backdrop-blur-sm text-center text-lg font-semibold tracking-widest`}
-                    style={{ '--tw-ring-color': '#094e54' }}
-                    onFocus={(e) => e.target.style.boxShadow = '0 0 0 2px #094e54'}
-                    onBlur={(e) => e.target.style.boxShadow = 'none'}
-                    placeholder="Enter 6-digit OTP"
-                  />
-                  {errors.otp && (
-                    <p className="text-red-400 text-sm flex items-center gap-1">
-                      <span className="w-1 h-1 bg-red-400 rounded-full"></span>
-                      {errors.otp}
-                    </p>
-                  )}
+                  <div className="relative">
+                    <Users className="absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-gray-400" />
+                    <input
+                      type="text"
+                      name="referralCode"
+                      value={formData.referralCode}
+                      onChange={handleChange}
+                      className="w-full pl-9 pr-3 py-2.5 text-sm border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#0a545a] focus:border-transparent"
+                      placeholder="Enter referral code (if any)"
+                    />
+                  </div>
+                  {errors.referralCode && <p className="text-red-500 text-xs mt-1">{errors.referralCode}</p>}
                 </div>
-              )}
+
+                {/* OTP Section */}
+                <div>
+                  <label className="block text-xs font-medium text-gray-700 mb-1">
+                    Email Verification *
+                  </label>
+                  <div className="flex gap-3">
+                    <button
+                      type="button"
+                      onClick={otpSent && canResend ? handleResendOTP : handleSendOTP}
+                      disabled={otpLoading || (otpSent && !canResend)}
+                      className={`px-4 py-2.5 text-sm rounded-lg font-medium transition-all duration-200 flex items-center gap-2 min-w-[100px] ${
+                        otpSent && !canResend
+                          ? 'bg-[#20934a] text-white cursor-not-allowed'
+                          : otpLoading
+                          ? 'bg-gray-400 text-white cursor-not-allowed'
+                          : 'bg-[#0a545a] text-white hover:bg-[#0a545a]/90'
+                      }`}
+                    >
+                      {otpLoading ? (
+                        <RefreshCw className="w-4 h-4 animate-spin" />
+                      ) : otpSent && !canResend ? (
+                        <>
+                          <CheckCircle className="w-4 h-4" />
+                          <span>Sent</span>
+                        </>
+                      ) : otpSent && canResend ? (
+                        'Resend'
+                      ) : (
+                        'Send OTP'
+                      )}
+                    </button>
+                    
+                    <div className="flex-1">
+                      <input
+                        type="text"
+                        name="otp"
+                        value={formData.otp}
+                        onChange={handleChange}
+                        maxLength="6"
+                        className="w-full px-3 py-2.5 text-sm border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#0a545a] focus:border-transparent text-center tracking-widest font-mono"
+                        placeholder="000000"
+                      />
+                      {otpSent && !canResend && (
+                        <div className="flex items-center justify-center mt-1 text-xs text-gray-500">
+                          <Clock className="w-3 h-3 mr-1" />
+                          Resend in {formatTime(timer)}
+                        </div>
+                      )}
+                    </div>
+                  </div>
+                  {errors.otp && <p className="text-red-500 text-xs mt-1">{errors.otp}</p>}
+                </div>
 
               {/* Terms & Conditions */}
               <div className="space-y-1">
@@ -622,7 +600,7 @@ const RegisterPage = () => {
                   : 'text-white cursor-pointer'
                   }`}
                 style={{
-                  background: loading || !otpSent || !agreeTerms ? '#666' : 'linear-gradient(135deg,#c5d82e',
+                  background: loading || !otpSent || !agreeTerms ? '#c5d82e' : 'linear-gradient(135deg,#c5d82e',
                   '--tw-ring-color': '#094e54'
                 }}
                 onMouseEnter={(e) => {
@@ -655,7 +633,7 @@ const RegisterPage = () => {
               </button>
 
               {/* Login Link */}
-              <div className="text-center pt-4 border-t border-white/10">
+              <div className="text-center pt-1 border-t border-white/10">
                 <p className="text-gray-300">
                   Already have an account?{' '}
                   <button
@@ -765,3 +743,5 @@ const RegisterPage = () => {
 };
 
 export default RegisterPage;
+
+

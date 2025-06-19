@@ -576,6 +576,7 @@ import LogoutModal from './components/Dashboard/pages/logout/logout';
 import Shareholders from './components/Dashboard/pages/shareholders/shareholders';
 import ServicesFlipCards from './components/Services/services';
 import CryptoServicesFlipCards from './components/Services/services';
+import UPIPaymentInterface from './components/Dashboard/pages/AddMoneyToWallet/AddMoneyToWallet';
 
 // Dashboard Layout Component
 const DashboardLayout = () => {
@@ -666,6 +667,8 @@ const App = () => {
           <Route path="kyc" element={<Kyc />} />
           <Route path="withdrawal" element={<WithDrawal />} />
           <Route path="support" element={<Support />} />
+         
+   
         </Route>
         
         {/* Direct Dashboard Routes (without /dashboard prefix) */}
@@ -686,7 +689,11 @@ const App = () => {
         </Route>
         <Route path="/profile" element={<DashboardLayout />}>
           <Route index element={<Profile />} />
-        </Route>
+        </Route> 
+
+         <Route path="/add_funds" element={<DashboardLayout />}>
+          <Route index element={<UPIPaymentInterface />} />
+        </Route> 
         <Route path="/kyc" element={<DashboardLayout />}>
           <Route index element={<Kyc />} />
         </Route>
