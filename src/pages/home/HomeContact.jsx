@@ -358,41 +358,30 @@ import React, { useState } from "react";
 
 export default function HomeContact() {
   const [formData, setFormData] = useState({
-    name: "",
-    email: "",
-    message: "",
+    name: '',
+    email: '',
+    message: ''
   });
-  const [focusedField, setFocusedField] = useState("");
+  const [focusedField, setFocusedField] = useState('');
 
   const handleInputChange = (e) => {
     setFormData({
       ...formData,
-      [e.target.id]: e.target.value,
+      [e.target.id]: e.target.value
     });
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log("Form submitted:", formData);
-    // Add your form submission logic here
+    console.log('Form submitted:', formData);
   };
 
   return (
-<<<<<<< HEAD
-    <div className="min-h-screen bg-black flex items-center justify-center overflow-hidden relative py-8">
-      {/* Main Container */}
-      <div className="relative z-10 flex flex-col md:flex-row w-full h-full max-w-7xl mx-auto">
-        
-        {/* Left Side - Video Background */}
-        <div className="w-full md:w-1/2 h-64 md:h-screen flex items-center justify-center">
-          <div className="relative w-full h-full overflow-hidden shadow-2xl bg-white/10 backdrop-blur-xl rounded-none md:rounded-l-2xl">
-=======
     <div className="min-h-screen bg-black flex items-center justify-center relative overflow-hidden px-4 py-8">
       <div className="relative z-10 flex flex-col md:flex-row w-full max-w-9xl h-auto md:h-[90vh] gap-8 md:gap-0">
         {/* Left Half: Video */}
         <div className="w-full md:w-1/2 h-64 md:h-full flex items-center justify-center">
           <div className="relative w-full h-full overflow-hidden shadow-2xl bg-white/10 backdrop-blur-xl rounded-2xl">
->>>>>>> 58921db3f18a278a8ae50afcfb0883d75ca5f5e1
             <video
               className="w-full h-full object-cover rounded-2xl"
               autoPlay
@@ -406,49 +395,23 @@ export default function HomeContact() {
               />
               Your browser does not support the video tag.
             </video>
-            {/* Overlay for better text readability */}
-            <div className="absolute inset-0 bg-black/20"></div>
           </div>
         </div>
 
-<<<<<<< HEAD
-        {/* Right Side - Contact Form */}
-        <div className="w-full md:w-1/2 flex items-center justify-center bg-black px-4 sm:px-6 md:px-10 py-6 md:py-20">
-          <div
-=======
         {/* Right Half: Black Background with White Glass Form */}
         <div className="w-full md:w-1/2 flex items-center justify-center bg-black p-6 rounded-2xl">
           <form
             onSubmit={handleSubmit}
->>>>>>> 58921db3f18a278a8ae50afcfb0883d75ca5f5e1
             className="w-full max-w-sm bg-white/10 backdrop-blur-xl rounded-2xl p-6 shadow-2xl border border-white/30 text-white"
           >
-            {/* Header */}
+            {/* Title */}
             <div className="text-center mb-6">
-              <h2 className="text-2xl font-semibold mb-2 bg-gradient-to-r from-white to-gray-300 bg-clip-text text-transparent">
-                Get In Touch
-              </h2>
-              <p className="text-white/70 text-sm">
-                Let's create something amazing together
-              </p>
+              <h2 className="text-2xl font-semibold mb-1">Get In Touch</h2>
+              <p className="text-white/70 text-xs">Let’s create something amazing</p>
             </div>
 
             {/* Form Fields */}
             <div className="space-y-4">
-<<<<<<< HEAD
-              {[
-                { id: "name", type: "text", label: "Name" },
-                { id: "email", type: "email", label: "Email" },
-                { id: "message", type: "textarea", label: "Message" },
-              ].map(({ id, type, label }) => (
-                <div className="relative" key={id}>
-                  <label
-                    htmlFor={id}
-                    className={`absolute left-3 transition-all duration-300 pointer-events-none text-sm ${
-                      focusedField === id || formData[id]
-                        ? "-top-2 text-xs text-cyan-400 bg-black px-1 rounded"
-                        : "top-2 text-white/70"
-=======
               {['name','phone', 'email', 'message'].map((field) => (
                 <div className="relative" key={field}>
                   <label
@@ -457,20 +420,19 @@ export default function HomeContact() {
                       focusedField === field || formData[field]
                         ? '-top-2 text-xs text-white'
                         : 'top-2 text-white/70'
->>>>>>> 58921db3f18a278a8ae50afcfb0883d75ca5f5e1
                     }`}
                   >
-                    {label}
+                    {field.charAt(0).toUpperCase() + field.slice(1)}
                   </label>
-
-                  {type !== "textarea" ? (
+                  {field !== 'message' ? (
                     <input
-                      id={id}
-                      type={type}
-                      value={formData[id]}
+                      type={field === 'email' ? 'email' : 'text'}
+                      id={field}
+                      value={formData[field]}
                       onChange={handleInputChange}
-                      onFocus={() => setFocusedField(id)}
-                      onBlur={() => setFocusedField("")}
+                      onFocus={() => setFocusedField(field)}
+                      onBlur={() => setFocusedField('')}
+                      placeholder={`Your ${field}`}
                       className="w-full py-2 px-3 text-sm bg-white/10 border border-white/30 rounded-xl text-white placeholder-transparent focus:outline-none focus:border-cyan-400 focus:bg-white/20 transition-all duration-300"
                     />
                   ) : (
@@ -478,9 +440,10 @@ export default function HomeContact() {
                       id="message"
                       value={formData.message}
                       onChange={handleInputChange}
-                      onFocus={() => setFocusedField("message")}
-                      onBlur={() => setFocusedField("")}
-                      rows="4"
+                      onFocus={() => setFocusedField('message')}
+                      onBlur={() => setFocusedField('')}
+                      rows="3"
+                      placeholder="Your Message"
                       className="w-full py-2 px-3 text-sm bg-white/10 border border-white/30 rounded-xl text-white placeholder-transparent focus:outline-none focus:border-cyan-400 focus:bg-white/20 transition-all duration-300 resize-none"
                     ></textarea>
                   )}
@@ -490,50 +453,16 @@ export default function HomeContact() {
               {/* Submit Button */}
               <button
                 type="submit"
-                onClick={handleSubmit}
-                className="w-full py-3 px-4 text-sm bg-gradient-to-r from-purple-600 to-cyan-600 rounded-xl text-white font-medium transition-all duration-300 hover:from-purple-700 hover:to-cyan-700 focus:outline-none transform hover:scale-105 hover:shadow-lg"
+                className="w-full py-2.5 px-4 text-sm bg-gradient-to-r from-purple-600 to-cyan-600 rounded-xl text-white font-medium transition duration-300 hover:from-purple-700 hover:to-cyan-700 focus:outline-none transform hover:scale-105"
               >
                 Send Message
               </button>
             </div>
 
-<<<<<<< HEAD
-            {/* Social Links */}
-            <div className="mt-8 pt-6 border-t border-white/20">
-              <p className="text-center text-white/70 text-sm mb-4">
-                Or connect with us on
-              </p>
-              <div className="flex justify-center space-x-4">
-                {[
-                  { name: "Twitter", icon: "T", href: "#" },
-                  { name: "LinkedIn", icon: "L", href: "#" },
-                  { name: "GitHub", icon: "G", href: "#" }
-                ].map(({ name, icon, href }) => (
-                  <a
-                    key={name}
-                    href={href}
-                    className="w-10 h-10 bg-white/10 border border-white/30 rounded-full flex items-center justify-center text-white/70 hover:text-white hover:bg-white/20 transition-all duration-300 hover:scale-110 hover:border-cyan-400"
-                    title={name}
-                  >
-                    <span className="text-sm font-medium">{icon}</span>
-                  </a>
-                ))}
-              </div>
-            </div>
-          </div>
-=======
             
           </form>
->>>>>>> 58921db3f18a278a8ae50afcfb0883d75ca5f5e1
         </div>
       </div>
-
-      {/* Background Effects */}
-      <div className="absolute inset-0 bg-gradient-to-br from-purple-900/20 to-cyan-900/20 pointer-events-none"></div>
     </div>
   );
-<<<<<<< HEAD
 }
-=======
-}
->>>>>>> 58921db3f18a278a8ae50afcfb0883d75ca5f5e1

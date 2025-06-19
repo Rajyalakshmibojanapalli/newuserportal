@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { Mail, Phone, MapPin, Globe, Send, CheckCircle, X, Sparkles, Zap, Heart } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
@@ -135,25 +134,15 @@ const ContactPage = () => {
       
       <div 
         className="min-h-screen py-12 px-4 relative overflow-hidden"
-<<<<<<< HEAD
-        // style={{
-        //   background: 'linear-gradient(135deg, #195f64 0%, #bbcf28 50%, #1c994a 100%)'
-        // }}
-         style={{ 
-          background: 'linear-gradient(135deg, rgba(8,83,89,0.95) 0%, rgba(8,83,89,0.9) 100%)',
-          WebkitBackdropFilter: 'blur(16px)' 
-      }}
-=======
         style={{
           background: 'linear-gradient(135deg, #195f64 0%,rgb(40, 100, 104) 50%, #1c994a 100%)'
         }}
->>>>>>> 58921db3f18a278a8ae50afcfb0883d75ca5f5e1
       >
 
 
         <div className="max-w-6xl mx-auto relative z-10">
           <div className="text-center mb-12">
-            <h1 className="text-1xl md:text-6xl font-bold text-white mb-4 text-white">
+            <h1 className="text-5xl md:text-6xl font-bold text-white mb-4 text-white">
               Let's Connect! 
             </h1>
             <p className="text-xl text-gray-100 max-w-2xl mx-auto">
@@ -363,6 +352,3 @@ const ContactPage = () => {
 };
 
 export default ContactPage;
-
-
-

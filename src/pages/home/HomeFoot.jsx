@@ -265,77 +265,8 @@ export default function HomeFooter() {
                     backgroundBlendMode: 'multiply',
                     backgroundRepeat: 'no-repeat',
 
-<<<<<<< HEAD
-                    {/* Central Conic Gradient */}
-                    <div 
-                        className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] rounded-full opacity-10 blur-3xl"
-                        style={{
-                            background: 'conic-gradient(from 0deg, #4ecdc4, #094e54, #26a69a, #4ecdc4)',
-                            animation: 'spin 20s linear infinite'
-                        }}
-                    />
-
-                    {/* Hexagonal Pattern Overlay */}
-                    <div className="absolute inset-0 opacity-5">
-                        <div className="h-full w-full"
-                             style={{
-                                 backgroundImage: `
-                                     radial-gradient(circle at 25% 25%, rgba(78, 205, 196, 0.3) 2px, transparent 2px),
-                                     radial-gradient(circle at 75% 75%, rgba(38, 166, 154, 0.3) 2px, transparent 2px)
-                                 `,
-                                 backgroundSize: '60px 60px',
-                                 backgroundPosition: '0 0, 30px 30px'
-                             }}
-                        />
-                    </div>
-
-                    {/* Floating Geometric Shapes */}
-                    {/* {[...Array(15)].map((_, i) => (
-                        <div
-                            key={`stay-${i}`}
-                            className="absolute opacity-20"
-                            style={{
-                                left: `${Math.random() * 100}%`,
-                                top: `${Math.random() * 100}%`,
-                                animation: `floatShape ${4 + Math.random() * 6}s ease-in-out infinite`,
-                                animationDelay: `${Math.random() * 3}s`
-                            }}
-                        >
-                            {i % 3 === 0 ? (
-                                <div className="w-2 h-2 bg-white rounded-full" />
-                            ) : i % 3 === 1 ? (
-                                <div className="w-3 h-3 border border-white transform rotate-45" />
-                            ) : (
-                                <div className="w-2 h-2 bg-white transform rotate-45" />
-                            )}
-                        </div>
-                    ))} */}
-
-                    {/* Wave Animation */}
-                    {/* <div className="absolute bottom-0 left-0 right-0 h-32 opacity-10">
-                        <svg viewBox="0 0 1200 120" className="w-full h-full">
-                            <path 
-                                d="M0,60 C300,120 900,0 1200,60 L1200,120 L0,120 Z" 
-                                fill="rgba(78, 205, 196, 0.3)"
-                                className="animate-wave"
-                            />
-                        </svg>
-                    </div> */}
-                </div>
-
-                <div className="relative z-10 container mx-auto px-6 py-24 text-center" style={{backgroundImage:`url('${coinsmax}')`,
-                backgroundSize: 'cover',
-                backgroundPosition: 'center',
-                backgroundRepeat: 'no-repeat',
-                backgroundAttachment: 'fixed',
-                backgroundBlendMode: 'multiply',
-              
-                
-                width:'100%',height:'100%'}}>
-=======
                     width: '100%', height: '100%'
                 }}>
->>>>>>> 58921db3f18a278a8ae50afcfb0883d75ca5f5e1
                     <div className="space-y-16 animate-fadeInUp">
                         <div className="relative inline-block group" >
                             <div

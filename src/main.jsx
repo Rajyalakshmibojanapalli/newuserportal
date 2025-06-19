@@ -1,20 +1,20 @@
-<<<<<<< HEAD
-import { StrictMode } from 'react'
-import { createRoot } from 'react-dom/client'
-import './index.css'
-import App from './App.jsx'
-import AppWrapper from './App.jsx'
-import { store } from './components/Dashboard/storeJs/store.js'
-import { Provider } from 'react-redux'
 
-createRoot(document.getElementById('root')).render(
-  <StrictMode>
-     <Provider store={store}>
-      <AppWrapper />
-    </Provider>
-  </StrictMode>,
-)
-=======
+// import { StrictMode } from 'react'
+// import { createRoot } from 'react-dom/client'
+// import './index.css'
+// import App from './App.jsx'
+// import AppWrapper from './App.jsx'
+// import { store } from './components/Dashboard/storeJs/store.js'
+// import { Provider } from 'react-redux'
+
+// createRoot(document.getElementById('root')).render(
+//   <StrictMode>
+//      <Provider store={store}>
+//       <AppWrapper />
+//     </Provider>
+//   </StrictMode>,
+// )
+
 // import { StrictMode } from 'react'
 // import { createRoot } from 'react-dom/client'
 // import React from "react";
@@ -46,7 +46,7 @@ import React from "react";
 import ReactDOM from "react-dom/client";
 import { BrowserRouter } from "react-router-dom";
 import { Provider } from "react-redux";
-// import HelmetProvider  from "react-helmet-async";
+
 import App from "./App.jsx";
 import { store } from "./services/store.js";
 import "./index.css";
@@ -64,4 +64,5 @@ ReactDOM.createRoot(document.getElementById("root")).render(
     </Provider>
   </React.StrictMode>
 );
->>>>>>> 58921db3f18a278a8ae50afcfb0883d75ca5f5e1
+
+ 

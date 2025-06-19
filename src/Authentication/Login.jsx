@@ -538,77 +538,6 @@ const LoginPage = () => {
             </div>
           </div>
 
-<<<<<<< HEAD
-          {/* Remember Me & Forgot Password */}
-          <div className="flex items-center justify-between">
-            <label className="flex items-center space-x-2 cursor-pointer">
-              <input
-                type="checkbox"
-                checked={rememberMe}
-                onChange={(e) => setRememberMe(e.target.checked)}
-                className="w-4 h-4 bg-white/10 border-white/20 rounded focus:ring-2 cursor-pointer"
-                style={{ accentColor: '#094e54' }}
-              />
-              <span className="text-sm text-gray-300">Remember me</span>
-            </label>
-            <button
-              type="button"
-              className="text-sm hover:text-white transition-colors cursor-pointer"
-              style={{ color: '#4ecdc4' }}
-              onClick={() => alert('Forgot password functionality would go here')}
-            >
-              Forgot Password?
-            </button>
-          </div>
-
-          {/* Submit Button */}
-          <button
-            type="button"
-            onClick={handleSubmit}
-            disabled={loading}
-            className="w-full text-white py-3 px-6 rounded-full font-semibold focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-900 disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-200 flex items-center justify-center gap-2 group cursor-pointer"
-            style={{
-              background: loading
-                ? '#bace27'
-                : '#094e54',
-              '--tw-ring-color': '#094e54',
-            }}
-            onMouseEnter={(e) => {
-              if (!loading) e.target.style.background = 'linear-gradient(135deg, #0a5c64, #5dd5cd)';
-            }}
-            onMouseLeave={(e) => {
-              if (!loading) e.target.style.background = 'linear-gradient(135deg, #094e54, #4ecdc4)';
-            }}
-          >
-            {loading ? (
-              <>
-                <div className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin"></div>
-                Signing In...
-              </>
-            ) : (
-              <>
-                Sign In
-                <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform duration-200" />
-              </>
-            )}
-          </button>
-
-          {/* Register Link */}
-          <div className="text-center pt-4 border-t border-white/10">
-            <p className="text-gray-300">
-              Don't have an account?{' '}
-              <button
-                type="button"
-                className="font-semibold transition-colors cursor-pointer"
-                style={{ color: '#4ecdc4' }}
-                onClick={() => navigate("/register")}
-                onMouseEnter={(e) => (e.target.style.color = '#5dd5cd')}
-                onMouseLeave={(e) => (e.target.style.color = '#4ecdc4')}
-              >
-                Register Now
-              </button>
-            </p>
-=======
           {/* Mobile branding */}
           <div className="lg:hidden text-center mt-8">
             <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-[#094e54] to-[#0a5c64] flex items-center justify-center mx-auto mb-4 transform rotate-12 hover:rotate-0 transition">
@@ -621,7 +550,6 @@ const LoginPage = () => {
               </span>
             </h1>
             <p className="text-gray-300 text-sm">Your gateway to secure financial solutions</p>
->>>>>>> 58921db3f18a278a8ae50afcfb0883d75ca5f5e1
           </div>
         </div>
       </div>

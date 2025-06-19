@@ -31,16 +31,12 @@ import LogoutModal from './components/Dashboard/pages/logout/logout';
 import Shareholders from './components/Dashboard/pages/shareholders/shareholders';
 import ServicesFlipCards from './components/Services/services';
 import CryptoServicesFlipCards from './components/Services/services';
-<<<<<<< HEAD
-import UPIPaymentInterface from './components/Dashboard/pages/AddMoneyToWallet/AddMoneyToWallet';
-
-=======
 import SupportPage from './global/SupportPage';
 import RefundPolicy from './global/RefundPolicy';
 import TermsConditions from './global/TermsConditons';
 import PrivacyPolicy from './global/PrivacyPolicy';
 import Disclaimer from './global/Disclaimer';
->>>>>>> 58921db3f18a278a8ae50afcfb0883d75ca5f5e1
+import AddFundsPage from './components/Dashboard/pages/AddMoneyToWallet/AddMoneyToWallet';
 // Dashboard Layout Component
 const DashboardLayout = () => {
   const [sidebarOpen, setSidebarOpen] = useState(false);
@@ -129,12 +125,7 @@ const App = () => {
           <Route path="kyc" element={<Kyc />} />
           <Route path="withdrawal" element={<WithDrawal />} />
           <Route path="support" element={<Support />} />
-<<<<<<< HEAD
-         
-   
-=======
 
->>>>>>> 58921db3f18a278a8ae50afcfb0883d75ca5f5e1
         </Route>
 
         {/* Direct Dashboard Routes (without /dashboard prefix) */}
@@ -147,6 +138,9 @@ const App = () => {
         <Route path="/shareholders" element={<DashboardLayout />}>
           <Route index element={<Shareholders />} />
         </Route>
+           <Route path="/add_funds" element={<DashboardLayout />}>
+          <Route index element={<AddFundsPage />} />
+        </Route>
         <Route path="/buy-history" element={<DashboardLayout />}>
           <Route index element={<BuyHistory />} />
         </Route>
@@ -155,11 +149,7 @@ const App = () => {
         </Route>
         <Route path="/profile" element={<DashboardLayout />}>
           <Route index element={<Profile />} />
-        </Route> 
-
-         <Route path="/add_funds" element={<DashboardLayout />}>
-          <Route index element={<UPIPaymentInterface />} />
-        </Route> 
+        </Route>
         <Route path="/kyc" element={<DashboardLayout />}>
           <Route index element={<Kyc />} />
         </Route>
