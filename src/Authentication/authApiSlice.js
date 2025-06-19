@@ -1,5 +1,8 @@
 
-import { apiSlice } from "../ApiSliceComponent/jaiMaxApi"
+
+import { apiSlice } from "../ApiSliceComponent/jaiMaxApi";
+
+
 
 export const authApiSlice = apiSlice.injectEndpoints({
     endpoints: (builder) => ({

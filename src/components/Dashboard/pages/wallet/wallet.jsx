@@ -1,5 +1,5 @@
 
-import React from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { FaShareAlt } from "react-icons/fa";
 import assets from "../../../../assets/assets"
 import { TextField, InputAdornment } from "@mui/material";
@@ -7,270 +7,10 @@ import TransactionDetails from './transactionDetails/transactionDetails';
 
 
 
-const transactionData = [
-  {
-    sno: 1,
-    transactionId: "279RWYX",
-    amount: "₹0.00",
-    type: "Credit",
-    paymentMethod: "Available Balance",
-    currency: "INR",
-    transactionDate: "29-04-2025 5:25 PM",
-    status: "Completed",
-    reason: "N/A",
-    updatedBy: "N/A",
-    updatedOn: "29-04-2025 5:25 PM",
-  },
-  {
-    sno: 2,
-    transactionId: "041VDZS",
-    amount: "₹0.00",
-    type: "Credit",
-    paymentMethod: "Available Balance",
-    currency: "INR",
-    transactionDate: "29-04-2025 5:24 PM",
-    status: "Completed",
-    reason: "N/A",
-    updatedBy: "N/A",
-    updatedOn: "29-04-2025 5:24 PM",
-  },
-  {
-    sno: 3,
-    transactionId: "682PQRT",
-    amount: "₹500.00",
-    type: "Debit",
-    paymentMethod: "UPI",
-    currency: "INR",
-    transactionDate: "28-04-2025 3:10 PM",
-    status: "Completed",
-    reason: "Subscription Payment",
-    updatedBy: "Admin",
-    updatedOn: "28-04-2025 3:15 PM",
-  },
-  {
-    sno: 4,
-    transactionId: "374MKLO",
-    amount: "₹2500.00",
-    type: "Credit",
-    paymentMethod: "Bank Transfer",
-    currency: "INR",
-    transactionDate: "27-04-2025 10:00 AM",
-    status: "Completed",
-    reason: "Client Payment",
-    updatedBy: "Finance Team",
-    updatedOn: "27-04-2025 10:05 AM",
-  },
-  {
-    sno: 5,
-    transactionId: "953WXYZ",
-    amount: "₹120.00",
-    type: "Debit",
-    paymentMethod: "Credit Card",
-    currency: "INR",
-    transactionDate: "26-04-2025 6:45 PM",
-    status: "Failed",
-    reason: "Insufficient Balance",
-    updatedBy: "System",
-    updatedOn: "26-04-2025 6:46 PM",
-  },
-  {
-    sno: 6,
-    transactionId: "174ABCD",
-    amount: "₹999.00",
-    type: "Credit",
-    paymentMethod: "Paytm",
-    currency: "INR",
-    transactionDate: "25-04-2025 9:30 AM",
-    status: "Completed",
-    reason: "Refund",
-    updatedBy: "Support Team",
-    updatedOn: "25-04-2025 9:45 AM",
-  },
-  {
-    sno: 7,
-    transactionId: "897LMNP",
-    amount: "₹75.00",
-    type: "Debit",
-    paymentMethod: "Net Banking",
-    currency: "INR",
-    transactionDate: "24-04-2025 11:20 AM",
-    status: "Pending",
-    reason: "Bill Payment",
-    updatedBy: "User",
-    updatedOn: "24-04-2025 11:25 AM",
-  },
-  {
-    sno: 7,
-    transactionId: "897LMNP",
-    amount: "₹75.00",
-    type: "Debit",
-    paymentMethod: "Net Banking",
-    currency: "INR",
-    transactionDate: "24-04-2025 11:20 AM",
-    status: "Pending",
-    reason: "Bill Payment",
-    updatedBy: "User",
-    updatedOn: "24-04-2025 11:25 AM",
-  },
-  {
-    sno: 7,
-    transactionId: "897LMNP",
-    amount: "₹75.00",
-    type: "Debit",
-    paymentMethod: "Net Banking",
-    currency: "INR",
-    transactionDate: "24-04-2025 11:20 AM",
-    status: "Pending",
-    reason: "Bill Payment",
-    updatedBy: "User",
-    updatedOn: "24-04-2025 11:25 AM",
-  },
-  {
-    sno: 7,
-    transactionId: "897LMNP",
-    amount: "₹75.00",
-    type: "Debit",
-    paymentMethod: "Net Banking",
-    currency: "INR",
-    transactionDate: "24-04-2025 11:20 AM",
-    status: "Pending",
-    reason: "Bill Payment",
-    updatedBy: "User",
-    updatedOn: "24-04-2025 11:25 AM",
-  },
-  {
-    sno: 7,
-    transactionId: "897LMNP",
-    amount: "₹75.00",
-    type: "Debit",
-    paymentMethod: "Net Banking",
-    currency: "INR",
-    transactionDate: "24-04-2025 11:20 AM",
-    status: "Pending",
-    reason: "Bill Payment",
-    updatedBy: "User",
-    updatedOn: "24-04-2025 11:25 AM",
-  },
-  {
-    sno: 7,
-    transactionId: "897LMNP",
-    amount: "₹75.00",
-    type: "Debit",
-    paymentMethod: "Net Banking",
-    currency: "INR",
-    transactionDate: "24-04-2025 11:20 AM",
-    status: "Pending",
-    reason: "Bill Payment",
-    updatedBy: "User",
-    updatedOn: "24-04-2025 11:25 AM",
-  },
-  {
-    sno: 7,
-    transactionId: "897LMNP",
-    amount: "₹75.00",
-    type: "Debit",
-    paymentMethod: "Net Banking",
-    currency: "INR",
-    transactionDate: "24-04-2025 11:20 AM",
-    status: "Pending",
-    reason: "Bill Payment",
-    updatedBy: "User",
-    updatedOn: "24-04-2025 11:25 AM",
-  },
-  {
-    sno: 7,
-    transactionId: "897LMNP",
-    amount: "₹75.00",
-    type: "Debit",
-    paymentMethod: "Net Banking",
-    currency: "INR",
-    transactionDate: "24-04-2025 11:20 AM",
-    status: "Pending",
-    reason: "Bill Payment",
-    updatedBy: "User",
-    updatedOn: "24-04-2025 11:25 AM",
-  },
-  {
-    sno: 7,
-    transactionId: "897LMNP",
-    amount: "₹75.00",
-    type: "Debit",
-    paymentMethod: "Net Banking",
-    currency: "INR",
-    transactionDate: "24-04-2025 11:20 AM",
-    status: "Pending",
-    reason: "Bill Payment",
-    updatedBy: "User",
-    updatedOn: "24-04-2025 11:25 AM",
-  },
-  {
-    sno: 7,
-    transactionId: "897LMNP",
-    amount: "₹75.00",
-    type: "Debit",
-    paymentMethod: "Net Banking",
-    currency: "INR",
-    transactionDate: "24-04-2025 11:20 AM",
-    status: "Pending",
-    reason: "Bill Payment",
-    updatedBy: "User",
-    updatedOn: "24-04-2025 11:25 AM",
-  },
-  {
-    sno: 7,
-    transactionId: "897LMNP",
-    amount: "₹75.00",
-    type: "Debit",
-    paymentMethod: "Net Banking",
-    currency: "INR",
-    transactionDate: "24-04-2025 11:20 AM",
-    status: "Pending",
-    reason: "Bill Payment",
-    updatedBy: "User",
-    updatedOn: "24-04-2025 11:25 AM",
-  },
-  {
-    sno: 7,
-    transactionId: "897LMNP",
-    amount: "₹75.00",
-    type: "Debit",
-    paymentMethod: "Net Banking",
-    currency: "INR",
-    transactionDate: "24-04-2025 11:20 AM",
-    status: "Pending",
-    reason: "Bill Payment",
-    updatedBy: "User",
-    updatedOn: "24-04-2025 11:25 AM",
-  },
-  {
-    sno: 7,
-    transactionId: "897LMNP",
-    amount: "₹75.00",
-    type: "Debit",
-    paymentMethod: "Net Banking",
-    currency: "INR",
-    transactionDate: "24-04-2025 11:20 AM",
-    status: "Pending",
-    reason: "Bill Payment",
-    updatedBy: "User",
-    updatedOn: "24-04-2025 11:25 AM",
-  },
-  {
-    sno: 7,
-    transactionId: "897LMNP",
-    amount: "₹75.00",
-    type: "Debit",
-    paymentMethod: "Net Banking",
-    currency: "INR",
-    transactionDate: "24-04-2025 11:20 AM",
-    status: "Pending",
-    reason: "Bill Payment",
-    updatedBy: "User",
-    updatedOn: "24-04-2025 11:25 AM",
-  }
-];
+const transactionData = []
 
 const Wallet = () => {
+ 
   const shapeBaseStyles = {
     position: 'absolute',
     backgroundColor: '#111111',
@@ -339,8 +79,10 @@ const Wallet = () => {
               ))}
 
               {/* Wallet Content */}
-              <div className="flex flex-col sm:flex-row justify-between items-center text-[#084e54] z-10">
-                <div className="flex items-center gap-4 mb-4 sm:mb-0">
+              {/* Wallet Content */}
+              <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center text-[#084e54] z-10 gap-4">
+                {/* Wallet Info */}
+                <div className="flex items-center gap-4">
                   <div className="w-16 h-16 bg-[#e0f7f6] rounded-full flex items-center justify-center border-2 border-[#4ecdc4] shadow-md">
                     <img
                       src={assets.walletBal}
@@ -354,13 +96,21 @@ const Wallet = () => {
                   </div>
                 </div>
 
-                <div className="text-right">
-                  <h1 className="font-bold mb-2">Add Money to Wallet</h1>
-                  <button className="w-full bg-gradient-to-r from-[#094e54] to-[#4ecdc4] text-white font-semibold px-6 py-3 rounded-full hover:from-[#0a5c64] hover:to-[#5dd5cd] transition">
+                {/* Add Money Button Section */}
+                {/* Add Funds Button Section */}
+                <div className="w-full  text-center sm:text-right">
+                  <h1 className="font-bold text-sm sm:text-base mb-2 sm:mb-2">Add Money to Wallet</h1>
+                  <button
+                    className="w-full bg-gradient-to-r from-[#094e54] to-[#4ecdc4] text-white 
+    font-semibold px-5 py-2 sm:px-2 sm:py-3 text-sm sm:text-base 
+    rounded-full hover:from-[#0a5c64] hover:to-[#5dd5cd] transition duration-300"
+                  >
                     ADD FUNDS
                   </button>
                 </div>
+
               </div>
+
             </div>
 
             {/* Referral Code Box (Single Column) */}
@@ -373,8 +123,9 @@ const Wallet = () => {
                   className="group-hover:opacity-100 opacity-30"
                 />
               ))}
+                 
 
-              <TextField
+                            <TextField
                 fullWidth
                 label="Referral Code"
                 value="JMXA4557jXXN"
@@ -398,6 +149,7 @@ const Wallet = () => {
                   },
                 }}
               />
+
             </div>
 
           </div>
@@ -409,7 +161,7 @@ const Wallet = () => {
         </div>
 
       </div>
-
+    {/* {(isLoading || loading) && <Loader />} */}
     </>
   );
 };

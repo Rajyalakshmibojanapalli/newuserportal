@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 // import React, { useState } from 'react';
 
 // const Kyc = () => {
@@ -282,6 +283,8 @@
 
 // export default Kyc;
 
+=======
+>>>>>>> 09e11bbf4d9db1ed151c238ce4110f373d6b85a8
 
 
 

@@ -4,6 +4,7 @@ import { Eye, EyeOff, Mail, Users, Lock, ArrowRight, Shield, User, Phone, Key, C
 import Logo from "./Logo";
 import countryCodes from './countryCodes.json';
 import { useRegisterMutation, useVerifyMutation, useOTPresentMutation } from './authApiSlice'; // Update the import path
+import { useNavigate } from 'react-router-dom';
 
 const RegisterPage = () => {
   const [formData, setFormData] = useState({
@@ -33,6 +34,7 @@ const RegisterPage = () => {
   const [isVisible, setIsVisible] = useState(false);
   const [fieldValidation, setFieldValidation] = useState({});
 
+  const navigate = useNavigate()
   // API hooks
   const [register, { isLoading: isRegistering }] = useRegisterMutation();
   const [verify, { isLoading: isVerifying }] = useVerifyMutation();
