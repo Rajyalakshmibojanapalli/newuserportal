@@ -326,7 +326,7 @@ const RegisterPage = () => {
         showConfirmButton: false,
       }).then(() => {
         // Navigate to home page like your previous code
-        // navigate("/home"); // Uncomment this when you add navigation
+        navigate("/dashboard"); // Uncomment this when you add navigation
         // window.location.href = '/home'; // Alternative navigation
       });
       

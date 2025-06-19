@@ -160,12 +160,13 @@ const Footer = () => {
               </h3>
               <ul className="space-y-3">
                 {[
-                  { name: 'ICO Timeline', path: '/ico-timeline' },
-                  { name: 'Margin Trading', path: '/margin-trading' },
-                  { name: 'API Trading', path: '/api-trading' },
-                  { name: 'Spot Trading', path: '/spot-trading' },
-                  { name: 'Futures Trading', path: '/futures-trading' },
-                  { name: 'Refer and Earn', path: '/refer-earn' }
+                  { name: 'ICO Timeline', path: '/PreSale' },
+                  { name: 'Margin Trading', path: '/Margintrading' },
+                  { name: 'API Trading', path: '/ApiTrading' },
+                  { name: 'Spot Trading', path: '/SpotTrading' },
+                  { name: 'Futures Trading', path: '/FuturesTrading' },
+                  { name: 'Refer and Earn', path: '/ReferEarn' },
+                  
                 ].map((link) => (
                   <li key={link.name}>
                     <NavLink
