@@ -263,7 +263,7 @@ export default function HomeFooter() {
                     backgroundRepeat: 'no-repeat',
                     backgroundAttachment: 'fixed',
                     backgroundBlendMode: 'multiply',
-                    backgroundRepeat: 'no-repeat',
+                
 
                     width: '100%', height: '100%'
                 }}>

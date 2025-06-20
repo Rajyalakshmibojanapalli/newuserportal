@@ -1,8 +1,6 @@
 
 import React, { useState, useEffect } from 'react';
-import { BrowserRouter, Routes, Route, useLocation, Outlet } from 'react-router-dom';
-
-// Public/Landing components
+import {Routes, Route, useLocation, Outlet } from 'react-router-dom';
 import Navbar from './global/Navbar';
 import Footer from './global/Footer';
 import Home from './pages/home/Home';
@@ -13,9 +11,6 @@ import JaimaxSplash from './global/Splashscreen';
 import JaimaxComponent from './components/About/About';
 import FeaturesSection from './pages/home/HomeFeatures';
 import BlogLayout from './pages/home/Blog';
-import ServicesComponent from './pages/home/Homeservices';
-
-// Dashboard components
 import Dashboard from "./components/Dashboard/pages/dashBoard/dashBoard";
 import Wallet from './components/Dashboard/pages/wallet/wallet';
 import MyTotalTeam from './components/Dashboard/pages/myTotalTeam/myTotalTeam';
@@ -29,16 +24,24 @@ import Sidebar from './components/Dashboard/sildeBar/Sidebar';
 import Header from './components/Dashboard/header/header';
 import LogoutModal from './components/Dashboard/pages/logout/logout';
 import Shareholders from './components/Dashboard/pages/shareholders/shareholders';
-import ServicesFlipCards from './components/Services/services';
 import CryptoServicesFlipCards from './components/Services/services';
 import SupportPage from './global/SupportPage';
 import RefundPolicy from './global/RefundPolicy';
 import TermsConditions from './global/TermsConditons';
 import PrivacyPolicy from './global/PrivacyPolicy';
 import Disclaimer from './global/Disclaimer';
+
+import Margintrading from "./services/Margintrading";
+import ApiTrading from "./services/Apitrading";
+import SpotTrading from "./services/Spottrading";
+import FuturesTrading from "./services/Futurestrading";
+import PreSale from './services/Presale'
+import ReferEarn from './services/Referearn'
+
 import AddFundsPage from './components/Dashboard/pages/AddMoneyToWallet/AddMoneyToWallet';
 import AddMoneyToWallet from './components/Dashboard/pages/AddMoneyToWallet/AddMoneyToWallet';
 // Dashboard Layout Component
+
 const DashboardLayout = () => {
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [showLogoutModal, setShowLogoutModal] = useState(false);
@@ -78,8 +81,6 @@ const DashboardLayout = () => {
     </div>
   );
 };
-
-// Public Layout Component
 const PublicLayout = () => {
   const location = useLocation();
   const hideNavbarRoutes = ['/login', '/register'];
@@ -95,8 +96,6 @@ const PublicLayout = () => {
     </div>
   );
 };
-
-// Main App Component
 const App = () => {
   const [showSplash, setShowSplash] = useState(true);
 
@@ -114,7 +113,6 @@ const App = () => {
   return (
     
       <Routes>
-        {/* Dashboard Routes - Both with and without /dashboard prefix */}
         <Route path="/dashboard" element={<DashboardLayout />}>
           <Route index element={<Dashboard />} />
           <Route path="wallet" element={<Wallet />} />
@@ -126,10 +124,7 @@ const App = () => {
           <Route path="kyc" element={<Kyc />} />
           <Route path="withdrawal" element={<WithDrawal />} />
           <Route path="support" element={<Support />} />
-
         </Route>
-
-        {/* Direct Dashboard Routes (without /dashboard prefix) */}
         <Route path="/wallet" element={<DashboardLayout />}>
           <Route index element={<Wallet />} />
         </Route>
@@ -160,8 +155,6 @@ const App = () => {
         <Route path="/support" element={<DashboardLayout />}>
           <Route index element={<Support />} />
         </Route>
-
-        {/* Public Routes */}
         <Route path="/" element={<PublicLayout />}>
           <Route index element={<Home />} />
           <Route path="login" element={<Login />} />
@@ -177,9 +170,14 @@ const App = () => {
           <Route path="/terms-and-conditions" element={<TermsConditions />} />
           <Route path="/refund-policy" element={<RefundPolicy />} />
           <Route path="/disclaimer" element={<Disclaimer />} />
+          <Route path="/Margintrading" element={<Margintrading />} />
+          <Route path="/ApiTrading" element={<ApiTrading />} />
+          <Route path="/SpotTrading" element={<SpotTrading />} />
+          <Route path="/FuturesTrading" element={<FuturesTrading />} />
+          <Route path="/PreSale" element={<PreSale />} />
+          <Route path="/ReferEarn" element={<ReferEarn />} />
         </Route>
       </Routes>
-    
   );
 };
 
