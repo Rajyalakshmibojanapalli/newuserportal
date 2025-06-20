@@ -40,6 +40,7 @@ import PreSale from './services/Presale'
 import ReferEarn from './services/Referearn'
 
 import AddFundsPage from './components/Dashboard/pages/AddMoneyToWallet/AddMoneyToWallet';
+import AddMoneyToWallet from './components/Dashboard/pages/AddMoneyToWallet/AddMoneyToWallet';
 // Dashboard Layout Component
 
 const DashboardLayout = () => {
@@ -135,7 +136,7 @@ const App = () => {
           <Route index element={<Shareholders />} />
         </Route>
            <Route path="/add_funds" element={<DashboardLayout />}>
-          <Route index element={<AddFundsPage />} />
+          <Route index element={<AddMoneyToWallet />} />
         </Route>
         <Route path="/buy-history" element={<DashboardLayout />}>
           <Route index element={<BuyHistory />} />
@@ -183,3 +184,101 @@ const App = () => {
 };
 
 export default App;
+
+// import React, { useEffect, useRef } from "react";
+// import QRCode from "qrcode";
+// import logo from './assets/jcoin1.png'; // Ensure this is in your src folder
+
+// const App = () => {
+//   const canvasRef = useRef();
+//   const downloadRef = useRef();
+
+//   useEffect(() => {
+//     const upiID = "jaimaxcoin2024@upi";
+//     const payeeName = "JAIMAX PAYMENTS";
+//     const amount = "1.00";
+//     const qrData = `upi://pay?pa=${upiID}&pn=${encodeURIComponent(
+//       payeeName
+//     )}&am=${amount}&cu=INR`;
+
+//     QRCode.toCanvas(canvasRef.current, qrData, {
+//       errorCorrectionLevel: "H",
+//       width: 300,
+//       margin: 1,
+//       color: {
+//         dark: "#000000",
+//         light: "#ffffff",
+//       },
+//     });
+//   }, []);
+
+//   const downloadImage = () => {
+//     const canvas = canvasRef.current;
+//     const ctx = canvas.getContext("2d");
+
+//     const tempImage = new Image();
+//     tempImage.src = logo;
+//     tempImage.onload = () => {
+//       const size = 60;
+//       const x = (canvas.width - size) / 2;
+//       const y = (canvas.height - size) / 2;
+
+//       // Draw the logo on the canvas
+//       ctx.drawImage(tempImage, x, y, size, size);
+
+//       const link = document.createElement("a");
+//       link.download = "jaimax_upi_qr.png";
+//       link.href = canvas.toDataURL("image/png");
+//       link.click();
+//     };
+//   };
+
+//   return (
+//     <div style={{ textAlign: "center" }}>
+//       <div
+//         style={{
+//           position: "relative",
+//           width: 300,
+//           height: 300,
+//           margin: "0 auto",
+//         }}
+//       >
+//         <canvas ref={canvasRef} width={300} height={300} />
+//         <img
+//           src={logo}
+//           alt="JAIMAX Logo"
+//           style={{
+//             position: "absolute",
+//             top: "50%",
+//             left: "50%",
+//             transform: "translate(-50%, -50%)",
+//             width: 60,
+//             height: 60,
+//             borderRadius: "10px",
+//             backgroundColor: "#ffffff",
+//             padding: 4,
+//             pointerEvents: "none",
+//           }}
+//         />
+//       </div>
+
+//       <button
+//         onClick={downloadImage}
+//         style={{
+//           marginTop: 20,
+//           backgroundColor: "#1d8e85",
+//           color: "#fff",
+//           padding: "10px 20px",
+//           border: "none",
+//           borderRadius: "6px",
+//           cursor: "pointer",
+//           fontWeight: "bold",
+//         }}
+//       >
+//         Download QR
+//       </button>
+//     </div>
+//   );
+// };
+
+// export default App;
