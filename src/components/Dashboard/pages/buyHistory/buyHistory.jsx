@@ -1,7 +1,3 @@
-
-
-
-
 import React, { useState, useEffect } from "react";
 import { ChevronDown, Search, Calendar, CreditCard, DollarSign, Hash, TrendingUp, Globe } from "lucide-react";
 import { useNavigate } from "react-router-dom";
@@ -146,7 +142,7 @@ const BuyHistory = () => {
         <div className="lg:hidden space-y-4">
           {(isLoading || loading) ? (
             // Loading skeleton for mobile
-            [...Array(3)].map((_, i) => (
+            [...Array(10)].map((_, i) => (
               <div key={i} className="bg-gray-50 rounded-xl p-4 animate-pulse border border-gray-200">
                 <div className="flex justify-between items-start mb-3">
                   <div className="h-4 bg-gray-200 rounded w-24"></div>
@@ -161,7 +157,7 @@ const BuyHistory = () => {
             ))
           ) : TableData.length === 0 ? (
             <div className="bg-gray-50 rounded-xl p-8 text-center border border-gray-200">
-              <p className="text-gray-500">No transactions found</p>
+              <p className="text-gray-500">No Data found</p>
             </div>
           ) : (
             TableData.map((data, i) => (
@@ -186,17 +182,20 @@ const BuyHistory = () => {
                     <span className="text-xs text-gray-500 uppercase tracking-wide">Transaction ID</span>
                   </div>
                   <p className="text-gray-800 font-mono text-sm break-all">
-                    {data?.paypalTransactionId || data?.transactionId || "N/A"}
+                     {" "}
+                                {data?.paypalTransactionId
+                                  ? data?.paypalTransactionId
+                                  : data?.transactionId || "N/A"}
                   </p>
                 </div>
 
                 {/* Payment Details */}
-                {/* <div className="grid grid-cols-2 gap-4 mb-3">
+                <div className="grid grid-cols-2 gap-4 mb-3">
                   <div>
                     <div className="flex items-center gap-2 mb-1">
-                      <div style={{ color: '#1d8e85' }}>
+                      {/* <div style={{ color: '#1d8e85' }}>
                         {getPaymentModeIcon(data?.modeOfPayment)}
-                      </div>
+                      </div> */}
                       <span className="text-xs text-gray-500 uppercase tracking-wide">Payment Mode</span>
                     </div>
                     <p className="text-gray-800 text-sm capitalize">{data?.modeOfPayment || "N/A"}</p>
@@ -208,7 +207,7 @@ const BuyHistory = () => {
                     </div>
                     <p className="text-gray-800 text-sm font-semibold">{data?.jaimax?.toFixed(3) || "N/A"}</p>
                   </div>
-                </div> */}
+                </div>
 
                 {/* Price Information */}
                 <div className="grid grid-cols-2 gap-4 mb-3">
