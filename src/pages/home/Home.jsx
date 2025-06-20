@@ -138,8 +138,8 @@ const Home = () => {
       <CryptoStakingSection />
       <PhaseCarousel />
       <ServicesComponent />
-      <Partners />
       <Roadmap />
+      <Partners />
       <AnimatedTestimonials />
       <JaimaxFAQ />
       <HomeContact />

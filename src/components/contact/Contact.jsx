@@ -1,11 +1,14 @@
 import React, { useState } from 'react';
 import { Mail, Phone, MapPin, Globe, Send, CheckCircle, X, Sparkles, Zap, Heart } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
+import { useSubmitEnquiryMutation } from "../../pages/home/HomePageApiSlice"; // Adjust path if needed
+
 const ContactPage = () => {
   const navigate=useNavigate()
+  const [submitEnquiry] = useSubmitEnquiryMutation();
+
   const [formData, setFormData] = useState({
     name: '',
-    phone: '',
     email: '',
     message: ''
   });
@@ -23,11 +26,11 @@ const ContactPage = () => {
       newErrors.name = 'Name must be at least 2 characters';
     }
     
-    if (!formData.phone.trim()) {
-      newErrors.phone = 'Phone number is required';
-    } else if (!/^[0-9+\-\s()]+$/.test(formData.phone)) {
-      newErrors.phone = 'Please enter a valid phone number';
-    }
+    // if (!formData.phone.trim()) {
+    //   newErrors.phone = 'Phone number is required';
+    // } else if (!/^[0-9+\-\s()]+$/.test(formData.phone)) {
+    //   newErrors.phone = 'Please enter a valid phone number';
+    // }
     
     if (!formData.email.trim()) {
       newErrors.email = 'Email is required';
@@ -55,19 +58,22 @@ const ContactPage = () => {
     }
   };
 
-  const handleSubmit = async () => {
-    if (!validateForm()) return;
-    
-    setIsSubmitting(true);
-    
-    // Simulate API call
-    setTimeout(() => {
-      console.log('Form submitted:', formData);
-      setIsSubmitting(false);
-      setShowThankYou(true);
-      setFormData({ name: '', phone: '', email: '', message: '' });
-    }, 2000);
-  };
+ const handleSubmit = async () => {
+  if (!validateForm()) return;
+  setIsSubmitting(true);
+
+  try {
+    const res = await submitEnquiry(formData).unwrap();
+    setIsSubmitting(false);
+    setShowThankYou(true);
+    setFormData({ name: '', email: '', message: '' });
+  } catch (error) {
+    console.error('Error submitting form:', error);
+    setIsSubmitting(false);
+    alert("Something went wrong. Please try again.");
+  }
+};
+
 
   const FloatingIcon = ({ children, delay = 0 }) => (
     <div 
@@ -246,7 +252,7 @@ const ContactPage = () => {
                   )}
                 </div>
 
-                <div>
+                {/* <div>
                   <label htmlFor="phone" className="block text-sm font-medium text-gray-700 mb-0">
                     Phone Number 
                   </label>
@@ -268,7 +274,7 @@ const ContactPage = () => {
                       {errors.phone}
                     </div>
                   )}
-                </div>
+                </div> */}
 
                 <div>
                   <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-0">

@@ -269,8 +269,8 @@ function PhaseCarousel() {
     <div
       className="py-10"
       style={{
-        background:
-          "linear-gradient(135deg, rgba(8,83,89,0.95) 0%, rgba(8,83,89,0.9) 100%)",
+        // background:
+        //   "linear-gradient(135deg, rgba(8,83,89,0.95) 0%, rgba(8,83,89,0.9) 100%)",
         WebkitBackdropFilter: "blur(16px)",
       }}
     >

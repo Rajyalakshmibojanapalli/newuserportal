@@ -1,9 +1,10 @@
-const bannerImg='https://t4.ftcdn.net/jpg/05/54/46/89/240_F_554468927_iwU3VYIjsaeopAb0WPYxVf21TloEhTEj.jpg';
+// const bannerImg='https://t4.ftcdn.net/jpg/05/54/46/89/240_F_554468927_iwU3VYIjsaeopAb0WPYxVf21TloEhTEj.jpg';
 const globalReachImg='https://www.paragkhanna.com/wp-content/uploads/2020/07/India-and-the-world-in-2019-2.jpg'
-const cryptoIndiaImg='https://mahabahu.com/wp-content/uploads/2022/02/crypto4.jpg';
-const futureCryptoImg='https://cdn.prod.website-files.com/634054c00f602044abb3060d/653aa9ff7fbf6eb69bdc8e80_Future%20of%20Bitcoin.webp';
+// const cryptoIndiaImg='https://mahabahu.com/wp-content/uploads/2022/02/crypto4.jpg';
+// const futureCryptoImg='https://cdn.prod.website-files.com/634054c00f602044abb3060d/653aa9ff7fbf6eb69bdc8e80_Future%20of%20Bitcoin.webp';
 import img1 from '../../assets/Images/aboutimg.jpg';
 import bannerImg2 from '../../assets/Images/heroabout.jpg'
+import futureCryptoImg from '../../assets/Images/abouthero.jpg'
 import React, { useState, useEffect } from "react";
 import { CheckCircle, ArrowRight, Sparkles, Globe, TrendingUp, Shield } from "lucide-react";
 
@@ -61,7 +62,7 @@ const AboutJaimax = () => {
               The Future of Digital Finance, Born in India
             </p>
             <div className="flex flex-col sm:flex-row gap-6 justify-center items-center">
-              <button className="group relative px-10 py-5 bg-[#bbce28] rounded-full font-semibold text-lg overflow-hidden transition-all duration-300  ">
+              <button className="group relative px-10 py-2 bg-[#bbce28] rounded-full font-semibold text-lg overflow-hidden transition-all duration-300  ">
                 <span className="relative z-10 flex items-center">
                   Discover Jaimax
                   <ArrowRight className="w-5 h-5 ml-3 group-hover:translate-x-1 transition-transform" />
