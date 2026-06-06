@@ -1061,11 +1061,13 @@ import {
   ChevronRight,
   Users,
   ArrowLeftRight,
+  Pickaxe,
+  ArchiveRestore,
 } from "lucide-react";
 
 import logo from "../../assets/Images/jaimaxlogo1.svg";
 import logo2 from "../../assets/welcomeProfile.svg";
-import { useUserDataQuery } from "../../../src/components/Dashboard/pages/dashBoard/DashboardApliSlice";
+import { useUserDataQuery, useGetAdminSettingsQuery } from "../../../src/components/Dashboard/pages/dashBoard/DashboardApliSlice";
 import { useUnread } from "../../context/UnreadContext"; // Added
 
 function Sidebar({
@@ -1077,11 +1079,13 @@ function Sidebar({
   onLogoutClick,
 }) {
   const { data: userData } = useUserDataQuery();
+  const { data: userSettings } = useGetAdminSettingsQuery();
   const hasAnyWP = userData?.data?.hasAnyWP;
-
+  const hasWeeklyBonus = userData?.data?.isWeeklyBonusActive;
+  const hasLpStaking = userData?.data?.hasLeaderStakingWallet;
   const location = useLocation();
   const navigate = useNavigate();
-
+  // console.log(hasWeeklyBonus,"hello")
   // Added unread logic
   const { unread } = useUnread();
 
@@ -1097,6 +1101,7 @@ function Sidebar({
     { name: "J-Wallet", path: "/jwallet", icon: HiOutlineCreditCard },
     { name: "Staking", path: "/staking", icon: HiOutlineShieldCheck },
     { name: "P2P", path: "/p2p", icon: ArrowLeftRight },
+    // { name: "lp-staking", path: "/lp-staking", icon: ArchiveRestore },
 
     ...(hasAnyWP
       ? [
@@ -1107,11 +1112,31 @@ function Sidebar({
         },
       ]
       : []),
+    ...(hasLpStaking
+      ? [
+        {
+          name: "Lp-Staking",
+          path: "/lp-staking",
+          icon: ArchiveRestore,
+        },
+      ]
+      : []),
+    ...(hasWeeklyBonus
+      ? [
+        {
+          name: "Mine-Referrals",
+          path: "/mine-referrals",
+          icon: Pickaxe,
+        },
+      ]
+      : []),
+
 
     { name: "Withdrawal", path: "/withdrawal", icon: HiOutlineCash },
     { name: "Profile", path: "/profile", icon: UserRound, size: 18 },
     { name: "KYC", path: "/kyc-information", icon: HiOutlineIdentification },
     { name: "Jaimax Community", path: "/community", icon: Users },
+    // { name: "Mine_referrals", path: "/mine-referrals", icon: Pickaxe  },
     { name: "Support", path: "/support", icon: HiOutlineChatAlt2 },
     { name: "Jaimax-Hub", path: "/meetings", icon: HiOutlineVideoCamera },
     { name: "Security", path: "/security", icon: HiOutlineShieldCheck },
@@ -1249,8 +1274,8 @@ function Sidebar({
                 {active && (
                   <span
                     className={`absolute bg-white rounded-full ${showLabels
-                        ? "left-0 top-1/2 -translate-y-1/2 h-8 w-1"
-                        : "bottom-1 left-1/2 -translate-x-1/2 h-1 w-6"
+                      ? "left-0 top-1/2 -translate-y-1/2 h-8 w-1"
+                      : "bottom-1 left-1/2 -translate-x-1/2 h-1 w-6"
                       }`}
                   />
                 )}

@@ -868,7 +868,7 @@ function WpStaking() {
                       <tr>
                         <th className="th-cell" style={{ width: 50, textAlign: "center" }}>S.No</th>
                         <th className="th-cell">Trade ID</th>
-                        <th className="th-cell">Status</th>
+                        {/* <th className="th-cell">Status</th> */}
                         <th className="th-cell">Coins</th>
                         <th className="th-cell">Price/Token</th>
                         <th className="th-cell">Total ₹</th>
@@ -906,9 +906,9 @@ function WpStaking() {
                                 {trade.tradeId?.slice(-10).toUpperCase()}
                               </span>
                             </td>
-                            <td className="td-cell">
+                            {/* <td className="td-cell">
                               <StatusBadge status={trade.status} />
-                            </td>
+                            </td> */}
                             <td className="td-cell" style={{
                               fontWeight: 700,
                               color: T.textPrimary,

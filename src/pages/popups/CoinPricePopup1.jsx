@@ -313,8 +313,8 @@ const CountdownTimer = () => {
   const [isInTimeRange, setIsInTimeRange] = useState(false);
 
   useEffect(() => {
-    const startDate = new Date("2026-03-25T00:00:00").getTime();
-    const endDate = new Date("2026-03-29T00:00:00").getTime();
+    const startDate = new Date("2026-06-06T00:00:00").getTime();
+    const endDate = new Date("2026-06-08T00:00:00").getTime();
 
     const timer = setInterval(() => {
       const now = new Date().getTime();

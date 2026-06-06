@@ -1018,7 +1018,7 @@ const CombinedHistorySection = () => {
     </div>
   );
 };
-const validSources = ["Inr", "p2pInr", "holdedInr"];
+const validSources = ["Inr", "p2pInr", "holdedInr","layerBenfitsp2pInr"];
 
 const CryptoWithdrawal = () => {
   const selectedToken = "USDT";
@@ -1078,6 +1078,13 @@ const CryptoWithdrawal = () => {
       label: "WealthPlan Staking Balance",
       inrBalance: walletData?.wpStakingINRBalance || "0.00",
       tokenAmount: walletData?.wpStakingEstimatedTokenAmount || "0.0000",
+      icon: <Building className="w-4 h-4" />
+    },
+    {
+      value: "layerBenfitsp2pInr", // Use actual API values
+      label: "Layer Benefits P2P Balance",
+      inrBalance: walletData?.wpLayerBenffitsINRBalance || "0.00",
+      tokenAmount: walletData?.wpLayerBenffitsTokenAmount || "0.0000",
       icon: <Building className="w-4 h-4" />
     }
   ];

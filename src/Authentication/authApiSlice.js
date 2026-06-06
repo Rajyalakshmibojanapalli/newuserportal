@@ -16,7 +16,7 @@ export const authApiSlice = apiSlice.injectEndpoints({
                 method: "POST",
                 body: { ...data }
             })
-        }),
+        }),    
         login: builder.mutation({
             query: (credentials) => ({
                 url: "/Auth/login",
@@ -66,6 +66,13 @@ export const authApiSlice = apiSlice.injectEndpoints({
                 body: data,
             })
         }),
+ReferralInfo: builder.query({
+    query: (username) => ({
+        url: '/Auth/referral-info',
+        method: 'GET',
+        params: { username }, // → /Auth/referral-info?username=john123
+    })
+}),
         // New Aadhaar and PAN verification endpoints
         // sendAadhaarOtp: builder.mutation({
         //     query: (data) => ({
@@ -104,4 +111,5 @@ export const {
     // useSendAadhaarOtpMutation,
     // useVerifyAadhaarOtpMutation,
     // useVerifyPanMutation,
+    useReferralInfoQuery ,
 } = authApiSlice;

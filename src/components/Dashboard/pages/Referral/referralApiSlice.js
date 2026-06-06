@@ -4,20 +4,14 @@ export const weeklyBonusApiSlice = apiSlice.injectEndpoints({
   endpoints: (builder) => ({
     getWeekInfo: builder.query({
       query: () => ({
-        url: `/weekly-bonus/number`,
+        url: `/mine-jmc/week-mine-referrals`,
         method: "GET",
       }),
     }),
-    getUserWeeklyBonusJourney: builder.query({
-      query: () => ({
-        url: `/weekly-bonus/info`,
-        method: "GET",
-      }),
-    }),
+
   }),
 });
 
 export const { 
   useGetWeekInfoQuery, 
-  useGetUserWeeklyBonusJourneyQuery 
 } = weeklyBonusApiSlice;

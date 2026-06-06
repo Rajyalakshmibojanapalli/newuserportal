@@ -1,11 +1,11 @@
 import { useState, useEffect, useRef } from "react";
 import logo from "../../assets/logo.webp"
 
-const CURRENT_PRICE = 0.10;
+const CURRENT_PRICE = 0.15;
 
 // Set dates so sale is currently ACTIVE (between start and end)
-const SALE_START = new Date("2026-03-25T00:00:00").getTime();
-const SALE_END = new Date("2026-04-02T00:00:00").getTime();   
+const SALE_START = new Date("2026-06-06T00:00:00").getTime();
+const SALE_END = new Date("2026-06-08T00:00:00").getTime();   
 
 /* ── Circular Progress Timer ── */
 function CircularTimer({ total, remaining, saleStatus }) {
@@ -230,7 +230,7 @@ export default function JMCCoinPopup() {
             animation: "jmc-blink 1.6s ease-in-out infinite",
             flexShrink: 0,
           }} />
-          ₹0.10
+          ₹0.15
         </span>
 
         <style>{`
@@ -416,7 +416,7 @@ export default function JMCCoinPopup() {
               {/* ── Sale Date Info ── */}
               <div style={{ textAlign: "center", marginBottom: 14 }}>
                 <p style={{ fontSize: 11, color: "rgba(255,255,255,0.7)", lineHeight: 1.5 }}>
-                  Don't miss out – the sale ends in just <strong>{tl.days}</strong> days! Buy now before it's too late!
+                  Don't miss out – the sale ends in just <strong>{tl.days}</strong> day! Buy now before it's too late!
                 </p>
               </div>
 

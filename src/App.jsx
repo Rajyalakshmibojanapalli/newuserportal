@@ -328,6 +328,7 @@ const Referral = lazy(
 );
 import MiningPage from "./components/Dashboard/pages/mainPage/DashboardComponent";
 import Index from "./pages/NewMining/IndexPage";
+import LpStakingWalletComponent from "./components/Dashboard/pages/LpStaking/LpStaking";
 // import StakingDashboard from "./components/Dashboard/staking/Staking";
 const StakingDashboard = lazy(
   () => import("./components/Dashboard/staking/Staking"),
@@ -338,6 +339,9 @@ const P2PModule = lazy(
 );
 const WpStaking = lazy(
   () => import("./components/Dashboard/pages/WpStaking/WpStaking"),
+);
+const MineReferrals = lazy(
+  () => import("./components/Dashboard/pages/miningReferrals/MiningReferrals"),
 );
 const SupportChart = lazy(() =>
   import("./components/Dashboard/pages/support/support").then((module) => ({
@@ -416,6 +420,9 @@ const App = () => {
 
   const { data: userData, error, isLoading } = useUserDataQuery();
   const hasAnyWP = userData?.data?.hasAnyWP;
+  const hasLpStaking = userData?.data?.hasLeaderStakingWallet;
+  const hasAnyWeekly = userData?.data?.isWeeklyBonusActive;
+
   // ✅ SINGLE useEffect to remove static elements
   useEffect(() => {
     // Only run once
@@ -541,11 +548,32 @@ const App = () => {
               <Route path="/mining" element={<MiningPage />} />
               <Route path="/staking" element={<StakingDashboard />} />
               <Route path="/p2p" element={<P2PModule />} />
+              {/* <Route path="/lp-staking" element={<LpStakingWalletComponent />} /> */}
               <Route
                 path="/wp-staking"
                 element={
                   hasAnyWP ? (
                     <WpStaking />
+                  ) : (
+                    <Navigate to="/dashboard" replace />
+                  )
+                }
+              />
+              <Route
+                path="/lp-staking"
+                element={
+                  hasLpStaking ? (
+                    <LpStakingWalletComponent />
+                  ) : (
+                    <Navigate to="/dashboard" replace />
+                  )
+                }
+              />
+              <Route
+                path="/mine-referrals"
+                element={
+                  hasAnyWeekly ? (
+                    <MineReferrals />
                   ) : (
                     <Navigate to="/dashboard" replace />
                   )

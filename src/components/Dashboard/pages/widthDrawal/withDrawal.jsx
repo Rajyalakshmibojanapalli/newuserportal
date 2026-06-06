@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useMemo ,useCallback } from "react";
+import React, { useState, useEffect, useMemo, useCallback } from "react";
 import {
   AlertTriangle,
   CheckCircle,
@@ -160,6 +160,15 @@ const InrTransactionTable = ({
                 ? `₹${parseFloat(row.amount).toFixed(2)}`
                 : `$${parseFloat(row.amount).toFixed(2)}`
               : "-"}
+          </span>
+        ),
+      },
+      {
+        header: "sourceOfWithdrwal",
+        accessor: "sourceOfWithdrwal",
+        render: (row) => (
+          <span className="text-right font-medium">
+            {row.sourceOfWithdrwal}
           </span>
         ),
       },
@@ -925,8 +934,8 @@ const CombinedHistorySection = () => {
             <button
               onClick={() => setActiveTab("usdt")}
               className={`flex-1 flex items-center justify-center gap-1 sm:gap-2 px-2 sm:px-4 py-1.5 sm:py-2 rounded-md text-[11px] sm:text-sm font-medium transition-all duration-200 ${activeTab === "usdt"
-                  ? "bg-[#1d8d84] text-white shadow-sm"
-                  : "text-gray-600 hover:text-gray-900 hover:bg-gray-200"
+                ? "bg-[#1d8d84] text-white shadow-sm"
+                : "text-gray-600 hover:text-gray-900 hover:bg-gray-200"
                 }`}
             >
               <Wallet className="w-3 h-3 sm:w-4 sm:h-4 flex-shrink-0" />
@@ -939,8 +948,8 @@ const CombinedHistorySection = () => {
             <button
               onClick={() => setActiveTab("inr")}
               className={`flex-1 flex items-center justify-center gap-1 sm:gap-2 px-2 sm:px-4 py-1.5 sm:py-2 rounded-md text-[11px] sm:text-sm font-medium transition-all duration-200 ${activeTab === "inr"
-                  ? "bg-[#1d8d84] text-white shadow-sm"
-                  : "text-gray-600 hover:text-gray-900 hover:bg-gray-200"
+                ? "bg-[#1d8d84] text-white shadow-sm"
+                : "text-gray-600 hover:text-gray-900 hover:bg-gray-200"
                 }`}
             >
               <CreditCard className="w-3 h-3 sm:w-4 sm:h-4 flex-shrink-0" />
@@ -1554,7 +1563,7 @@ const CombinedHistorySection = () => {
 //   // Get available balance based on selected balance type
 //   const getAvailableBalance = () => {
 //     if (!userData?.data) return 0;
-    
+
 //     switch (formData.balanceType) {
 //       case "referral":
 //         return userData.data.Inr || 0;
@@ -1625,7 +1634,7 @@ const CombinedHistorySection = () => {
 
 //     // Check for INR-based balance types
 //     const inrBalanceTypes = ["referral", "holdedInr", "p2pInr", "wpStakingInr"];
-    
+
 //     if (inrBalanceTypes.includes(balanceType) && !paymentCurrency) {
 //       errors.paymentCurrency = "Payment Currency is required";
 //     }
@@ -1738,7 +1747,7 @@ const CombinedHistorySection = () => {
 
 //       let requestData;
 //       const inrBalanceTypes = ["referral", "holdedInr", "p2pInr", "wpStakingInr"];
-      
+
 //       if (inrBalanceTypes.includes(balanceType)) {
 //         requestData = {
 //           amount: parseFloat(amount),
@@ -2214,7 +2223,7 @@ const Withdrawal = () => {
   // Get available balance based on selected balance type
   const getAvailableBalance = () => {
     if (!userData?.data) return 0;
-    
+
     switch (formData.balanceType) {
       case "Inr":
         return userData.data.Inr || 0;
@@ -2224,6 +2233,8 @@ const Withdrawal = () => {
         return userData.data.p2pInr || 0;
       case "wpStakingInr":
         return userData.data.wpStakingInr || 0;
+      case "layerBenfitsp2pInr":
+        return userData.data.layerBenfitsp2pInr || 0;
       case "JAIMAX":
         return 0;
       default:
@@ -2242,6 +2253,8 @@ const Withdrawal = () => {
         return "P2P Balance";
       case "wpStakingInr":
         return "WP Staking Balance";
+      case "layerBenfitsp2pInr":
+        return "Layer Benefits Inr";
       case "JAIMAX":
         return "Purchase Token (JaiMax)";
       default:
@@ -2275,6 +2288,12 @@ const Withdrawal = () => {
       value: userData?.data?.wpStakingInr || 0,
       color: "from-teal-500 to-teal-600",
     },
+    {
+      type: "layerBenfitsp2pInr",
+      label: "Layer Benefits Balance",
+      value: userData?.data?.layerBenfitsp2pInr || 0,
+      color: "from-teal-500 to-teal-600",
+    },
   ];
 
   const validate = () => {
@@ -2283,15 +2302,15 @@ const Withdrawal = () => {
 
     if (!balanceType) errors.balanceType = "Balance Type is required";
 
-    if (!sourceOfWithdrwal) {
-      errors.sourceOfWithdrwal = "Source of withdrawal is required";
-    } else if (!validSources.includes(sourceOfWithdrwal)) {
-      errors.sourceOfWithdrwal = "Invalid source of withdrawal";
-    }
+    // if (!sourceOfWithdrwal) {
+    //   errors.sourceOfWithdrwal = "Source of withdrawal is required";
+    // } else if (!validSources.includes(sourceOfWithdrwal)) {
+    //   errors.sourceOfWithdrwal = "Invalid source of withdrawal";
+    // }
 
     // Check for INR-based balance types
     const inrBalanceTypes = ["Inr", "holdedInr", "p2pInr", "wpStakingInr"];
-    
+
     if (inrBalanceTypes.includes(balanceType) && !paymentCurrency) {
       errors.paymentCurrency = "Payment Currency is required";
     }
@@ -2329,6 +2348,64 @@ const Withdrawal = () => {
     return errors;
   };
 
+  // const calculatePreview = useCallback((amount, paymentCurrency) => {
+  //   if (!getSetting?.data || !amount || parseFloat(amount) <= 0) {
+  //     setPreviewData([
+  //       { heading: "Fees", subHeading: "0" },
+  //       { heading: "Will Get", subHeading: "0" },
+  //     ]);
+  //     return;
+  //   }
+
+  //   const settings = getSetting.data;
+  //   const parsedAmount = parseFloat(amount);
+
+  //   const isINR = paymentCurrency === "INR";
+  //   // const commission = isINR
+  //   //   ? settings.withdrawal_commission_inr
+  //   //   : settings.withdrawal_commission_usd;
+  //   const commission = (() => {
+  //     const settings = getSetting?.data;
+  //     if (!settings) return 0;
+
+  //     const isINR = paymentCurrency === "INR";
+
+  //     switch (formData.balanceType) {
+  //       case "holdedInr":
+  //         return isINR
+  //           ? settings.holdedInr_withdrawal_commission
+  //           : settings.holdedInr_withdrawal_commission;
+  //       case "p2pInr":
+  //         return isINR
+  //           ? settings.withdrawal_commission_inr
+  //           : settings.withdrawal_commission_usd;
+  //       case "wpStakingInr":
+  //         return isINR
+  //           ? settings.withdrawal_commission_inr
+  //           : settings.withdrawal_commission_usd;
+  //       case "Inr":
+  //       default:
+  //         return isINR
+  //           ? settings.withdrawal_commission_inr
+  //           : settings.withdrawal_commission_usd;
+  //     }
+  //   })();
+  //   const fees = (parsedAmount * commission) / 100;
+  //   const willGet = parsedAmount - fees;
+
+  //   setPreviewData([
+  //     {
+  //       heading: "Fees",
+  //       subHeading: `${fees.toFixed(2)} ${paymentCurrency}`,
+  //     },
+  //     {
+  //       heading: "Will Get",
+  //       subHeading: `${willGet.toFixed(2)} ${paymentCurrency}`,
+  //     },
+  //   ]);
+  // }, [getSetting?.data]);
+
+  // Auto-calculate preview when amount or currency changes
   const calculatePreview = useCallback((amount, paymentCurrency) => {
     if (!getSetting?.data || !amount || parseFloat(amount) <= 0) {
       setPreviewData([
@@ -2340,11 +2417,37 @@ const Withdrawal = () => {
 
     const settings = getSetting.data;
     const parsedAmount = parseFloat(amount);
-
     const isINR = paymentCurrency === "INR";
-    const commission = isINR
-      ? settings.withdrawal_commission_inr
-      : settings.withdrawal_commission_usd;
+
+    // Determine commission based on balance type
+    let commission;
+    switch (formData.balanceType) {
+      case "holdedInr":
+        commission = isINR
+          ? settings.holdedInr_withdrawal_commission
+          : settings.holdedInr_withdrawal_commission;
+        break;
+      case "p2pInr":
+        commission = isINR
+          ? settings.withdrawal_commission_inr
+          : settings.withdrawal_commission_usd;
+        break;
+      case "wpStakingInr":
+        commission = isINR
+          ? settings.withdrawal_commission_inr
+          : settings.withdrawal_commission_usd;
+        break;
+      case "layerBenfitsp2pInr":
+        commission = isINR
+          ? settings.withdrawal_commission_inr
+          : settings.withdrawal_commission_usd;
+        break;
+      case "Inr":
+      default:
+        commission = isINR
+          ? settings.withdrawal_commission_inr
+          : settings.withdrawal_commission_usd;
+    }
 
     const fees = (parsedAmount * commission) / 100;
     const willGet = parsedAmount - fees;
@@ -2359,13 +2462,11 @@ const Withdrawal = () => {
         subHeading: `${willGet.toFixed(2)} ${paymentCurrency}`,
       },
     ]);
-  }, [getSetting?.data]);
-
-  // Auto-calculate preview when amount or currency changes
+  }, [getSetting?.data, formData.balanceType]);
   useEffect(() => {
-    const inrBalanceTypes = ["Inr", "holdedInr", "p2pInr", "wpStakingInr"];
+    const inrBalanceTypes = ["Inr", "holdedInr", "p2pInr", "wpStakingInr","layerBenfitsp2pInr"];
     if (formData.amount && inrBalanceTypes.includes(formData.balanceType)) {
-      const currency = formData.paymentCurrency || 
+      const currency = formData.paymentCurrency ||
         (userData?.data?.countryCode === 91 ? "INR" : "USD");
       calculatePreview(formData.amount, currency);
     }
@@ -2404,8 +2505,8 @@ const Withdrawal = () => {
         (userData?.data?.countryCode === 91 ? "INR" : "USD");
 
       let requestData;
-      const inrBalanceTypes = ["Inr", "holdedInr", "p2pInr", "wpStakingInr"];
-      
+      const inrBalanceTypes = ["Inr", "holdedInr", "p2pInr", "wpStakingInr","layerBenfitsp2pInr"];
+
       if (inrBalanceTypes.includes(balanceType)) {
         requestData = {
           amount: parseFloat(amount),
@@ -2464,8 +2565,8 @@ const Withdrawal = () => {
 
   const onChangeBalanceType = (e) => {
     const newBalanceType = e.target.value;
-    const inrBalanceTypes = ["Inr", "holdedInr", "p2pInr", "wpStakingInr"];
-    
+    const inrBalanceTypes = ["Inr", "holdedInr", "p2pInr", "wpStakingInr","layerBenfitsp2pInr"];
+
     setFormData({
       amount: "",
       balanceType: newBalanceType,
@@ -2508,7 +2609,7 @@ const Withdrawal = () => {
   }, []);
 
   const availableBalance = getAvailableBalance();
-  const inrBalanceTypes = ["Inr", "holdedInr", "p2pInr", "wpStakingInr"];
+  const inrBalanceTypes = ["Inr", "holdedInr", "p2pInr", "wpStakingInr","layerBenfitsp2pInr"];
 
   return (
     <div className="min-h-screen bg-gray-50 py-4">
@@ -2516,16 +2617,15 @@ const Withdrawal = () => {
         {/* Balance Cards Section */}
         <div className="mb-4">
           <h2 className="text-base font-semibold text-gray-900 mb-3">Your Balances</h2>
-          <div className="grid grid-cols-2 lg:grid-cols-4 gap-3">
+          <div className="grid grid-cols-2 lg:grid-cols-5 gap-3">
             {balanceCards.map((card) => (
               <div
                 key={card.type}
                 onClick={() => handleBalanceCardClick(card.type)}
-                className={`relative cursor-pointer transition-all duration-200 ${
-                  formData.balanceType === card.type
-                    ? " ring-offset-2 scale-100"
-                    : "hover:scale-102"
-                }`}
+                className={`relative cursor-pointer transition-all duration-200 ${formData.balanceType === card.type
+                  ? " ring-offset-2 scale-100"
+                  : "hover:scale-102"
+                  }`}
               >
                 <div className={`bg-gradient-to-br ${card.color} rounded-lg p-4 text-white shadow-md`}>
                   <div className="flex items-start justify-between mb-2">
@@ -2596,6 +2696,7 @@ const Withdrawal = () => {
                     <option value="holdedInr">Holded Balance</option>
                     <option value="p2pInr">P2P Balance</option>
                     <option value="wpStakingInr">WP Staking Balance</option>
+                    <option value="layerBenfitsp2pInr">Layer Benefits Balance</option>
                     <option value="JAIMAX">Purchase Token (JaiMax)</option>
                   </select>
                   {errors.balanceType && (
@@ -2638,31 +2739,35 @@ const Withdrawal = () => {
                         >
                           Amount *
                         </label>
-                        <input
-                          id="amount"
-                          type="text"
-                          placeholder={`Enter Amount ${addSymbolPlaceholder(
-                            formData.paymentCurrency ||
-                            (userData?.data?.countryCode === 91
-                              ? "INR"
-                              : "USD")
-                          )}`}
-                          value={formData.amount}
-                          onChange={handleInputChange}
-                          onClick={() =>
-                            setErrors((prev) => ({
-                              ...prev,
-                              amount: undefined,
-                            }))
-                          }
-                          name="amount"
-                          autoComplete="off"
-                          className={`w-full px-2.5 py-1.5 bg-white text-sm border rounded focus:ring-2 focus:ring-[#1d8e85] focus:border-[#1d8e85] ${
-                            errors.amount
-                              ? "border-red-300 bg-red-50"
-                              : "border-gray-300"
-                          }`}
-                        />
+                        <div className="relative">
+                          <span className="absolute left-2.5 top-1.5 text-gray-600 font-medium text-sm">
+                            {addSymbolPlaceholder(
+                              formData.paymentCurrency ||
+                              (userData?.data?.countryCode === 91
+                                ? "INR"
+                                : "USD")
+                            )}
+                          </span>
+                          <input
+                            id="amount"
+                            type="text"
+                            placeholder="Enter Amount"
+                            value={formData.amount}
+                            onChange={handleInputChange}
+                            onClick={() =>
+                              setErrors((prev) => ({
+                                ...prev,
+                                amount: undefined,
+                              }))
+                            }
+                            name="amount"
+                            autoComplete="off"
+                            className={`w-full pl-6 pr-2.5 py-1.5 bg-white text-sm border rounded focus:ring-2 focus:ring-[#1d8e85] focus:border-[#1d8e85] ${errors.amount
+                                ? "border-red-300 bg-red-50"
+                                : "border-gray-300"
+                              }`}
+                          />
+                        </div>
                       </div>
                     </div>
                     {errors.amount && (
@@ -2678,13 +2783,20 @@ const Withdrawal = () => {
                           Transaction Summary
                         </h3>
                         <div className="space-y-1.5 text-xs">
+                          <div className="flex justify-between pb-1.5 border-b border-gray-200">
+                            <span className="text-gray-600">Amount</span>
+                            <span className="font-medium text-gray-900">
+                              {formData.paymentCurrency === "INR" || userData?.data?.countryCode === 91 ? "₹" : "$"}
+                              {parseFloat(formData.amount).toFixed(2)}
+                            </span>
+                          </div>
                           {previewData.map((data, i) => (
                             <div key={i} className="flex justify-between">
                               <span
                                 className={
                                   data.heading === "Fees"
                                     ? "text-red-600"
-                                    : "text-gray-600"
+                                    : "text-[#1d8e85]"
                                 }
                               >
                                 {data.heading}
@@ -2693,7 +2805,7 @@ const Withdrawal = () => {
                                 className={
                                   data.heading === "Will Get"
                                     ? "text-[#1d8e85] font-semibold"
-                                    : "font-medium"
+                                    : "text-red-600 font-medium"
                                 }
                               >
                                 {data.subHeading}

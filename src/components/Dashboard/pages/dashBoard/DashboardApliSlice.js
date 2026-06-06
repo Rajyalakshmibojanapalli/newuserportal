@@ -21,6 +21,13 @@ export const dashboardApiSlice = apiSlice.injectEndpoints({
       }),
       providesTags: ["updateDetails"],
     }),
+    lpStakingWallet: builder.query({
+      query: () => ({
+        url: "/user/lp-stakingwallet",
+        method: "GET",
+      }),
+      providesTags: ["updateDetails"],
+    }),
     addOrder: builder.mutation({
       query: (data) => ({
         url: "/order/addOrder",
@@ -136,6 +143,7 @@ export const {
   useGetRoundQuery,
   useGetAdminSettingsQuery,
   useUserDataQuery,
+  useLpStakingWalletQuery,
   useAddOrderMutation,
   useProceedOrderMutation,
   useCreatePaymentMutation,

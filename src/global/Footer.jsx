@@ -342,9 +342,9 @@ const Footer = () => {
               </h3>
               <ul className="space-y-2 sm:space-y-3">
                 {[
-                  { name: "WP Settlement Form", path: "https://docs.google.com/forms/d/e/1FAIpQLSevMMMBn7LuJicTDOeXncgPbK7XYjkzpnsLfGGBUpKFBiNbGQ/viewform", title: "Kindly fill the form for the test." },
+                  { name: "Submit WP Conversion", path: "https://docs.google.com/forms/d/e/1FAIpQLSevMMMBn7LuJicTDOeXncgPbK7XYjkzpnsLfGGBUpKFBiNbGQ/viewform", title: "Kindly fill the form for the test." },
                   {
-                    name: "Submit WP Conversion",
+                    name: "WP Settlement Form",
                     path: "/settlement_form.pdf",
                     external: true,
                     title: "View Settlement Form PDF",

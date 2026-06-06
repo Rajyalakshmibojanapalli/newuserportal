@@ -35,6 +35,26 @@ export const p2pApiSlice = apiSlice.injectEndpoints({
         "p2p/sell-to-company",
       providesTags: ["P2PHistory"],
     }),
+    sellToCompanyPreview: builder.mutation({
+      query: ({ type, tokensTosell }) => ({
+        url: "p2p/company-sell-preview",
+        method: "POST",
+        body: {
+          type, tokensTosell
+        },//type : wp-staking || staking
+      }),
+      invalidatesTags: ["P2PHistory"],
+    }),
+      sellToCompanyOrder: builder.mutation({
+        query: ({ type, tokensTosell }) => ({
+          url: "p2p/sell-now",
+          method: "POST",
+          body: {
+            type, tokensTosell
+          },//type : wp-staking || staking
+        }),
+        invalidatesTags: ["P2PHistory"],
+      }),
   }),
 });
 
@@ -46,4 +66,6 @@ export const {
   useGetP2PHistorySellerQuery,
   useSellToCompanyQuery,
   useLazySellToCompanyQuery,
+  useSellToCompanyPreviewMutation,
+  useSellToCompanyOrderMutation,
 } = p2pApiSlice;
