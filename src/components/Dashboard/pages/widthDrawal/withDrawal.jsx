@@ -2196,7 +2196,7 @@ const Withdrawal = () => {
   const [withdrawRequest, { isLoading: isSubmitting }] =
     useWithdrawRequestMutation();
 
-  const validSources = ["Inr", "p2pInr", "holdedInr", "wpStakingInr"];
+  const validSources = ["Inr", "p2pInr", "holdedInr", "wpStakingInr","miningP2pInr","miningReferalInr"];
 
   const [formData, setFormData] = useState({
     balanceType: "Inr", // Changed to match API values
@@ -2235,6 +2235,10 @@ const Withdrawal = () => {
         return userData.data.wpStakingInr || 0;
       case "layerBenfitsp2pInr":
         return userData.data.layerBenfitsp2pInr || 0;
+      case "miningP2pInr":
+        return userData.data.miningP2pInr || 0;
+      case "miningReferalInr":
+        return userData.data.miningReferalInr || 0;
       case "JAIMAX":
         return 0;
       default:
@@ -2257,6 +2261,10 @@ const Withdrawal = () => {
         return "Layer Benefits Inr";
       case "JAIMAX":
         return "Purchase Token (JaiMax)";
+      case "miningReferalInr":
+        return "Mining Referral Balance";
+      case "miningP2pInr":
+        return "Mining p2p balance";
       default:
         return "Available Balance";
     }
@@ -2294,6 +2302,18 @@ const Withdrawal = () => {
       value: userData?.data?.layerBenfitsp2pInr || 0,
       color: "from-teal-500 to-teal-600",
     },
+    {
+      type: "miningReferalInr",
+      label: "Mining Referral Balance",
+      value: userData?.data?.miningReferalInr || 0,
+      color: "from-teal-500 to-teal-600",
+    },
+    {
+      type: "miningP2pInr",
+      label: "Mining P2P Balance",
+      value: userData?.data?.miningP2pInr || 0,
+      color: "from-teal-500 to-teal-600",
+    },
   ];
 
   const validate = () => {
@@ -2309,7 +2329,7 @@ const Withdrawal = () => {
     // }
 
     // Check for INR-based balance types
-    const inrBalanceTypes = ["Inr", "holdedInr", "p2pInr", "wpStakingInr"];
+    const inrBalanceTypes = ["Inr", "holdedInr", "p2pInr", "wpStakingInr","miningP2pInr","miningReferalInr"];
 
     if (inrBalanceTypes.includes(balanceType) && !paymentCurrency) {
       errors.paymentCurrency = "Payment Currency is required";
@@ -2326,16 +2346,29 @@ const Withdrawal = () => {
           paymentCurrency ||
           (userData?.data?.countryCode === 91 ? "INR" : "USD");
         const isINR = currency === "INR";
-        const min = isINR
-          ? settings.min_withdrawal_inr
-          : settings.min_withdrawal_usd;
-        const max = isINR
-          ? settings.max_withdrawal_inr
-          : settings.max_withdrawal_usd;
+        let min, max;
 
-        if (parseFloat(amount) < min || parseFloat(amount) > max) {
-          errors.amount = `Amount must be between ${min} and ${max} ${currency}`;
+        if (balanceType === "p2pInr") {
+          min = isINR
+            ? settings.min_withdrawal_inr_p2p
+            : settings.min_withdrawal_usd_p2p;
+
+          max = isINR
+            ? settings.max_withdrawal_inr_p2p
+            : settings.max_withdrawal_usd_p2p;
+        } else {
+          min = isINR
+            ? settings.min_withdrawal_inr
+            : settings.min_withdrawal_usd;
+
+          max = isINR
+            ? settings.max_withdrawal_inr
+            : settings.max_withdrawal_usd;
         }
+
+        // if (parseFloat(amount) < min || parseFloat(amount) > max) {
+        //   errors.amount = `Amount must be between ${min} and ${max} ${currency}`;
+        // }
 
         // Check if amount exceeds available balance
         const availableBalance = getAvailableBalance();
@@ -2347,65 +2380,6 @@ const Withdrawal = () => {
 
     return errors;
   };
-
-  // const calculatePreview = useCallback((amount, paymentCurrency) => {
-  //   if (!getSetting?.data || !amount || parseFloat(amount) <= 0) {
-  //     setPreviewData([
-  //       { heading: "Fees", subHeading: "0" },
-  //       { heading: "Will Get", subHeading: "0" },
-  //     ]);
-  //     return;
-  //   }
-
-  //   const settings = getSetting.data;
-  //   const parsedAmount = parseFloat(amount);
-
-  //   const isINR = paymentCurrency === "INR";
-  //   // const commission = isINR
-  //   //   ? settings.withdrawal_commission_inr
-  //   //   : settings.withdrawal_commission_usd;
-  //   const commission = (() => {
-  //     const settings = getSetting?.data;
-  //     if (!settings) return 0;
-
-  //     const isINR = paymentCurrency === "INR";
-
-  //     switch (formData.balanceType) {
-  //       case "holdedInr":
-  //         return isINR
-  //           ? settings.holdedInr_withdrawal_commission
-  //           : settings.holdedInr_withdrawal_commission;
-  //       case "p2pInr":
-  //         return isINR
-  //           ? settings.withdrawal_commission_inr
-  //           : settings.withdrawal_commission_usd;
-  //       case "wpStakingInr":
-  //         return isINR
-  //           ? settings.withdrawal_commission_inr
-  //           : settings.withdrawal_commission_usd;
-  //       case "Inr":
-  //       default:
-  //         return isINR
-  //           ? settings.withdrawal_commission_inr
-  //           : settings.withdrawal_commission_usd;
-  //     }
-  //   })();
-  //   const fees = (parsedAmount * commission) / 100;
-  //   const willGet = parsedAmount - fees;
-
-  //   setPreviewData([
-  //     {
-  //       heading: "Fees",
-  //       subHeading: `${fees.toFixed(2)} ${paymentCurrency}`,
-  //     },
-  //     {
-  //       heading: "Will Get",
-  //       subHeading: `${willGet.toFixed(2)} ${paymentCurrency}`,
-  //     },
-  //   ]);
-  // }, [getSetting?.data]);
-
-  // Auto-calculate preview when amount or currency changes
   const calculatePreview = useCallback((amount, paymentCurrency) => {
     if (!getSetting?.data || !amount || parseFloat(amount) <= 0) {
       setPreviewData([
@@ -2464,7 +2438,7 @@ const Withdrawal = () => {
     ]);
   }, [getSetting?.data, formData.balanceType]);
   useEffect(() => {
-    const inrBalanceTypes = ["Inr", "holdedInr", "p2pInr", "wpStakingInr","layerBenfitsp2pInr"];
+    const inrBalanceTypes = ["Inr", "holdedInr", "p2pInr", "wpStakingInr", "layerBenfitsp2pInr","miningP2pInr","miningReferalInr"];
     if (formData.amount && inrBalanceTypes.includes(formData.balanceType)) {
       const currency = formData.paymentCurrency ||
         (userData?.data?.countryCode === 91 ? "INR" : "USD");
@@ -2505,7 +2479,7 @@ const Withdrawal = () => {
         (userData?.data?.countryCode === 91 ? "INR" : "USD");
 
       let requestData;
-      const inrBalanceTypes = ["Inr", "holdedInr", "p2pInr", "wpStakingInr","layerBenfitsp2pInr"];
+      const inrBalanceTypes = ["Inr", "holdedInr", "p2pInr", "wpStakingInr", "layerBenfitsp2pInr","miningReferalInr","miningP2pInr"];
 
       if (inrBalanceTypes.includes(balanceType)) {
         requestData = {
@@ -2565,7 +2539,7 @@ const Withdrawal = () => {
 
   const onChangeBalanceType = (e) => {
     const newBalanceType = e.target.value;
-    const inrBalanceTypes = ["Inr", "holdedInr", "p2pInr", "wpStakingInr","layerBenfitsp2pInr"];
+    const inrBalanceTypes = ["Inr", "holdedInr", "p2pInr", "wpStakingInr", "layerBenfitsp2pInr","miningReferalInr","miningP2pInr"];
 
     setFormData({
       amount: "",
@@ -2609,7 +2583,7 @@ const Withdrawal = () => {
   }, []);
 
   const availableBalance = getAvailableBalance();
-  const inrBalanceTypes = ["Inr", "holdedInr", "p2pInr", "wpStakingInr","layerBenfitsp2pInr"];
+  const inrBalanceTypes = ["Inr", "holdedInr", "p2pInr", "wpStakingInr", "layerBenfitsp2pInr","miningReferalInr","miningP2pInr"];
 
   return (
     <div className="min-h-screen bg-gray-50 py-4">
@@ -2698,6 +2672,8 @@ const Withdrawal = () => {
                     <option value="wpStakingInr">WP Staking Balance</option>
                     <option value="layerBenfitsp2pInr">Layer Benefits Balance</option>
                     <option value="JAIMAX">Purchase Token (JaiMax)</option>
+                    <option value="miningP2pInr">Mining P2P Balance</option>
+                    <option value="miningReferalInr">Mining Referral Balance</option>
                   </select>
                   {errors.balanceType && (
                     <p className="mt-1 text-xs text-red-600 flex items-center gap-1">
@@ -2763,8 +2739,8 @@ const Withdrawal = () => {
                             name="amount"
                             autoComplete="off"
                             className={`w-full pl-6 pr-2.5 py-1.5 bg-white text-sm border rounded focus:ring-2 focus:ring-[#1d8e85] focus:border-[#1d8e85] ${errors.amount
-                                ? "border-red-300 bg-red-50"
-                                : "border-gray-300"
+                              ? "border-red-300 bg-red-50"
+                              : "border-gray-300"
                               }`}
                           />
                         </div>

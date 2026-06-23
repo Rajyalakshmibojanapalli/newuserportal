@@ -129,11 +129,12 @@ const TradeCard = ({ trade }) => (
   </div>
 );
 
-const formatDateWithAmPm = (isoString) => {
-  if (!isoString) return "N/A";
-  const date = new Date(isoString);
+const formatDateWithAmPm = (dateString) => {
+  if (!dateString) return "N/A";
 
-  return date.toLocaleString("en-IN");
+  return dateString
+    .replace("T", " ")
+    .replace(/\.\d+Z$/, "");
 };
 
 const StakingHistory = ({

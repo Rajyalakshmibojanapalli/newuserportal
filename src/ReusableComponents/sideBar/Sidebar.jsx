@@ -1136,7 +1136,7 @@ function Sidebar({
     { name: "Profile", path: "/profile", icon: UserRound, size: 18 },
     { name: "KYC", path: "/kyc-information", icon: HiOutlineIdentification },
     { name: "Jaimax Community", path: "/community", icon: Users },
-    // { name: "Mine_referrals", path: "/mine-referrals", icon: Pickaxe  },
+    // { name: "mining", path: "/mining", icon: Users },
     { name: "Support", path: "/support", icon: HiOutlineChatAlt2 },
     { name: "Jaimax-Hub", path: "/meetings", icon: HiOutlineVideoCamera },
     { name: "Security", path: "/security", icon: HiOutlineShieldCheck },

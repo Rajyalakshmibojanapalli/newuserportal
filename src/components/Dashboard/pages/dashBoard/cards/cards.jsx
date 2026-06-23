@@ -699,6 +699,26 @@ const TopCards = React.memo(() => {
         isCompleted: false,
       },
       {
+        label: "Mining Refferal Balance",
+        value: `${currencySymbol}${Number(
+          userData?.data?.miningReferalInr || 0
+        ).toFixed(2)}`,
+        image: assets.superBonus,
+        hoverImage: assets.superBonus1,
+        iconBg: "#f1f8e9",
+        isCompleted: false,
+      },
+      {
+        label: "Mining P2p Balance",
+        value: `${currencySymbol}${Number(
+          userData?.data?.miningP2pInr || 0
+        ).toFixed(2)}`,
+        image: assets.superBonus,
+        hoverImage: assets.superBonus1,
+        iconBg: "#f1f8e9",
+        isCompleted: false,
+      },
+      {
         label: "KYC Bonus Logs",
         // value: `${currencySymbol}${Number(bonusStats.total || 0).toFixed(2)}`,
         image: assets.welcomeDraw,

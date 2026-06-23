@@ -33,6 +33,7 @@ const P2PModule = () => {
   const [showStakeModal, setShowStakeModal] = useState(false);
   const [page, setPage] = useState(1);
   const [wpPage, setWpPage] = useState(1);
+  const [showMiningNoteModal, setShowMiningNoteModal] = useState(false);
 
   // ✅ Add state for sell input modal
   const [showSellInput, setShowSellInput] = useState(false);
@@ -104,19 +105,19 @@ const P2PModule = () => {
     setSellCoinsInput("");
     setShowSellInput(true);
   };
-const openSellModal = () => {
-  const sellType =
-    activeTab === "wp-staking"
-      ? "wpStaking"
-      : activeTab === "Layer-Benefits-Staking"
-        ? "leaderwpStaking"
-        : "regular";
+  const openSellModal = () => {
+    const sellType =
+      activeTab === "wp-staking"
+        ? "wpStaking"
+        : activeTab === "Layer-Benefits-Staking"
+          ? "leaderwpStaking"
+          : "regular";
 
-  setSellModal({
-    show: true,
-    type: sellType,
-  });
-};
+    setSellModal({
+      show: true,
+      type: sellType,
+    });
+  };
   // ✅ Handle sell with input validation
   const handleSellToCompany = async () => {
     const sellType = activeTab === "wp-staking" ? "wp-staking" : "staking";
@@ -189,29 +190,103 @@ const openSellModal = () => {
 
         {/* Mining */}
         {activeTab === "mining" && (
-          <div className="flex items-center justify-center min-h-[420px]">
-            <div className="w-full bg-white rounded-lg border border-teal-100 shadow-sm p-6 sm:p-12 text-center">
-              <div className="mx-auto w-16 h-16 sm:w-24 sm:h-24 rounded-lg bg-teal-50 flex items-center justify-center mb-6">
-                <Pickaxe className="text-teal-600" size={32} />
+          <div className="space-y-8">
+            <div className="flex justify-end gap-2 sm:gap-4">
+              <button
+                onClick={() => setShowMiningNoteModal(true)}
+                className="bg-teal-500 hover:bg-teal-600 text-white px-4 py-2 text-sm sm:text-base rounded-lg font-semibold transition-all"
+              >
+                View Eligibility
+              </button>
+              <button
+                onClick={openSellModal} // ✅ Changed to open input modal
+                disabled={sellLoading}
+                className="bg-teal-600 hover:bg-teal-700 text-white px-4 py-2 text-sm sm:text-base rounded-lg font-semibold flex items-center gap-2 transition-all disabled:cursor-not-allowed disabled:bg-teal-400"
+              >
+                {sellLoading ? "Processing..." : "Sell to company"}
+              </button>
+              <button
+                onClick={() => setShowStakeModal(true)}
+                className="bg-teal-600 hover:bg-teal-700 text-white px-4 py-2 text-sm sm:text-base rounded-lg font-semibold flex items-center gap-2 transition-all"
+              >
+                <PlusCircle size={18} />
+                Purchase
+              </button>
+            </div>
+            <StakingHistory
+              history={getHistory}
+              onPageChange={(p) => setPage(p)}
+              isLoading={isLoading || loading}
+              onOpenStakeModal={() => setShowStakeModal(true)}
+            />
+          </div>
+
+        )}
+        {showMiningNoteModal && (
+          <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 p-4">
+            <div className="w-full max-w-lg rounded-2xl bg-white shadow-xl">
+              <div className="flex items-center justify-between border-b p-5">
+                <h3 className="text-lg font-bold text-gray-800">
+                  Mining P2P Selling Eligibility
+                </h3>
+
+                <button
+                  onClick={() => setShowMiningNoteModal(false)}
+                  className="text-gray-500 hover:text-gray-700 text-xl"
+                >
+                  ✕
+                </button>
               </div>
-              <span className="inline-flex px-4 py-1.5 rounded-lg text-xs sm:text-sm font-semibold bg-amber-50 text-amber-700 border border-amber-100 mb-5">
-                Coming Soon
-              </span>
-              <h2 className="text-2xl sm:text-3xl font-bold text-teal-900">
-                Jaimax Mining P2P
-              </h2>
-              <p className="mt-8 text-xs sm:text-sm text-slate-400">
-                This feature will be available in an upcoming platform update.
-                Insights are currently under development.
-              </p>
+
+              <div className="p-5">
+                <div className="rounded-lg border border-amber-200 bg-amber-50 p-4">
+                  <h4 className="font-semibold text-amber-800 mb-3">
+                    Important Notes
+                  </h4>
+
+                  <ul className="space-y-3 text-sm text-gray-700 list-disc pl-5">
+                    <li>
+                      Sellers must maintain a minimum Hold balance of{" "}
+                      <strong>20% of their mined coins</strong>.
+                    </li>
+
+                    <li>
+                      Only the coins exceeding the minimum hold balance can be sold.
+                    </li>
+
+                    <li>
+                      Sellers must have <strong>100% Mining Power</strong> to be eligible for
+                      Mining P2P selling.
+                    </li>
+
+                    <li>
+                      Sellers must have a <strong>Approved KYC</strong> account.
+                    </li>
+
+                    <li>
+                      Sellers must be an <strong>active user</strong> to participate in Mining
+                      P2P selling.
+                    </li>
+                  </ul>
+                </div>
+
+                <div className="mt-6 flex justify-end">
+                  <button
+                    onClick={() => setShowMiningNoteModal(false)}
+                    className="rounded-lg bg-teal-600 px-5 py-2 text-white font-medium hover:bg-teal-700"
+                  >
+                    Got It
+                  </button>
+                </div>
+              </div>
             </div>
           </div>
         )}
-
         {/* Staking */}
         {activeTab === "staking" && (
           <div className="space-y-8">
             <div className="flex justify-end gap-2 sm:gap-4">
+              
               <button
                 onClick={openSellModal} // ✅ Changed to open input modal
                 disabled={sellLoading}
@@ -307,11 +382,11 @@ const openSellModal = () => {
         {/* ✅ Sell Modal */}
         {/* <SellToCompanyModal sellModal={openSellModal} onClose={closeSellModal} />
          */}
-         <SellToCompanyModal
-  sellModal={sellModal}
-  setSellModal={setSellModal}
-  onClose={closeSellModal}
-/>
+        <SellToCompanyModal
+          sellModal={sellModal}
+          setSellModal={setSellModal}
+          onClose={closeSellModal}
+        />
       </div>
     </div>
   );
