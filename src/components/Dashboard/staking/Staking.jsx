@@ -1,12 +1,14 @@
 import React, { useState } from 'react';
-import { useGetStakingDashboardQuery } from './stakingApiSlice';
+import { useGetStakingDashboardQuery,useGetNrmlStakingSellLogsQuery } from './stakingApiSlice';
 import { useGetP2PHistorySellerQuery } from '../pages/p2p/p2pApiSlice';
 import StakingReward from './StakingRewards';
 import ReferralReward from './RewardsLogs';
+import SoldToCompany from './SoldtoCompany';
 import { User, ArrowLeftRight } from 'lucide-react';
 import Loader from '../../../ReusableComponents/Loader/loader';
 import SellToCompany from '../pages/p2p/SellToCompanyModal';
 import SellToCompanyModal from "./SellToCompanyModal";
+
 const fmt = (n) =>
   new Intl.NumberFormat('en-IN', { maximumFractionDigits: 0 }).format(n || 0);
 
@@ -237,7 +239,7 @@ const OrderRow = ({ order, index, onView }) => (
         >
           View →
         </button>
-      
+
       </div>
     </div>
   </div>
@@ -564,7 +566,7 @@ const StakingDashboard = () => {
   const [selectedOrderId, setSelectedOrderId] = useState(null);
   const [showInfoModal, setShowInfoModal] = useState(false);
   const { data: response, isLoading, isError, error, refetch } = useGetStakingDashboardQuery();
- const [showSellModal, setShowSellModal] = useState(false);
+  const [showSellModal, setShowSellModal] = useState(false);
   const data = response?.success ? response.data : null;
 
   const hasWallet = data?.wallet && typeof data.wallet === 'object' && Object.keys(data.wallet).length > 0;
@@ -593,6 +595,9 @@ const StakingDashboard = () => {
   if (currentView === 'p2p-transactions') {
     return <P2PTransactionsView onBack={handleBackToDashboard} />;
   }
+if (currentView === 'soldToCompany') {
+  return <SoldToCompany onBack={handleBackToDashboard} />;
+}
 
   if (isLoading) return <Loader />;
 
@@ -625,7 +630,7 @@ const StakingDashboard = () => {
           .show-desktop { display: none; }
         }
       `}</style>
-<SellToCompanyModal
+      <SellToCompanyModal
         isOpen={showSellModal}
         onClose={() => setShowSellModal(false)}
         netTokens={data?.wallet?.netInterestEarned || 0}   // pass the correct balance field
@@ -638,58 +643,58 @@ const StakingDashboard = () => {
         <div style={{ maxWidth: 1500, margin: '0 auto' }}>
 
           {/* ── Header with Info Modal ──────────────────────────── */}
-<div style={{ 
-  display: 'flex', 
-  alignItems: 'flex-start', 
-  justifyContent: 'space-between', 
-  marginBottom: '1.5rem', 
-  flexWrap: 'wrap', 
-  gap: '.75rem' 
-}}>
-  {/* Left: Title */}
-  <div>
-    <h1 style={{ fontSize: 22, fontWeight: 700, color: '#111827', margin: 0, letterSpacing: '-.02em' }}>
-      Staking Dashboard
-    </h1>
-    <p style={{ fontSize: 13, color: '#9ca3af', margin: '3px 0 0' }}>JMC token portfolio overview</p>
-  </div>
+          <div style={{
+            display: 'flex',
+            alignItems: 'flex-start',
+            justifyContent: 'space-between',
+            marginBottom: '1.5rem',
+            flexWrap: 'wrap',
+            gap: '.75rem'
+          }}>
+            {/* Left: Title */}
+            <div>
+              <h1 style={{ fontSize: 22, fontWeight: 700, color: '#111827', margin: 0, letterSpacing: '-.02em' }}>
+                Staking Dashboard
+              </h1>
+              <p style={{ fontSize: 13, color: '#9ca3af', margin: '3px 0 0' }}>JMC token portfolio overview</p>
+            </div>
 
-  {/* Right: Sell + Note buttons */}
-  <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
-    <button
-      onClick={() => setShowSellModal(true)}
-      style={{
-        padding: '8px 16px',
-        background: '#0F6E56',
-        color: '#fff',
-        border: 'none',
-        borderRadius: '6px',
-        fontSize: '14px',
-        fontWeight: '600',
-        cursor: 'pointer',
-      }}
-    >
-      Sell
-    </button>
+            {/* Right: Sell + Note buttons */}
+            <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+              <button
+                onClick={() => setShowSellModal(true)}
+                style={{
+                  padding: '8px 16px',
+                  background: '#0F6E56',
+                  color: '#fff',
+                  border: 'none',
+                  borderRadius: '6px',
+                  fontSize: '14px',
+                  fontWeight: '600',
+                  cursor: 'pointer',
+                }}
+              >
+                Sell
+              </button>
 
-    <button
-      onClick={() => setShowInfoModal(true)}
-      style={{
-        padding: '8px 16px',
-        backgroundColor: '#085358',
-        color: '#fff',
-        border: 'none',
-        borderRadius: '6px',
-        fontSize: '14px',
-        fontWeight: '600',
-        cursor: 'pointer',
-      }}
-    >
-      Note
-    </button>
-  </div>
-</div>
-          
+              <button
+                onClick={() => setShowInfoModal(true)}
+                style={{
+                  padding: '8px 16px',
+                  backgroundColor: '#085358',
+                  color: '#fff',
+                  border: 'none',
+                  borderRadius: '6px',
+                  fontSize: '14px',
+                  fontWeight: '600',
+                  cursor: 'pointer',
+                }}
+              >
+                Note
+              </button>
+            </div>
+          </div>
+
           {/* Info Modal */}
           {showInfoModal && (
             <div
@@ -770,14 +775,16 @@ const StakingDashboard = () => {
               <StatCard label="Interest earned" value={data.wallet.netInterestEarned || 0} sub="Net earned" sparkline={[3, 5, 8, 12, 18]} />
               <StatCard label="Referral earnings" value={data.wallet.totalReferralEarned || 0} sub="JMC tokens" sparkline={[2, 4, 6, 7, 9]} />
               <StatCard label="Lifetime earnings" value={data.wallet.totalInterestEarnedLifetime || 0} sub="All time" />
-              <StatCard label="Active orders" value={data.summary.totalActiveOrders || 0} sub="Running now" />
-              <StatCard label="Sold in P2P" value={data.wallet.totalSoldInP2P || 0} sub="Transferred" />
+              <StatCard label="Token to sell" value={data.summary.tokensPerMonthCanSold || 0} sub="Per Month" />
+              <StatCard label="Sold in P2P" value={data.wallet.totalSoldInP2P || 0} sub="Transferred till" />
+              <StatCard label="Sold to Company" value={data.summary.totalSoldToCompany || 0} sub="Transferred till" />
             </div>
           )}
 
           {/* ── Referral + P2P Banners ─────────────────────── */}
           {hasWallet && (
             <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: 12, marginBottom: '1.25rem' }}>
+              
               {/* Referral Banner */}
               <div style={{
                 display: 'flex', alignItems: 'center', justifyContent: 'space-between',
@@ -807,7 +814,7 @@ const StakingDashboard = () => {
                 <div style={{ display: 'flex', alignItems: 'center', gap: 6, fontSize: 13, color: '#9ca3af' }}>
                   View logs <span style={{ fontSize: 16 }}>›</span>
                 </div>
-                
+
               </div>
 
               {/* P2P Transactions Banner */}
@@ -833,6 +840,38 @@ const StakingDashboard = () => {
                     </div>
                     <div style={{ fontSize: 15, fontWeight: 700, color: '#111827' }}>
                       {data.wallet.totalSoldInP2P || 0} JMC
+                    </div>
+                  </div>
+                </div>
+                <div style={{ display: 'flex', alignItems: 'center', gap: 6, fontSize: 13, color: '#9ca3af' }}>
+                  View logs <span style={{ fontSize: 16 }}>›</span>
+                </div>
+              </div>
+
+              
+              {/* sold to company logs */}
+              <div style={{
+                display: 'flex', alignItems: 'center', justifyContent: 'space-between',
+                padding: '14px 18px',
+                background: '#fff', border: '0.5px solid #e5e7eb', borderRadius: 8,
+                cursor: 'pointer', boxShadow: '0 1px 4px rgba(0,0,0,.04)',
+                transition: 'border-color .15s, box-shadow .15s',
+              }}
+                onMouseEnter={e => { e.currentTarget.style.borderColor = '#9FE1CB'; e.currentTarget.style.boxShadow = '0 4px 20px rgba(15,110,86,.1)'; }}
+                onMouseLeave={e => { e.currentTarget.style.borderColor = '#e5e7eb'; e.currentTarget.style.boxShadow = '0 1px 4px rgba(0,0,0,.04)'; }}
+                onClick={() => setCurrentView('soldToCompany')}
+              >
+                <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
+                  <div style={{
+                    width: 42, height: 42, borderRadius: 12, background: '#E1F5EE',
+                    display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 20,
+                  }}><ArrowLeftRight /></div>
+                  <div>
+                    <div style={{ fontSize: 11, color: '#9ca3af', fontWeight: 500, textTransform: 'uppercase', letterSpacing: '.06em', marginBottom: 2 }}>
+                       Sold to company Logs
+                    </div>
+                    <div style={{ fontSize: 15, fontWeight: 700, color: '#111827' }}>
+                      {data.summary.totalSoldToCompany || 0} JMC
                     </div>
                   </div>
                 </div>

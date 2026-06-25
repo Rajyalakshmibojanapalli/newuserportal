@@ -130,7 +130,7 @@ const [executeSell, { isLoading: selling }]    = useNrmlStakingSellMutation();
     setErrorMsg("");
     const amount = Number(tokensToSell);
     if (!amount || amount <= 0) { setErrorMsg("Please enter a valid token amount."); return; }
-    // if (amount > netTokens) { setErrorMsg(`You only have ${fmt(netTokens)} JMC available.`); return; }
+    if (amount > netTokens) { setErrorMsg(`You only have ${fmt(netTokens)} JMC available.`); return; }
     try {
       const res = await previewSell({ tokensToSell: amount }).unwrap();
       if (res?.success) { setPreviewData(res.data); setStep(STEP.PREVIEW); }
@@ -303,10 +303,10 @@ const [executeSell, { isLoading: selling }]    = useNrmlStakingSellMutation();
                   display: "flex", justifyContent: "space-between", alignItems: "center",
                   marginBottom: 18,
                 }}>
-                  {/* <span style={{ fontSize: 11, color: T.textMuted, fontWeight: 600, letterSpacing: ".05em" }}>AVAILABLE BALANCE</span>
+                  <span style={{ fontSize: 11, color: T.textMuted, fontWeight: 600, letterSpacing: ".05em" }}>AVAILABLE BALANCE</span>
                   <span style={{ fontSize: 15, fontWeight: 700, color: T.teal700, fontFamily: "'DM Serif Display', serif" }}>
                     {fmt(netTokens)} <span style={{ fontSize: 11, fontFamily: "'DM Mono', monospace", color: T.teal600 }}>JMC</span>
-                  </span> */}
+                  </span>
                 </div>
 
                 {/* Input */}
