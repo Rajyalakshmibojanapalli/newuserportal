@@ -8,7 +8,7 @@ import { User, ArrowLeftRight } from 'lucide-react';
 import Loader from '../../../ReusableComponents/Loader/loader';
 import SellToCompany from '../pages/p2p/SellToCompanyModal';
 import SellToCompanyModal from "./SellToCompanyModal";
-
+import { useUserDataQuery } from '../pages/dashBoard/DashboardApliSlice';
 const fmt = (n) =>
   new Intl.NumberFormat('en-IN', { maximumFractionDigits: 0 }).format(n || 0);
 
@@ -568,7 +568,7 @@ const StakingDashboard = () => {
   const { data: response, isLoading, isError, error, refetch } = useGetStakingDashboardQuery();
   const [showSellModal, setShowSellModal] = useState(false);
   const data = response?.success ? response.data : null;
-
+ const { data: userData, refetch: userRefetch } = useUserDataQuery();
   const hasWallet = data?.wallet && typeof data.wallet === 'object' && Object.keys(data.wallet).length > 0;
 
   const handleBackToDashboard = () => { setCurrentView('dashboard'); setSelectedOrderId(null); };
@@ -661,21 +661,21 @@ if (currentView === 'soldToCompany') {
 
             {/* Right: Sell + Note buttons */}
             <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
-              <button
+              {userData?.data?.wpCompanySellingActive && ( <button
                 onClick={() => setShowSellModal(true)}
                 style={{
                   padding: '8px 16px',
                   background: '#0F6E56',
                   color: '#fff',
                   border: 'none',
-                  borderRadius: '6px',
+                  borderRadius: '10px',
                   fontSize: '14px',
                   fontWeight: '600',
                   cursor: 'pointer',
                 }}
               >
-                Sell
-              </button>
+                Sell to company
+              </button>)}
 
               <button
                 onClick={() => setShowInfoModal(true)}
@@ -684,7 +684,7 @@ if (currentView === 'soldToCompany') {
                   backgroundColor: '#085358',
                   color: '#fff',
                   border: 'none',
-                  borderRadius: '6px',
+                  borderRadius: '10px',
                   fontSize: '14px',
                   fontWeight: '600',
                   cursor: 'pointer',

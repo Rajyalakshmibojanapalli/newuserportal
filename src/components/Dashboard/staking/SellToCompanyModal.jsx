@@ -323,7 +323,7 @@ const [executeSell, { isLoading: selling }]    = useNrmlStakingSellMutation();
                     value={tokensToSell}
                     onChange={(e) => { setTokensToSell(e.target.value); setErrorMsg(""); }}
                     onKeyDown={(e) => { if (e.key === "Enter") handlePreview(); }}
-                    placeholder="Enter amount"
+                    placeholder="Enter tokens"
                     style={{
                       width: "100%", padding: "13px 52px 13px 14px",
                       fontSize: 16, fontWeight: 600, fontFamily: "'DM Mono', monospace",
