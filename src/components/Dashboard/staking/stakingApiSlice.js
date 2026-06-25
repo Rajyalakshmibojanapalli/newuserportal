@@ -28,12 +28,39 @@ export const stakingApiSlice = apiSlice.injectEndpoints({
         params: { page, limit },
       }),
     }),
-    
+    getNrmlStakingSellPreview: builder.mutation({
+      query: (body) => ({
+        url: `/nrml-staking-sell/preview`,
+        method: "POST",
+        body,
+      }),
+    }),
+
+    // Execute the sell
+    nrmlStakingSell: builder.mutation({
+      query: (body) => ({
+        url: `/nrml-staking-sell/sell`,
+        method: "POST",
+        body,
+      }),
+    }),
+
+    // User sell logs
+    getNrmlStakingSellLogs: builder.query({
+      query: ({ page = 1, limit = 20 } = {}) => ({
+        url: `/nrml-staking-sell/logs`,
+        method: "GET",
+        params: { page, limit },
+      }),
+    }),
   }),
 });
 
 export const { 
   useGetStakingDashboardQuery,
   useGetStakingRewardsQuery,
-  useGetReferralRewardsQuery 
+  useGetReferralRewardsQuery ,
+   useGetNrmlStakingSellPreviewMutation,
+  useNrmlStakingSellMutation,
+  useGetNrmlStakingSellLogsQuery,
 } = stakingApiSlice;

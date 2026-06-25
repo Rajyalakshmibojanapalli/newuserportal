@@ -5,7 +5,8 @@ import StakingReward from './StakingRewards';
 import ReferralReward from './RewardsLogs';
 import { User, ArrowLeftRight } from 'lucide-react';
 import Loader from '../../../ReusableComponents/Loader/loader';
-
+import SellToCompany from '../pages/p2p/SellToCompanyModal';
+import SellToCompanyModal from "./SellToCompanyModal";
 const fmt = (n) =>
   new Intl.NumberFormat('en-IN', { maximumFractionDigits: 0 }).format(n || 0);
 
@@ -223,7 +224,7 @@ const OrderRow = ({ order, index, onView }) => (
           )}
         </div>
       ))}
-      <div style={{ padding: '12px 16px' }}>
+      <div style={{ padding: '18px 16px' }}>
         <button onClick={() => onView(order.orderId)} style={{
           display: 'inline-flex', alignItems: 'center', gap: 5,
           fontSize: 12, fontWeight: 500, padding: '7px 14px',
@@ -236,6 +237,7 @@ const OrderRow = ({ order, index, onView }) => (
         >
           View →
         </button>
+      
       </div>
     </div>
   </div>
@@ -562,7 +564,7 @@ const StakingDashboard = () => {
   const [selectedOrderId, setSelectedOrderId] = useState(null);
   const [showInfoModal, setShowInfoModal] = useState(false);
   const { data: response, isLoading, isError, error, refetch } = useGetStakingDashboardQuery();
-
+ const [showSellModal, setShowSellModal] = useState(false);
   const data = response?.success ? response.data : null;
 
   const hasWallet = data?.wallet && typeof data.wallet === 'object' && Object.keys(data.wallet).length > 0;
@@ -623,27 +625,71 @@ const StakingDashboard = () => {
           .show-desktop { display: none; }
         }
       `}</style>
-
+<SellToCompanyModal
+        isOpen={showSellModal}
+        onClose={() => setShowSellModal(false)}
+        netTokens={data?.wallet?.netInterestEarned || 0}   // pass the correct balance field
+        onSellSuccess={() => {
+          setShowSellModal(false);
+          refetch();                                        // refresh dashboard after sell
+        }}
+      />
       <div className="dash-container" style={{ minHeight: '100vh', background: '#f8fafc', padding: '1.5rem 1rem' }}>
         <div style={{ maxWidth: 1500, margin: '0 auto' }}>
 
           {/* ── Header with Info Modal ──────────────────────────── */}
-          <div style={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', marginBottom: '1.5rem', flexWrap: 'wrap', gap: '.75rem' }}>
-            <div>
-              <h1 style={{ fontSize: 22, fontWeight: 700, color: '#111827', margin: 0, letterSpacing: '-.02em' }}>
-                Staking Dashboard
-              </h1>
-              <p style={{ fontSize: 13, color: '#9ca3af', margin: '3px 0 0' }}>JMC token portfolio overview</p>
-            </div>
+<div style={{ 
+  display: 'flex', 
+  alignItems: 'flex-start', 
+  justifyContent: 'space-between', 
+  marginBottom: '1.5rem', 
+  flexWrap: 'wrap', 
+  gap: '.75rem' 
+}}>
+  {/* Left: Title */}
+  <div>
+    <h1 style={{ fontSize: 22, fontWeight: 700, color: '#111827', margin: 0, letterSpacing: '-.02em' }}>
+      Staking Dashboard
+    </h1>
+    <p style={{ fontSize: 13, color: '#9ca3af', margin: '3px 0 0' }}>JMC token portfolio overview</p>
+  </div>
 
-            <button
-              onClick={() => setShowInfoModal(true)}
-              style={{ padding: '8px 16px', backgroundColor: '#085358', color: '#fff', border: 'none', borderRadius: '6px', fontSize: '14px', fontWeight: '600', cursor: 'pointer' }}
-            >
-              Note
-            </button>
-          </div>
+  {/* Right: Sell + Note buttons */}
+  <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+    <button
+      onClick={() => setShowSellModal(true)}
+      style={{
+        padding: '8px 16px',
+        background: '#0F6E56',
+        color: '#fff',
+        border: 'none',
+        borderRadius: '6px',
+        fontSize: '14px',
+        fontWeight: '600',
+        cursor: 'pointer',
+      }}
+    >
+      Sell
+    </button>
 
+    <button
+      onClick={() => setShowInfoModal(true)}
+      style={{
+        padding: '8px 16px',
+        backgroundColor: '#085358',
+        color: '#fff',
+        border: 'none',
+        borderRadius: '6px',
+        fontSize: '14px',
+        fontWeight: '600',
+        cursor: 'pointer',
+      }}
+    >
+      Note
+    </button>
+  </div>
+</div>
+          
           {/* Info Modal */}
           {showInfoModal && (
             <div
@@ -761,6 +807,7 @@ const StakingDashboard = () => {
                 <div style={{ display: 'flex', alignItems: 'center', gap: 6, fontSize: 13, color: '#9ca3af' }}>
                   View logs <span style={{ fontSize: 16 }}>›</span>
                 </div>
+                
               </div>
 
               {/* P2P Transactions Banner */}

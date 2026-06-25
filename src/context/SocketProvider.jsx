@@ -38,7 +38,7 @@ export const SocketProvider = ({ children }) => {
     socketRef.current = socket;
 
 
-    console.log(isChatOpen, "isChatOpenqwe")
+    // console.log(isChatOpen, "isChatOpenqwe")
 
 
 

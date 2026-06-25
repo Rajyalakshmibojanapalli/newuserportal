@@ -2,9 +2,9 @@ import io from "socket.io-client";
 
 export const createSocket = ({ socketUrl, currentUser, type }) => {
 
-  console.log(type, "type23r")
+  // console.log(type, "type23r")
 
-  console.log(currentUser, 'currentUser123')
+  // console.log(currentUser, 'currentUser123')
   const socketQuery = { userId: currentUser.id,type: type  };
 
   if (currentUser.userregisteredDate !== undefined) {
